@@ -418,6 +418,7 @@ end
 function CreateFlowLayout(properties)
     local Control = CreateControl()
     Control.ScrollHeight = 20
+    Control.ScrollLength = 0
     for _, attributeValue in ipairs(properties) do
         if string.find(attributeValue, "=") then
             local key = split(attributeValue, "=")[1]
@@ -542,8 +543,10 @@ function CreateFlowLayout(properties)
         if input.GetMouseWheelDelta() ~= 0 and isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height) then
             if input.GetMouseWheelDelta() == -1 then
                 properties.Children[1].SetY = properties.Children[1].SetY - properties.ScrollHeight
-            else
+                properties.ScrollLength = properties.ScrollLength - properties.ScrollHeight
+            elseif properties.ScrollLength ~= 0 then
                 properties.Children[1].SetY = properties.Children[1].SetY + properties.ScrollHeight
+                properties.ScrollLength = properties.ScrollLength + properties.ScrollHeight
             end
         end
 
