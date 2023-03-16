@@ -44,6 +44,30 @@ for _, elementValue in ipairs(elements) do
                                 end
                             end
                         end)
+						.case("picturebox", function() 
+                            local made = CreatePictureBox(attributes)
+                            for _, control in ipairs(controls) do
+                                if made.Parent ~= "" then
+                                    addComponent(made, control)
+                                end
+                            end
+                        end)
+						.case("mlbutton", function() 
+                            local made = CreateMusicLinkButton(attributes)
+                            for _, control in ipairs(controls) do
+                                if made.Parent ~= "" then
+                                    addComponent(made, control)
+                                end
+                            end
+                        end)
+						.case("checkbox", function() 
+                            local made = CreateCheckbox(attributes)
+                            for _, control in ipairs(controls) do
+                                if made.Parent ~= "" then
+                                    addComponent(made, control)
+                                end
+                            end
+                        end)						
                         .case("button", function() 
                             local made = CreateButton(attributes)
                             for _, control in ipairs(controls) do
