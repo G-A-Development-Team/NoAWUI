@@ -1,0 +1,59 @@
+*****MAIN FORM
+type=form   name=mainForm                width=800 height=600 x=400 y=100 *background=80,80,80,230 background=theme.ui2.lowpoly1 border=theme.ui2.border       *roundness=7,7,7,7,7 drag=true image=jpg,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/1326583.jpg
+type=panel  parent=mainForm name=titlebar     width=180 height=25  x=0  y=-25 background=theme.footer.bg       border=theme.ui2.border roundness=4,4,4,0,0
+type=panel  parent=mainForm name=actionbar     width=30 height=25  x=770  y=-25 background=theme.footer.bg       border=theme.ui2.border roundness=4,4,4,0,0
+
+type=label name=title parent=mainForm text=Music_Kit_Changer color=theme.header.text x=15 y=-20
+type=button parent=mainForm name=exit         width=30 height=25  x=770 y=-25 background=0,0,0,0  fontweight=1000 border=theme.ui2.border roundness=4,4,4,0,0 fontheight=25 mouseclick=Form:Click() text=X
+
+
+*****ROW ONE
+type=panel  parent=mainForm name=row1    group=tab1    width=770 height=292 x=15  y=15  background=33,33,33,200  border=50,50,50,150     roundness=7,7,7,7,7
+type=panel  parent=mainForm name=picture group=tab1    width=250 height=252 x=35  y=35  background=255,255,255,200   roundness=1,1,1,1,1
+type=label  parent=mainForm name=kit     group=tab1                         x=640 y=30  color=255,255,255,255                                text=Music_Kit_Group 
+*****NAVIGATION
+type=panel  parent=mainForm name=tabs     width=770 height=50  x=15  y=549 background=theme.header.bg       roundness=4,0,0,0,0 border=theme.header.line 
+type=button parent=mainForm name=tab1     width=100 height=40  x=20  y=555 background=theme.nav.bg active=theme.nav.active  border=theme.nav.active fontweight=500 fontheight=18    mouseclick=Form:Tab1() text=Changer
+type=button parent=mainForm name=tab2     width=100 height=40  x=125 y=555 background=theme.nav.bg active=theme.nav.active  fontweight=500 fontheight=18   roundness=0,0,0,0,0    mouseclick=Form:Tab2() text=Manager
+type=button parent=mainForm name=tab3     width=100 height=40  x=230 y=555 background=theme.nav.bg active=theme.nav.active  fontweight=500 fontheight=18   roundness=0,0,0,0,0    mouseclick=Form:Click() text=Banner
+type=button parent=mainForm name=tab4     width=100 height=40  x=335 y=555 background=theme.nav.bg active=theme.nav.active  fontweight=500 fontheight=18   roundness=0,0,0,0,0    mouseclick=Form:Click() text=Remover
+type=button parent=mainForm name=tababout width=100 height=40  x=680 y=555 background=theme.nav.bg active=theme.nav.active  border=theme.nav.active fontweight=500 fontheight=18    mouseclick=Form:Click() text=About
+
+**Tab2
+type=flowlayout scrollheight=166 parent=mainForm name=managelist     group=tab2    width=770 height=508  x=15 y=15 background=33,33,33,200 border=50,50,50,150 roundness=7,7,7,7,7
+type=panel parent=managelist name=player1 width=750 height=156 x=10 y=10 background=70,70,70,200 roundness=7,7,7,7,7
+type=panel parent=player1 name=manage_check width=50 height=50 x=15 y=50 background=0,0,0,200 roundness=7,7,7,7,7
+type=panel parent=player1 name=manage_avatar width=120 height=120 x=80 y=18 background=0,0,0,200 roundness=7,7,7,7,7
+type=label parent=player1 name=manage_name x=230 y=65 text=AgentSix1 color=255,255,255,255 fontheight=25
+type=panel parent=player1 name=manage_kit width=120 height=120 x=615 y=18 background=0,0,0,200 roundness=7,7,7,7,7
+type=label parent=player1 name=manage_kitname x=488 y=65 text=AgentSxi1 color=255,255,255,255 fontheight=25
+
+type=panel parent=managelist name=tester width=750 height=156 x=10 y=10 background=70,70,70,200 roundness=7,7,7,7,7
+type=panel parent=managelist name=tester width=750 height=156 x=10 y=10 background=70,70,70,200 roundness=7,7,7,7,7
+type=panel parent=managelist name=tester width=750 height=156 x=10 y=10 background=70,70,70,200 roundness=7,7,7,7,7
+
+**EXTRA JUST IGNORE TESTING
+*type=panel name=header parent=mainForm width=800 height=54 background=199,40,40,255 roundness=7,7,7,0,0
+*type=panel name=footer parent=mainForm width=800 height=25 background=199,40,40,255 y=575 roundness=6,0,0,6,6
+*type=label name=version parent=mainForm text=Hello_World y=575 color=255,255,255,255 mouseclick=Form:Click()
+*type=panel name=leftTabs parent=mainForm width=160 height=521 background=20,20,20,230 y=54
+*type=panel name=container parent=mainForm width=641 height=521 background=13,13,14,230 x=159 y=54
+*type=button parent=mainForm name=AButton x=200 y=200 text=Hello_World mouseclick=Form:Click()
+
+
+type=awtab name=Test_Tab category=Visuals varname=test
+
+*type=panel name=example_paneldrag parent=Test_Tab width=300 height=300 background=100,13,14,230 x=160 y=54 drag=true
+*type=panel name=example_paneldrag2 parent=example_paneldrag width=100 height=100 background=0,255,0,230 x=20 y=20
+*type=panel name=example_paneldrag3 parent=example_paneldrag2 width=200 height=200 background=0,0,255,230 x=0 y=0
+
+type=flowlayout scrollheight=166 parent=Test_Tab name=managelistaw     group=tab2    width=500 height=400  x=15 y=15 background=33,33,33,200 border=50,50,50,150 roundness=7,7,7,7,7
+type=panel parent=managelistaw name=tester width=480 height=50 x=10 y=10 background=70,70,70,200 roundness=7,7,7,7,7
+type=panel parent=managelistaw name=tester width=480 height=50 x=10 y=10 background=70,70,70,200 roundness=7,7,7,7,7
+type=panel parent=managelistaw name=tester width=480 height=50 x=10 y=10 background=70,70,70,200 roundness=7,7,7,7,7
+type=panel parent=managelistaw name=tester width=480 height=50 x=10 y=10 background=70,70,70,200 roundness=7,7,7,7,7
+type=panel parent=managelistaw name=tester width=480 height=50 x=10 y=10 background=70,70,70,200 roundness=7,7,7,7,7
+type=panel parent=managelistaw name=tester width=480 height=50 x=10 y=10 background=70,70,70,200 roundness=7,7,7,7,7
+type=panel parent=managelistaw name=tester width=480 height=50 x=10 y=10 background=70,70,70,200 roundness=7,7,7,7,7
+
+*type=button parent=Test_Tab name=AButton x=10 y=10 text=Hello_World mouseclick=Form:Click()

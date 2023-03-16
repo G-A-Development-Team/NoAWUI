@@ -1,0 +1,62 @@
+                            for _, control in ipairs(controls) do
+                                if made.Parent ~= "" then
+                                    if control.Name == made.Parent  then
+                                        controls[_].Children[#controls[_].Children+1] = CreateButton(attributes)
+                                        parentfound = true
+                                    end
+                                end
+                                
+                            end
+                            for _, control in ipairs(controls) do
+                                for _1, child1 in ipairs(control.Children) do
+                                    if made.Parent ~= "" then
+                                        if child1.Name == made.Parent  then
+                                            controls[_].Children[_1].Children[#controls[_].Children[_1].Children+1] = CreateButton(attributes)
+                                            parentfound = true
+                                        end
+                                    end
+                                end
+                            end
+
+
+*****MAIN FORM
+type=form   name=mainForm                width=800 height=25 x=400 y=100 *background=80,80,80,230 background=theme.header.bg      roundness=4,4,4,0,0 drag=true
+type=panel  parent=mainForm name=container width=800 height=600 x=0 y=25 *background=80,80,80,230 background=theme.ui2.lowpoly1      *roundness=7,7,7,7,7 image=jpg,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/1326583.jpg
+
+type=label name=title parent=mainForm text=Music_Kit_Changer color=theme.header.text x=15 y=5
+type=button parent=mainForm name=exit         width=30 height=25  x=770 y=0 background=0,0,0,0  fontweight=1000 roundness=4,0,4,0,0 fontheight=25 mouseclick=Form:Click() text=X
+
+
+*****ROW ONE
+type=panel  parent=mainForm name=row1    group=tab1    width=770 height=292 x=15  y=40  background=20,20,20,240      roundness=7,7,7,7,7
+type=panel  parent=mainForm name=picture group=tab1    width=250 height=252 x=35  y=60  background=255,255,255,200   roundness=1,1,1,1,1
+type=label  parent=mainForm name=kit     group=tab1                         x=640 y=55  color=255,255,255,255                                text=Music_Kit_Group 
+type=button parent=mainForm name=mvp     group=tab1    width=200 height=50  x=400 y=70  fontweight=500 fontheight=25 mouseclick=Form:Click() text=MVP_Award
+type=button parent=mainForm name=mvp     group=tab1    width=200 height=50  x=400 y=140 fontweight=500 fontheight=25 mouseclick=Form:Click() text=Round_Loss
+type=button parent=mainForm name=mvp     group=tab1    width=200 height=50  x=400 y=210 fontweight=500 fontheight=25 mouseclick=Form:Click() text=Death_Theme
+
+*****NAVIGATION
+type=panel  parent=mainForm name=tabs     width=800 height=50  x=0  y=600 background=theme.header.bg       roundness=4,0,0,4,4
+type=button parent=mainForm name=tab1     width=100 height=40  x=5  y=605 background=theme.nav.bg active=theme.nav.active  fontweight=500 fontheight=18   roundness=0,0,0,0,0    mouseclick=Form:Tab1() text=Changer
+type=button parent=mainForm name=tab2     width=100 height=40  x=110 y=605 background=theme.nav.bg active=theme.nav.active  fontweight=500 fontheight=18   roundness=0,0,0,0,0    mouseclick=Form:Tab2() text=Manager
+type=button parent=mainForm name=tab3     width=100 height=40  x=210 y=605 background=theme.nav.bg active=theme.nav.active  fontweight=500 fontheight=18   roundness=0,0,0,0,0    mouseclick=Form:Click() text=Banner
+type=button parent=mainForm name=tab4     width=100 height=40  x=320 y=605 background=theme.nav.bg active=theme.nav.active  fontweight=500 fontheight=18   roundness=0,0,0,0,0    mouseclick=Form:Click() text=Remover
+type=button parent=mainForm name=tababout width=100 height=40  x=430 y=605 background=theme.nav.bg active=theme.nav.active  fontweight=500 fontheight=18   roundness=0,0,0,0,0    mouseclick=Form:Click() text=About
+
+
+**EXTRA JUST IGNORE TESTING
+*type=panel name=header parent=mainForm width=800 height=54 background=199,40,40,255 roundness=7,7,7,0,0
+*type=panel name=footer parent=mainForm width=800 height=25 background=199,40,40,255 y=575 roundness=6,0,0,6,6
+*type=label name=version parent=mainForm text=Hello_World y=575 color=255,255,255,255 mouseclick=Form:Click()
+*type=panel name=leftTabs parent=mainForm width=160 height=521 background=20,20,20,230 y=54
+*type=panel name=container parent=mainForm width=641 height=521 background=13,13,14,230 x=159 y=54
+*type=button parent=mainForm name=AButton x=200 y=200 text=Hello_World mouseclick=Form:Click()
+
+
+*type=awtab name=Test_Tab category=Visuals varname=test
+
+*type=panel name=example_paneldrag parent=Test_Tab width=300 height=300 background=100,13,14,230 x=160 y=54 drag=true
+*type=panel name=example_paneldrag2 parent=example_paneldrag width=100 height=100 background=0,255,0,230 x=20 y=20
+*type=panel name=example_paneldrag3 parent=example_paneldrag2 width=200 height=200 background=0,0,255,230 x=0 y=0
+
+*type=button parent=Test_Tab name=AButton x=10 y=10 text=Hello_World mouseclick=Form:Click()
