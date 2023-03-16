@@ -531,7 +531,6 @@ function CreateFlowLayout(properties)
             draw.SetTexture(nil)
             Renderer:OutlinedRectangle({properties.X + form.X, properties.Y + form.Y}, {properties.Width, properties.Height}, properties.BorderColor)
         end
-
         if properties.MouseClick ~= nil then
             --print(control.MouseDown) 
             if input.IsButtonReleased(1) then
@@ -544,9 +543,14 @@ function CreateFlowLayout(properties)
         if input.GetMouseWheelDelta() ~= 0 and isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height) then
             if input.GetMouseWheelDelta() == -1 then
                 local future = properties.ScrollLength - properties.ScrollHeight
-                if future ~= properties.MaxScrollLength then
-                    properties.Children[1].SetY = properties.Children[1].SetY - properties.ScrollHeight
-                    properties.ScrollLength = properties.ScrollLength - properties.ScrollHeight 
+                print(future, properties.MaxScrollLength)
+                if future < properties.MaxScrollLength then
+
+                else
+                    if future ~= properties.MaxScrollLength then
+                        properties.Children[1].SetY = properties.Children[1].SetY - properties.ScrollHeight
+                        properties.ScrollLength = properties.ScrollLength - properties.ScrollHeight 
+                    end
                 end
             elseif properties.ScrollLength ~= 0 then
                 properties.Children[1].SetY = properties.Children[1].SetY + properties.ScrollHeight
@@ -571,6 +575,10 @@ function CreateFlowLayout(properties)
         if properties.MaxScrollLength == 0 then
             properties.MaxScrollLength = -total
         end
+
+        Renderer:FilledRectangle({properties.X + form.X, properties.Y + form.Y}, {5, properties.Height}, {255,255,255,255})
+        Renderer:FilledRectangle({properties.X + form.X + 1, properties.Y + form.Y + 1}, {3, properties.Height * (properties.Height / math.abs(properties.MaxScrollLength))}, {0,0,0,255})
+        --print(properties.MaxScrollLength)
 
         if properties.Drag then
             --print(globaldragging)
