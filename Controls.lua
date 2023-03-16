@@ -419,6 +419,7 @@ function CreateFlowLayout(properties)
     local Control = CreateControl()
     Control.ScrollHeight = 20
     Control.ScrollLength = 0
+    Control.MaxScrollLength = 0
     for _, attributeValue in ipairs(properties) do
         if string.find(attributeValue, "=") then
             local key = split(attributeValue, "=")[1]
@@ -542,14 +543,19 @@ function CreateFlowLayout(properties)
 
         if input.GetMouseWheelDelta() ~= 0 and isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height) then
             if input.GetMouseWheelDelta() == -1 then
-                properties.Children[1].SetY = properties.Children[1].SetY - properties.ScrollHeight
-                properties.ScrollLength = properties.ScrollLength - properties.ScrollHeight
+                local future = properties.ScrollLength - properties.ScrollHeight
+                if future ~= properties.MaxScrollLength then
+                    properties.Children[1].SetY = properties.Children[1].SetY - properties.ScrollHeight
+                    properties.ScrollLength = properties.ScrollLength - properties.ScrollHeight 
+                end
             elseif properties.ScrollLength ~= 0 then
                 properties.Children[1].SetY = properties.Children[1].SetY + properties.ScrollHeight
                 properties.ScrollLength = properties.ScrollLength + properties.ScrollHeight
             end
         end
 
+        --print(properties.ScrollLength)
+        local total = 0
         for _, control in ipairs(properties.Children) do
             control.X = form.X + control.SetX
             control.Y = form.Y + control.SetY
@@ -558,8 +564,16 @@ function CreateFlowLayout(properties)
                 control.Y = control.SetY + properties.Children[_-1].Height + properties.Children[_-1].Y
             end
 
+            total = total + control.Height + control.SetY
+
             control.Render(control, properties)
         end
+        
+        if properties.MaxScrollLength == 0 then
+            properties.MaxScrollLength = -total
+        end
+
+        print(properties.ScrollLength, properties.MaxScrollLength)
 
         if properties.Drag then
             --print(globaldragging)
