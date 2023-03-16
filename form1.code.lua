@@ -67,6 +67,18 @@ function Form:Tab2()
     sender.Active = true
 end
 
+function Form:ChangePictureBox(parent, name, url, ext)
+	local sender = getControlByName(parent, name)
+	sender.ChangeImage(sender, url, ext)
+end
+
+function Form:ClickedMLButton(parent, name)
+	local sender = getControlByName(parent, name)
+	panorama.RunScript([[
+            SteamOverlayAPI.OpenURL("]] .. sender.URL .. [[")
+        ]])
+end
+
 --local listbox = getControlByName("Test_Tab", "guns")
 
 return Form
