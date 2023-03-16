@@ -554,7 +554,6 @@ function CreateFlowLayout(properties)
             end
         end
 
-        --print(properties.ScrollLength)
         local total = 0
         for _, control in ipairs(properties.Children) do
             control.X = form.X + control.SetX
@@ -572,8 +571,6 @@ function CreateFlowLayout(properties)
         if properties.MaxScrollLength == 0 then
             properties.MaxScrollLength = -total
         end
-
-        print(properties.ScrollLength, properties.MaxScrollLength)
 
         if properties.Drag then
             --print(globaldragging)
