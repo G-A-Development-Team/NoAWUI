@@ -901,8 +901,8 @@ function CreatePictureBox(properties)
             .case("group", function() Control.Group = value end)
             .case("parent", function() Control.Parent = value end)
             .case("type", function() Control.Type = value end)
-            .case("x", function() Control.X = value end)
-            .case("y", function() Control.Y = value end)
+            .case("x", function() Control.X = value Control.SetX = value end)
+            .case("y", function() Control.Y = value Control.SetY = value end)
             .case("width", function() Control.Width = value end)
             .case("height", function() Control.Height = value end)
             .case("drag", function() Control.Drag = value end)
@@ -1029,8 +1029,8 @@ function CreateMusicLinkButton(properties)
             .case("group", function() Control.Group = value end)
             .case("parent", function() Control.Parent = value end)
             .case("type", function() Control.Type = value end)
-            .case("x", function() Control.X = value end)
-            .case("y", function() Control.Y = value end)
+            .case("x", function() Control.X = value Control.SetX = value end)
+            .case("y", function() Control.Y = value Control.SetY = value end)
             .case("width", function() Control.Width = value end)
             .case("height", function() Control.Height = value end)
             .case("drag", function() Control.Drag = value end)
@@ -1187,7 +1187,7 @@ function CreateCheckbox(properties)
 	Control.TextColor = {255,255,255,255}
 	Control.HoverColor = {255,0,0,255}
 	Control.TextWidth = 0
-	Control.Text = "Checkbox1"
+	Control.Text = ""
 	
     -- Loading setting from design to Control
 	for _, attributeValue in ipairs(properties) do
@@ -1199,8 +1199,8 @@ function CreateCheckbox(properties)
             .case("group", function() Control.Group = value end)
             .case("parent", function() Control.Parent = value end)
             .case("type", function() Control.Type = value end)
-            .case("x", function() Control.X = value end)
-            .case("y", function() Control.Y = value end)
+            .case("x", function() Control.X = value Control.SetX = value end)
+            .case("y", function() Control.Y = value Control.SetY = value end)
             .case("width", function() Control.Width = value end)
             .case("height", function() Control.Height = value end)
             .case("drag", function() Control.Drag = value end)
