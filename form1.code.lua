@@ -1,5 +1,6 @@
 Form = {}
 
+-- By: CarterPoe
 function Form:Initialize()
     Form:Tab1()
 
@@ -28,9 +29,11 @@ function Form:Initialize()
     managelist.Children[#managelist.Children+1] = made]]--
 end
 
+-- By: CarterPoe
 function Form:Click()
 end
 
+-- By: CarterPoe
 function Form:Tab1()
     local sender = getControlByName("mainForm", "tab2")
     local controls = getControlsByGroup("mainForm", "tab2")
@@ -49,6 +52,7 @@ function Form:Tab1()
     sender.Active = true
 end
 
+-- By: CarterPoe
 function Form:Tab2()
     local sender = getControlByName("mainForm", "tab1")
     local controls = getControlsByGroup("mainForm", "tab1")
@@ -67,11 +71,13 @@ function Form:Tab2()
     sender.Active = true
 end
 
+-- By: Agentsix1
 function Form:ChangePictureBox(parent, name, url, ext)
 	local sender = getControlByName(parent, name)
 	sender.ChangeImage(sender, url, ext)
 end
 
+-- By: Agentsix1
 function Form:ClickedMLButton(parent, name)
 	local sender = getControlByName(parent, name)
 	panorama.RunScript([[
