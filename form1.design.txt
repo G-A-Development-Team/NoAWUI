@@ -510,4 +510,140 @@
 			
 		}
 	},
+* Tab2 -> Flowlayout
+	{
+		"details": {
+			"type": "flowlayout",
+			"name": "Tab2_flowlayout",
+			"parent": "Main",
+            "group": "Navigation_Tab2"
+		},
+		"dimensions": {
+			"x": 15,
+			"y": 15,
+			"width": 770,
+			"height": 508,
+            "roundness": "7,7,7,7,7"
+		},
+		"optional": {
+			"style": {
+				"background": "33,33,33,200",
+				"border": "50,50,50,150"
+			},
+			"function": {
+			},
+			"other": {
+                "scrollheight": 166,
+			}
+			
+		}
+	},
+* Tab2 -> Flowlayout -> Child1
+	{
+		"details": {
+			"type": "panel",
+			"name": "tester",
+			"parent": "Tab2_flowlayout",
+            "group": "Navigation_Tab2"
+		},
+		"dimensions": {
+			"x": 10,
+			"y": 10,
+			"width": 750,
+			"height": 156,
+            "roundness": "7,7,7,7,7"
+		},
+		"optional": {
+			"style": {
+				"background": "70,70,70,200",
+				"border": "50,50,50,150"
+			},
+			"function": {
+			},
+			"other": {
+			}
+			
+		}
+	},
+* Tab2 -> Flowlayout -> Child2
+	{
+		"details": {
+			"type": "panel",
+			"name": "tester2",
+			"parent": "Tab2_flowlayout",
+            "group": "Navigation_Tab2"
+		},
+		"dimensions": {
+			"x": 10,
+			"y": 10,
+			"width": 750,
+			"height": 156,
+            "roundness": "7,7,7,7,7"
+		},
+		"optional": {
+			"style": {
+				"background": "70,70,70,200",
+				"border": "50,50,50,150"
+			},
+			"function": {
+			},
+			"other": {
+			}
+			
+		}
+	},
+* Tab2 -> Flowlayout -> Child3
+	{
+		"details": {
+			"type": "panel",
+			"name": "teste3",
+			"parent": "Tab2_flowlayout",
+            "group": "Navigation_Tab2"
+		},
+		"dimensions": {
+			"x": 10,
+			"y": 10,
+			"width": 750,
+			"height": 156,
+            "roundness": "7,7,7,7,7"
+		},
+		"optional": {
+			"style": {
+				"background": "70,70,70,200",
+				"border": "50,50,50,150"
+			},
+			"function": {
+			},
+			"other": {
+			}
+			
+		}
+	},
+* Tab2 -> Flowlayout -> Child4
+	{
+		"details": {
+			"type": "panel",
+			"name": "tester4",
+			"parent": "Tab2_flowlayout",
+            "group": "Navigation_Tab2"
+		},
+		"dimensions": {
+			"x": 10,
+			"y": 10,
+			"width": 750,
+			"height": 156,
+            "roundness": "7,7,7,7,7"
+		},
+		"optional": {
+			"style": {
+				"background": "70,70,70,200",
+				"border": "50,50,50,150"
+			},
+			"function": {
+			},
+			"other": {
+			}
+			
+		}
+	},
 }
