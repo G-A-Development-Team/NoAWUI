@@ -97,6 +97,58 @@ function addComponent(component, parent)
     end
 end
 
+function cleanJsonComments(jsontext)
+	-- Output text
+	local out = ""
+	
+	-- Begin comment removal
+	local CommentLines = split(jsontext, "\n")
+
+	-- Reset DesignText
+	out = ""
+
+	-- For each line check if it starts with *
+	for _, cl in ipairs(CommentLines) do
+		if not string.starts(cl, "*") then
+			if out == "" then
+				out = cl
+			else
+				out = out .. cl
+			end
+		end
+	end
+	
+	return out
+end
+
+function getDefaultAtts(je)
+	local atts = {}
+		for key, jElement in pairs(je['details']) do
+			atts[key] = jElement
+		end
+		
+		for key, jElement in pairs(je['dimensions']) do
+			atts[key] = jElement
+		end
+		
+		for key, jElement in pairs(je['optional']) do
+			for subKey, subjElement in pairs(je['optional'][key]) do 
+				atts[subKey] = subjElement
+			end
+		
+		end
+	return atts
+end
+
+function GetAttributesFromFile(jsonfilepath)
+	local jsontextobj = file.Open(jsonfilepath, "r");
+	jsontext = jsontextobj:Read();
+	jsontextobj:Close();
+	jsontext = cleanJsonComments(jsontext)
+	jsonobject = json.decode(jsontext)
+	return getDefaultAtts(jsonobject)
+end
+
 local b='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/' -- You will need this for encoding/decoding
 -- encoding
 function enc(data)

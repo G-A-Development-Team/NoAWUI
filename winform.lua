@@ -15,47 +15,16 @@ design:Close();
 local designCodeText = designCode:Read();
 designCode:Close();
 
--- Begin comment removal
-local CommentLines = split(designText, "\n")
 
--- Reset DesignText
-designText = ""
 
--- For each line check if it starts with *
-for _, cl in ipairs(CommentLines) do
-	if not string.starts(cl, "*") then
-		if designText == "" then
-			designText = cl
-		else
-			designText = designText .. cl
-		end
-	end
-end
 
+-- Clean the json of comments
+designText = cleanJsonComments(designText)
 
 -- Get the Elements from json
 local jsonElements = json.decode(designText)
 
 local controls = {}
-
-function getDefaultAtts(je)
-	local atts = {}
-		for key, jElement in pairs(je['details']) do
-			atts[key] = jElement
-		end
-		
-		for key, jElement in pairs(je['dimensions']) do
-			atts[key] = jElement
-		end
-		
-		for key, jElement in pairs(je['optional']) do
-			for subKey, subjElement in pairs(je['optional'][key]) do 
-				atts[subKey] = subjElement
-			end
-		
-		end
-	return atts
-end
 
 -- Grab an element from the json
 for _, jElement in ipairs(jsonElements) do

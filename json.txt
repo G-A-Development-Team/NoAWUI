@@ -1,0 +1,26 @@
+{
+		"details": {
+			"type": "checkbox",
+			"name": "CHKtest",
+			"parent": "Tab2_flowlayout",
+            "group": "Navigation_Tab2"
+		},
+		"dimensions": {
+			"x": 400,
+			"y": 270,
+            "width": 30,
+			"height": 30
+		},
+		"optional": {
+			"style": {
+			},
+			"function": {
+                "mouseclick": "Form:Click()"
+			},
+			"other": {
+                "text": "Share Kit TEMP",
+                "checkstate": "true"
+			}
+			
+		}
+	}
