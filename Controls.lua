@@ -78,17 +78,14 @@ function CreateAWTab(properties)
         Children = {},
     }
 
-    for _, attributeValue in ipairs(properties) do
-        if string.find(attributeValue, "=") then
-            local key = split(attributeValue, "=")[1]
-            local value = split(attributeValue, "=")[2]
+    for key, value in pairs(properties) do
+		value = tostring(value)
             switch(key:lower())
             .case("name", function() Control.Name = value end)
             .case("category", function() Control.Category = value end)
             .case("varname", function() Control.VarName = value end)
             .default(function() print("Attribute not found. key=" .. key) end)
             .process() 
-        end
     end
     local gui_ref = gui.Reference(Control.Category)
 
@@ -102,10 +99,6 @@ function CreateForm(properties)
     local Control = CreateControl()
     for key, value in pairs(properties) do
 		value = tostring(value)
-		print("key: " .. key .. " value: " .. value)
-        --if string.find(attributeValue, "=") then
-            --local key = split(attributeValue, "=")[1]
-            --local value = split(attributeValue, "=")[2]
             switch(key:lower())
             .case("name", function() Control.Name = value end)
             .case("group", function() Control.Group = value end)
@@ -255,10 +248,6 @@ function CreatePanel(properties)
     local Control = CreateControl()
     for key, value in pairs(properties) do
 		value = tostring(value)
-		print("key: " .. key .. " value: " .. value)
-        --if string.find(attributeValue, "=") then
-            --local key = split(attributeValue, "=")[1]
-            --local value = split(attributeValue, "=")[2]
             switch(key:lower())
             .case("name", function() Control.Name = value end)
             .case("group", function() Control.Group = value end)
@@ -431,10 +420,8 @@ function CreateFlowLayout(properties)
     Control.ScrollHeight = 20
     Control.ScrollLength = 0
     Control.MaxScrollLength = 0
-    for _, attributeValue in ipairs(properties) do
-        if string.find(attributeValue, "=") then
-            local key = split(attributeValue, "=")[1]
-            local value = split(attributeValue, "=")[2]
+    for key, value in pairs(properties) do
+		value = tostring(value)
             switch(key:lower())
             .case("name", function() Control.Name = value end)
             .case("group", function() Control.Group = value end)
@@ -515,7 +502,6 @@ function CreateFlowLayout(properties)
             end)
             .default(function() print("Attribute not found. key=" .. key) end)
             .process() 
-        end
     end
 
     Control.Render = function(properties, form)
@@ -647,10 +633,8 @@ function CreateButton(properties)
     Control.FontWeight = 600
     Control.FontHeight = 14
     Control.FontFamily = "Segoe UI"
-    for _, attributeValue in ipairs(properties) do
-        if string.find(attributeValue, "=") then
-            local key = split(attributeValue, "=")[1]
-            local value = split(attributeValue, "=")[2]
+    for key, value in pairs(properties) do
+		value = tostring(value)
             switch(key:lower())
             .case("name", function() Control.Name = value end)
             .case("group", function() Control.Group = value end)
@@ -727,7 +711,6 @@ function CreateButton(properties)
             end)
             .default(function() print("Attribute not found. key=" .. key) end)
             .process()
-        end
     end
 
     local Font = draw.CreateFont(Control.FontFamily, Control.FontHeight, Control.FontWeight)
@@ -791,10 +774,8 @@ end
 -- By: CarterPoe
 function CreateLabel(properties)
     local Control = CreateControl()
-    for _, attributeValue in ipairs(properties) do
-        if string.find(attributeValue, "=") then
-            local key = split(attributeValue, "=")[1]
-            local value = split(attributeValue, "=")[2]
+    for key, value in pairs(properties) do
+		value = tostring(value)
             switch(key:lower())
             .case("name", function() Control.Name = value end)
             .case("group", function() Control.Group = value end)
@@ -832,7 +813,6 @@ function CreateLabel(properties)
             end)
             .default(function() print("Attribute not found. key=" .. key) end)
             .process()
-        end
     end
 
     local Font = draw.CreateFont(Control.FontFamily, Control.FontHeight, Control.FontWeight)
@@ -898,10 +878,8 @@ function CreatePictureBox(properties)
 			
 	end
     
-	for _, attributeValue in ipairs(properties) do
-        if string.find(attributeValue, "=") then
-            local key = split(attributeValue, "=")[1]
-            local value = split(attributeValue, "=")[2]
+	for key, value in pairs(properties) do
+		value = tostring(value)
             switch(key:lower())
             .case("name", function() Control.Name = value end)
             .case("group", function() Control.Group = value end)
@@ -966,7 +944,6 @@ function CreatePictureBox(properties)
             end)
             .default(function() print("Attribute not found. key=" .. key) end)
             .process() 
-        end
     end
 
     Control.Render = function(properties, form)
@@ -1026,10 +1003,8 @@ function CreateMusicLinkButton(properties)
 	Control.PlayIconTexture = texture
 	
     -- Loading setting from design to Control
-	for _, attributeValue in ipairs(properties) do
-        if string.find(attributeValue, "=") then
-            local key = split(attributeValue, "=")[1]
-            local value = split(attributeValue, "=")[2]
+	for key, value in pairs(properties) do
+		value = tostring(value)
             switch(key:lower())
             .case("name", function() Control.Name = value end)
             .case("group", function() Control.Group = value end)
@@ -1103,7 +1078,6 @@ function CreateMusicLinkButton(properties)
 			-- Processes the switch bs above
             .default(function() print("Attribute not found. key=" .. key) end)
             .process() 
-        end
     end
 
 	Control.Font = draw.CreateFont("Bahnschrift", 20, 100)
@@ -1196,10 +1170,8 @@ function CreateCheckbox(properties)
 	Control.Text = ""
 	
     -- Loading setting from design to Control
-	for _, attributeValue in ipairs(properties) do
-        if string.find(attributeValue, "=") then
-            local key = split(attributeValue, "=")[1]
-            local value = split(attributeValue, "=")[2]
+	for key, value in pairs(properties) do
+		value = tostring(value)
             switch(key:lower())
             .case("name", function() Control.Name = value end)
             .case("group", function() Control.Group = value end)
@@ -1226,7 +1198,6 @@ function CreateCheckbox(properties)
 			-- Processes the switch bs above
             .default(function() print("Attribute not found. key=" .. key) end)
             .process() 
-        end
     end
 
 	Control.Font = draw.CreateFont("Bahnschrift", 20, 100)
