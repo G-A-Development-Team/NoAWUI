@@ -9,7 +9,7 @@ function split(inputstr, sep)
     return t
 end
 
-function TablePrint(t)
+local function TablePrint(t)
     for k, v in pairs(t) do
         if type(v) == "table" then
             print(k)
@@ -87,42 +87,15 @@ end
 function addComponent(component, parent)
     -- Check if the parent is the correct one
     if parent.Name == component.Parent then
-        -- Check if the control already exists
-        for _, child in ipairs(parent.Children) do
-            if child.Name == component.Name then
-                -- Control already exists, don't add it again
-                return false
-            end
-        end
-        
-        -- Control does not exist, add it to parent's children
         table.insert(parent.Children, component)
-        --print("Found", component.Name)
-        return true
+        return
     end
     
     -- Try to find the correct parent in the children of the current parent
     for _, child in ipairs(parent.Children) do
-        if addComponent(component, child) then
-            return true
-        end
+        addComponent(component, child)
     end
-
-    return false
 end
-
-
--- Function to scramble the table
-function scrambleTable(table)
-    for i = #table, 2, -1 do
-      -- Generate a random index between 1 and i
-      local j = math.random(i)
-      -- Swap the elements at indices i and j
-      table[i], table[j] = table[j], table[i]
-    end
-  end
-
-
 
 local b='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/' -- You will need this for encoding/decoding
 -- encoding
@@ -153,3 +126,22 @@ function dec(data)
             return string.char(c)
     end))
 end
+
+--------------------------------------------
+--          READ JSON EXECUTION           --
+-- Credit To: Chicken4676                 --
+-- Credit To: tg021 (Github)              --
+--------------------------------------------
+
+local json_lib_installed = false
+file.Enumerate(function(filename)
+    if filename == "WinForm/json.lua" then
+        json_lib_installed = true
+    end
+end)
+
+if not json_lib_installed then
+    local body = http.Get("https://raw.githubusercontent.com/G-A-Development-Team/libs/main/json.lua")
+    file.Write("WinForm/json.lua", body)
+end
+RunScript("WinForm/json.lua")

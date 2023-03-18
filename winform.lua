@@ -4,11 +4,7 @@ RunScript("WinForm/Misc.lua")
 RunScript("WinForm/Renderer.lua")
 RunScript("WinForm/Controls.lua")
 
-RunScript("WinForm/xml/xml2lua.lua")
-RunScript("WinForm/xml/xmlhandler/tree.lua")
-local handler = tree:new()
-
-local design = file.Open("WinForm/form1.design.xml", "r");
+local design = file.Open("WinForm/form1.design.txt", "r");
 
 local designCode = file.Open("WinForm/form1.code.lua", "r");
 RunScript("WinForm/form1.code.lua")
@@ -16,169 +12,138 @@ RunScript("WinForm/form1.code.lua")
 local designText = design:Read();
 design:Close();
 
-local parser = xml2lua.parser(tree)
-parser:parse(designText)
-
 local designCodeText = designCode:Read();
 designCode:Close();
 
-local designString = ""
+-- Begin comment removal
+local CommentLines = split(designText, "\n")
 
-local created = {}
+-- Reset DesignText
+designText = ""
 
-local function CreateComponenetFromAttributes(type, attributes)
-    local made = nil
-    switch(type:lower())
-        .case("panel", function() 
-            made = CreatePanel(attributes)
-        end)
-        .case("flowlayout", function() 
-            made = CreateFlowLayout(attributes)
-        end)
-        .case("picturebox", function() 
-            made = CreatePictureBox(attributes)
-        end)
-        .case("mlbutton", function() 
-            made = CreateMusicLinkButton(attributes)
-        end)
-        .case("checkbox", function() 
-            made = CreateCheckbox(attributes)
-        end)						
-        .case("button", function() 
-            made = CreateButton(attributes)
-        end)
-        .case("label", function() 
-            made = CreateLabel(attributes)
-        end)
-        .case("form", function() 
-            made = CreateForm(attributes)
-        end)
-        .case("awtab", function() 
-            made = CreateAWTab(attributes)
-        end)
-        .default(function() print("Type not found.") end)
-    .process()
-    return made
-end
-
-function XMLToText(node, parent_key, grandparent_key, great_grandparent_key, great_grandparent_attr, great_grandparent_attr2)
-    -- print attributes of current node
-	local done = false
-    for k, v in pairs(node) do
-		if type(v) ~= "table" and done ~= true then
-
-			local properties = ""
-
-			for k, v in pairs(node) do
-                
-				if string.find(v, " ") and k:lower() == "text" then
-					v = string.gsub(v, " ", "_")
-				else
-					v = string.gsub(v, " ", "")
-				end
-				properties = properties .. k:lower() .. "=" .. v .. " "
-				
-			end
-            node.Bananas = "help"
-
-            local usetype = ""
-			if great_grandparent_key == nil then
-				usetype = grandparent_key
-			else
-				usetype = great_grandparent_key
-			end
-
-            if type(usetype) == "number" then
-                usetype = grandparent_key
-            end
-            --print(node.Name)
-			--print("----------------------------------------------")
-			--print("type=" .. usetype .. " " .. properties)
-
-            designString = designString .. "type=" .. usetype:lower() .. " " .. properties .. "\n"
-			--print(properties)
-			--xml2lua.printable(node)
-			--print("----------------------------------------------")
-            local attributes = split(properties, " ")
-            local made = CreateComponenetFromAttributes(usetype, attributes) 
-
-            created[node.Name] = {
-                node,
-                Control = made,
-            }
-			done = true
-		end
-    end
-    
-    -- recursively print attributes of child nodes
-	for k, v in pairs(node) do
-		if type(v) == "table" then
-			local attr = v._attr
-			XMLToText(v, k, parent_key, grandparent_key, great_grandparent_key, node._attr)
+-- For each line check if it starts with *
+for _, cl in ipairs(CommentLines) do
+	if not string.starts(cl, "*") then
+		if designText == "" then
+			designText = cl
+		else
+			designText = designText .. cl
 		end
 	end
 end
 
-local properties = ""
 
-for k, v in pairs(tree.root.Form._attr) do
-    
-    if string.find(v, " ") and k:lower() == "text" then
-        v = string.gsub(v, " ", "_")
-    else
-        v = string.gsub(v, " ", "")
-    end
-    properties = properties .. k:lower() .. "=" .. v .. " "
-    
-end
-
-created[tree.root.Form._attr.Name] = {
-    tree.root.Form,
-    Control = CreateComponenetFromAttributes("form", split(properties, " ")) ,
-}
-
-XMLToText(tree.root, nil, nil, nil, nil, nil)
-
---xml2lua.printable(tree.root)
-
-print(designString)
-local elements = split(designString, "\n")
-
---xml2lua.printable(ntblv)
---print(outt)
+-- Get the Elements from json
+local jsonElements = json.decode(designText)
 
 local controls = {}
-local unprocessedControls = {}
 
-print("-------------------")
-
-function traverse_tree(node)
-    if node == nil then
-        return
-    end
-
-    if type(node) == "table" then
-        for key, value in pairs(node) do
-            --print(value)
-            if type(value) == "table" then
-                traverse_tree(value)
-            elseif type(value) == "string" then
-                --node.element = {
-                --    type = value
-                --}
-            end
-        end
-    end
+function getDefaultAtts(je)
+	local atts = {}
+		for key, jElement in pairs(je['details']) do
+			atts[key] = jElement
+		end
+		
+		for key, jElement in pairs(je['dimensions']) do
+			atts[key] = jElement
+		end
+		
+		for key, jElement in pairs(je['optional']) do
+			for subKey, subjEl in pairs(je['optional'][key]) do 
+				atts[subKey] = subjEl
+			end
+		
+		end
+	return atts
 end
 
--- assuming that `tree` is your XML document
-for i, p in pairs(tree.root) do
-    traverse_tree(p)
+-- Grab an element from the json
+for _, jElement in ipairs(jsonElements) do
+	
+	-- Get the attributes from the element
+	local attributes = getDefaultAtts(jElement)
+	
+	print (jElement['details']['type'])
+	
+	-- Get the type and add the component
+	switch(jElement['details']['type']:lower())
+        .case("panel", function() 
+            local made = CreatePanel(attributes)
+                for _, control in ipairs(controls) do
+                    if made.Parent ~= "" then
+                        addComponent(made, control)
+                    end
+                end
+            end)
+		.case("flowlayout", function() 
+			local made = CreateFlowLayout(attributes)
+			for _, control in ipairs(controls) do
+				if made.Parent ~= "" then
+					addComponent(made, control)
+				end
+			end
+		end)
+		.case("picturebox", function() 
+			local made = CreatePictureBox(attributes)
+			for _, control in ipairs(controls) do
+				if made.Parent ~= "" then
+					addComponent(made, control)
+				end
+			end
+		end)
+		.case("mlbutton", function() 
+			local made = CreateMusicLinkButton(attributes)
+			for _, control in ipairs(controls) do
+				if made.Parent ~= "" then
+					addComponent(made, control)
+				end
+			end
+		end)
+		.case("checkbox", function() 
+			local made = CreateCheckbox(attributes)
+			for _, control in ipairs(controls) do
+				if made.Parent ~= "" then
+					addComponent(made, control)
+				end
+			end
+		end)						
+		.case("button", function() 
+			local made = CreateButton(attributes)
+			for _, control in ipairs(controls) do
+				if made.Parent ~= "" then
+					addComponent(made, control)
+				end
+			end
+		end)
+		.case("label", function() 
+			local made = CreateLabel(attributes)
+			for _, control in ipairs(controls) do
+				if made.Parent ~= "" then
+					addComponent(made, control)
+				end
+			end
+		end)
+		.case("form", function() 
+			controls[#controls +1] = CreateForm(attributes)
+		end)
+		.case("awtab", function() 
+			controls[#controls +1] = CreateAWTab(attributes)
+		end)
+		.default(function() print("Type not found.") end)
+	.process()
 end
---xml2lua.printable(created)
---TablePrint(created)
-print("-------------------")
 
+
+
+
+--[[
+local elements = split(designText, "{")
+print("--------------------------------------")
+--local _, equal_count = string.gsub(elements[1])
+print(elements[1])
+
+
+local controls = {}
 
 for _, elementValue in ipairs(elements) do
     if not string.starts(elementValue, "*") then
@@ -189,89 +154,61 @@ for _, elementValue in ipairs(elements) do
                 local value = split(attributeValue, "=")[2]
                 if key:lower() == "type" then
                     switch(value:lower())
-                       .case("panel", function() 
+                        .case("panel", function() 
                             local made = CreatePanel(attributes)
                             for _, control in ipairs(controls) do
                                 if made.Parent ~= "" then
-                                    if addComponent(made, control) then
-                                        return
-                                    end
+                                    addComponent(made, control)
                                 end
                             end
-                            print("Parent not found for", made.Name)
-                            table.insert(unprocessedControls, made)
                         end)
                         .case("flowlayout", function() 
                             local made = CreateFlowLayout(attributes)
                             for _, control in ipairs(controls) do
                                 if made.Parent ~= "" then
-                                    if addComponent(made, control) then
-                                        return
-                                    end
+                                    addComponent(made, control)
                                 end
                             end
-                            print("Parent not found for", made.Name)
-                            table.insert(unprocessedControls, made)
                         end)
 						.case("picturebox", function() 
                             local made = CreatePictureBox(attributes)
                             for _, control in ipairs(controls) do
                                 if made.Parent ~= "" then
-                                    if addComponent(made, control) then
-                                        return
-                                    end
+                                    addComponent(made, control)
                                 end
                             end
-                            print("Parent not found for", made.Name)
-                            table.insert(unprocessedControls, made)
                         end)
 						.case("mlbutton", function() 
                             local made = CreateMusicLinkButton(attributes)
                             for _, control in ipairs(controls) do
                                 if made.Parent ~= "" then
-                                    if addComponent(made, control) then
-                                        return
-                                    end
+                                    addComponent(made, control)
                                 end
                             end
-                            print("Parent not found for", made.Name)
-                            table.insert(unprocessedControls, made)
                         end)
 						.case("checkbox", function() 
                             local made = CreateCheckbox(attributes)
                             for _, control in ipairs(controls) do
                                 if made.Parent ~= "" then
-                                    if addComponent(made, control) then
-                                        return
-                                    end
+                                    addComponent(made, control)
                                 end
                             end
-                            print("Parent not found for", made.Name)
-                            table.insert(unprocessedControls, made)
                         end)						
                         .case("button", function() 
                             local made = CreateButton(attributes)
                             for _, control in ipairs(controls) do
                                 if made.Parent ~= "" then
-                                    if addComponent(made, control) then
-                                        return
-                                    end
+                                    addComponent(made, control)
                                 end
                             end
-                            print("Parent not found for", made.Name)
-                            table.insert(unprocessedControls, made)
                         end)
                         .case("label", function() 
                             local made = CreateLabel(attributes)
                             for _, control in ipairs(controls) do
                                 if made.Parent ~= "" then
-                                    if addComponent(made, control) then
-                                        return
-                                    end
+                                    addComponent(made, control)
                                 end
                             end
-                            print("Parent not found for", made.Name)
-                            table.insert(unprocessedControls, made)
                         end)
                         .case("form", function() 
                             controls[#controls +1] = CreateForm(attributes)
@@ -286,29 +223,7 @@ for _, elementValue in ipairs(elements) do
         end
     end
 end
-
-print("Unprocessed Amount = " .. #unprocessedControls)
-
-local max = 5
-local function processLoop(attempt)
-    if attempt >= max then
-        return
-    else
-        for _, made in ipairs(unprocessedControls) do
-            for _, control in ipairs(controls) do
-                if made.Parent ~= "" then
-                    if addComponent(made, control) then
-                        return
-                    end
-                end
-            end
-            print("Unprocessed Parent not found for", made.Name)
-            processLoop(attempt + 1)
-        end
-    end
-end
-processLoop(1)
---TablePrint(controls)
+]]--
 --gui.Command('lua.run "print("hello wlrd")"')
 
 function getControlByName(form, name)
@@ -350,15 +265,16 @@ function updateControlByName(form, name, controle)
     end
 end
 
-
-function CreaControl(c)
-
-end
-
-Form:Initialize()
+--Form:Initialize()
 
 
 callbacks.Register("Draw", "Render", function()
+    if input.IsButtonDown(1) then
+        globaldragging = true
+    end
+    if input.IsButtonReleased(1) then
+        globaldragging = false
+    end
 
     for _m, main in ipairs(controls) do
         if main.Type == "form" and not string.starts(main.Type, "aw") then

@@ -62,6 +62,7 @@ function CreateControl()
     }
 end
 
+
 -- By: CarterPoe
 function CreateAWTab(properties)
     local Control = {
@@ -99,10 +100,12 @@ end
 -- By: CarterPoe
 function CreateForm(properties)
     local Control = CreateControl()
-    for _, attributeValue in ipairs(properties) do
-        if string.find(attributeValue, "=") then
-            local key = split(attributeValue, "=")[1]
-            local value = split(attributeValue, "=")[2]
+    for key, value in pairs(properties) do
+		value = tostring(value)
+		print("key: " .. key .. " value: " .. value)
+        --if string.find(attributeValue, "=") then
+            --local key = split(attributeValue, "=")[1]
+            --local value = split(attributeValue, "=")[2]
             switch(key:lower())
             .case("name", function() Control.Name = value end)
             .case("group", function() Control.Group = value end)
@@ -119,6 +122,7 @@ function CreateForm(properties)
                 local src = args[2]
                 switch(type:lower())
                 .case("jpg", function() 
+                    print(src)
                     local jpgData = http.Get(src);
                     local imgRGBA, imgWidth, imgHeight = common.DecodeJPEG(jpgData);
                     local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
@@ -180,9 +184,10 @@ function CreateForm(properties)
             end)
             .default(function() print("Attribute not found. key=" .. key) end)
             .process() 
-        end
+			
+        --end
     end
-
+	
     Control.Render = function(properties)
         if not properties.Visible then
             return properties
@@ -241,17 +246,19 @@ function CreateForm(properties)
 
         return properties
     end
-
+	
     return Control
 end
 
 -- By: CarterPoe
 function CreatePanel(properties)
     local Control = CreateControl()
-    for _, attributeValue in ipairs(properties) do
-        if string.find(attributeValue, "=") then
-            local key = split(attributeValue, "=")[1]
-            local value = split(attributeValue, "=")[2]
+    for key, value in pairs(properties) do
+		value = tostring(value)
+		print("key: " .. key .. " value: " .. value)
+        --if string.find(attributeValue, "=") then
+            --local key = split(attributeValue, "=")[1]
+            --local value = split(attributeValue, "=")[2]
             switch(key:lower())
             .case("name", function() Control.Name = value end)
             .case("group", function() Control.Group = value end)
@@ -269,6 +276,7 @@ function CreatePanel(properties)
                 local src = args[2]
                 switch(type:lower())
                 .case("jpg", function() 
+                    print(src)
                     local jpgData = http.Get(src);
                     local imgRGBA, imgWidth, imgHeight = common.DecodeJPEG(jpgData);
                     local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
@@ -330,7 +338,7 @@ function CreatePanel(properties)
             end)
             .default(function() print("Attribute not found. key=" .. key) end)
             .process() 
-        end
+        --end
     end
 
     Control.Render = function(properties, form)
@@ -445,6 +453,7 @@ function CreateFlowLayout(properties)
                 local src = args[2]
                 switch(type:lower())
                 .case("jpg", function() 
+                    print(src)
                     local jpgData = http.Get(src);
                     local imgRGBA, imgWidth, imgHeight = common.DecodeJPEG(jpgData);
                     local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
@@ -647,8 +656,8 @@ function CreateButton(properties)
             .case("group", function() Control.Group = value end)
             .case("parent", function() Control.Parent = value end)
             .case("type", function() Control.Type = value end)
-            .case("x", function() Control.X = value Control.SetX = value end)
-            .case("y", function() Control.Y = value Control.SetY = value end)
+            .case("x", function() Control.X = value end)
+            .case("y", function() Control.Y = value end)
             .case("width", function() Control.Width = value end)
             .case("height", function() Control.Height = value end)
             .case("fontfamily", function() Control.FontFamily = value end)
@@ -866,6 +875,7 @@ function CreatePictureBox(properties)
 		
 		switch(img:lower())
             .case("jpg", function() 
+                print(src)
                 local jpgData = http.Get(src);
                 local imgRGBA, imgWidth, imgHeight = common.DecodeJPEG(jpgData);
                 local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
@@ -883,7 +893,7 @@ function CreatePictureBox(properties)
                 local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
                 properties.BackgroundImage = texture
             end)
-			.default(function() print("Image Type not found. key=" .. img) end)
+			.default(function() print("Image Type not found. key=" .. key) end)
             .process()
 			
 	end
@@ -909,6 +919,7 @@ function CreatePictureBox(properties)
                 local src = args[2]
                 switch(type:lower())
                 .case("jpg", function() 
+                    print(src)
                     local jpgData = http.Get(src);
                     local imgRGBA, imgWidth, imgHeight = common.DecodeJPEG(jpgData);
                     local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
@@ -1042,6 +1053,7 @@ function CreateMusicLinkButton(properties)
                 local src = args[2]
                 switch(type:lower())
                 .case("jpg", function() 
+                    print(src)
                     local jpgData = http.Get(src);
                     local imgRGBA, imgWidth, imgHeight = common.DecodeJPEG(jpgData);
                     local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
