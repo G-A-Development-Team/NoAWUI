@@ -49,8 +49,8 @@ function getDefaultAtts(je)
 		end
 		
 		for key, jElement in pairs(je['optional']) do
-			for subKey, subjEl in pairs(je['optional'][key]) do 
-				atts[subKey] = subjEl
+			for subKey, subjElement in pairs(je['optional'][key]) do 
+				atts[subKey] = subjElement
 			end
 		
 		end

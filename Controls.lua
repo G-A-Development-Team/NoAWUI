@@ -1115,7 +1115,9 @@ function CreateMusicLinkButton(properties)
             --print(control.MouseDown) 
             if input.IsButtonReleased(1) then
                 if isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height) then
-                    Form:ClickedMLButton(properties.Parent, properties.Name)
+                    panorama.RunScript([[
+											SteamOverlayAPI.OpenURL("]] .. properties.URL .. [[")
+    								   ]])
                 end
             end
         end
