@@ -119,7 +119,6 @@ function CreateForm(properties)
                 local src = args[2]
                 switch(type:lower())
                 .case("jpg", function() 
-                    print(src)
                     local jpgData = http.Get(src);
                     local imgRGBA, imgWidth, imgHeight = common.DecodeJPEG(jpgData);
                     local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
@@ -270,7 +269,6 @@ function CreatePanel(properties)
                 local src = args[2]
                 switch(type:lower())
                 .case("jpg", function() 
-                    print(src)
                     local jpgData = http.Get(src);
                     local imgRGBA, imgWidth, imgHeight = common.DecodeJPEG(jpgData);
                     local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
@@ -447,7 +445,6 @@ function CreateFlowLayout(properties)
                 local src = args[2]
                 switch(type:lower())
                 .case("jpg", function() 
-                    print(src)
                     local jpgData = http.Get(src);
                     local imgRGBA, imgWidth, imgHeight = common.DecodeJPEG(jpgData);
                     local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
@@ -650,8 +647,8 @@ function CreateButton(properties)
             .case("group", function() Control.Group = value end)
             .case("parent", function() Control.Parent = value end)
             .case("type", function() Control.Type = value end)
-            .case("x", function() Control.X = value end)
-            .case("y", function() Control.Y = value end)
+            .case("x", function() Control.X = value Control.SetX = value end)
+            .case("y", function() Control.Y = value Control.SetY = value end)
             .case("width", function() Control.Width = value end)
             .case("height", function() Control.Height = value end)
             .case("fontfamily", function() Control.FontFamily = value end)
@@ -869,7 +866,6 @@ function CreatePictureBox(properties)
 		
 		switch(img:lower())
             .case("jpg", function() 
-                print(src)
                 local jpgData = http.Get(src);
                 local imgRGBA, imgWidth, imgHeight = common.DecodeJPEG(jpgData);
                 local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
@@ -887,7 +883,7 @@ function CreatePictureBox(properties)
                 local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
                 properties.BackgroundImage = texture
             end)
-			.default(function() print("Image Type not found. key=" .. key) end)
+			.default(function() print("Image Type not found. key=" .. img) end)
             .process()
 			
 	end
@@ -913,7 +909,6 @@ function CreatePictureBox(properties)
                 local src = args[2]
                 switch(type:lower())
                 .case("jpg", function() 
-                    print(src)
                     local jpgData = http.Get(src);
                     local imgRGBA, imgWidth, imgHeight = common.DecodeJPEG(jpgData);
                     local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
@@ -1047,7 +1042,6 @@ function CreateMusicLinkButton(properties)
                 local src = args[2]
                 switch(type:lower())
                 .case("jpg", function() 
-                    print(src)
                     local jpgData = http.Get(src);
                     local imgRGBA, imgWidth, imgHeight = common.DecodeJPEG(jpgData);
                     local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);

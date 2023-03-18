@@ -9,7 +9,7 @@ function split(inputstr, sep)
     return t
 end
 
-local function TablePrint(t)
+function TablePrint(t)
     for k, v in pairs(t) do
         if type(v) == "table" then
             print(k)
@@ -87,15 +87,42 @@ end
 function addComponent(component, parent)
     -- Check if the parent is the correct one
     if parent.Name == component.Parent then
+        -- Check if the control already exists
+        for _, child in ipairs(parent.Children) do
+            if child.Name == component.Name then
+                -- Control already exists, don't add it again
+                return false
+            end
+        end
+        
+        -- Control does not exist, add it to parent's children
         table.insert(parent.Children, component)
-        return
+        --print("Found", component.Name)
+        return true
     end
     
     -- Try to find the correct parent in the children of the current parent
     for _, child in ipairs(parent.Children) do
-        addComponent(component, child)
+        if addComponent(component, child) then
+            return true
+        end
     end
+
+    return false
 end
+
+
+-- Function to scramble the table
+function scrambleTable(table)
+    for i = #table, 2, -1 do
+      -- Generate a random index between 1 and i
+      local j = math.random(i)
+      -- Swap the elements at indices i and j
+      table[i], table[j] = table[j], table[i]
+    end
+  end
+
+
 
 local b='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/' -- You will need this for encoding/decoding
 -- encoding
