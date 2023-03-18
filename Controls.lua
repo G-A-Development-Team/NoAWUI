@@ -109,6 +109,14 @@ function CreateForm(properties)
             .case("width", function() Control.Width = value end)
             .case("height", function() Control.Height = value end)
             .case("drag", function() Control.Drag = value end)
+            .case("visible", function() Control.Visible = value
+                if value == "false" then
+                    Control.Visible = false
+                else
+                    Control.Visible = true
+                end
+            end)
+            .case("toggle", function() Control.Toggle = tonumber(value) end)
             .case("image", function() 
                 local args = split(value, ",")
                 local type = args[1]
@@ -182,6 +190,12 @@ function CreateForm(properties)
     end
 	
     Control.Render = function(properties)
+        if properties.Toggle ~= nil then
+            if input.IsButtonPressed(properties.Toggle) then
+                properties.Visible = not properties.Visible
+            end
+        end
+
         if not properties.Visible then
             return properties
         end
@@ -331,7 +345,7 @@ function CreatePanel(properties)
     end
 
     Control.Render = function(properties, form)
-        if not properties.Visible then
+        if not properties.Visible or not form.Visible then
             return properties
         end
 
@@ -505,7 +519,7 @@ function CreateFlowLayout(properties)
     end
 
     Control.Render = function(properties, form)
-        if not properties.Visible then
+        if not properties.Visible or not form.Visible then
             return properties
         end
 
@@ -718,7 +732,7 @@ function CreateButton(properties)
     Control.CreatedFont = Font
 
     Control.Render = function(properties, form)
-        if not properties.Visible then
+        if not properties.Visible or not form.Visible then
             return properties
         end
 
@@ -820,7 +834,7 @@ function CreateLabel(properties)
     Control.CreatedFont = Font
 
     Control.Render = function(properties, form)
-        if not properties.Visible then
+        if not properties.Visible or not form.Visible then
             return properties
         end
 
@@ -947,7 +961,7 @@ function CreatePictureBox(properties)
     end
 
     Control.Render = function(properties, form)
-        if not properties.Visible then
+        if not properties.Visible or not form.Visible then
             return properties
         end
 
@@ -1084,7 +1098,7 @@ function CreateMusicLinkButton(properties)
 	-- This is used to create the actual gui object
     Control.Render = function(properties, form)
 		-- Checks if the object should be visual
-        if not properties.Visible then
+        if not properties.Visible or not form.Visible then
             return properties
         end
 		
@@ -1206,7 +1220,7 @@ function CreateCheckbox(properties)
 	-- This is used to create the actual gui object
     Control.Render = function(properties, form)
 		-- Checks if the object should be visual
-        if not properties.Visible then
+        if not properties.Visible or not form.Visible then
             return properties
         end
 		
