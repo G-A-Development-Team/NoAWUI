@@ -151,7 +151,7 @@
                 "fontheight": 25
 			},
 			"function": {
-				"mouseclick": "print('asd')" 
+				"mouseclick": "print('as')" 
 			},
 			"other": {
 				"text": "X"
