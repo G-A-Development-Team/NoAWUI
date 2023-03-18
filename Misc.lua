@@ -121,6 +121,7 @@ function cleanJsonComments(jsontext)
 	return out
 end
 
+-- Returns the attributes
 function getDefaultAtts(je)
 	local atts = {}
 		for key, jElement in pairs(je['details']) do
@@ -140,6 +141,7 @@ function getDefaultAtts(je)
 	return atts
 end
 
+-- Returns an array of attributes
 function GetAttributesFromFile(jsonfilepath)
 	local jsontextobj = file.Open(jsonfilepath, "r");
 	jsontext = jsontextobj:Read();
@@ -148,6 +150,32 @@ function GetAttributesFromFile(jsonfilepath)
 	jsonobject = json.decode(jsontext)
 	return getDefaultAtts(jsonobject)
 end
+
+function GetAttributesFromArrayByName(json, name)
+	
+	for _, jElement in pairs(json) do
+		print(TablePrint(jElement))
+		if jElement['name'] == name then
+			return jElement
+		end
+	end
+	return nil
+end
+
+function GetMultipleAttributesFromFile(jsonfilepath)
+local jsontextobj = file.Open(jsonfilepath, "r");
+	jsontext = jsontextobj:Read();
+	jsontextobj:Close();
+	jsontext = cleanJsonComments(jsontext)
+	jsonobject = json.decode(jsontext)
+	out_array = {}
+	for _, jElement in pairs(jsonobject) do
+		table.insert(out_array, getDefaultAtts(jElement))
+	end
+	return out_array
+end
+
+
 
 local b='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/' -- You will need this for encoding/decoding
 -- encoding
