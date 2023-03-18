@@ -2,6 +2,7 @@ Form = {}
 
 -- By: CarterPoe
 function Form:Initialize()
+	--print("hello world")
     --Form:Tab1()
 
     --local managelist = getControlByName("mainForm", "managelist")
@@ -28,7 +29,7 @@ function Form:Initialize()
     made = CreatePanel(attributes)
     managelist.Children[#managelist.Children+1] = made]]--
 end
---[[
+
 -- By: CarterPoe
 function Form:Click()
 end
@@ -84,7 +85,7 @@ function Form:ClickedMLButton(parent, name)
             SteamOverlayAPI.OpenURL("]] .. sender.URL .. [[")
         ]])
 end
-]]--
+
 --local listbox = getControlByName("Test_Tab", "guns")
 
 return Form

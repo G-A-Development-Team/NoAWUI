@@ -134,98 +134,6 @@ for _, jElement in ipairs(jsonElements) do
 end
 
 
-
-
---[[
-local elements = split(designText, "{")
-print("--------------------------------------")
---local _, equal_count = string.gsub(elements[1])
-print(elements[1])
-
-
-local controls = {}
-
-for _, elementValue in ipairs(elements) do
-    if not string.starts(elementValue, "*") then
-        local attributes = split(elementValue, " ")
-        for _, attributeValue in ipairs(attributes) do
-            if string.find(attributeValue, "=") then
-                local key = split(attributeValue, "=")[1]
-                local value = split(attributeValue, "=")[2]
-                if key:lower() == "type" then
-                    switch(value:lower())
-                        .case("panel", function() 
-                            local made = CreatePanel(attributes)
-                            for _, control in ipairs(controls) do
-                                if made.Parent ~= "" then
-                                    addComponent(made, control)
-                                end
-                            end
-                        end)
-                        .case("flowlayout", function() 
-                            local made = CreateFlowLayout(attributes)
-                            for _, control in ipairs(controls) do
-                                if made.Parent ~= "" then
-                                    addComponent(made, control)
-                                end
-                            end
-                        end)
-						.case("picturebox", function() 
-                            local made = CreatePictureBox(attributes)
-                            for _, control in ipairs(controls) do
-                                if made.Parent ~= "" then
-                                    addComponent(made, control)
-                                end
-                            end
-                        end)
-						.case("mlbutton", function() 
-                            local made = CreateMusicLinkButton(attributes)
-                            for _, control in ipairs(controls) do
-                                if made.Parent ~= "" then
-                                    addComponent(made, control)
-                                end
-                            end
-                        end)
-						.case("checkbox", function() 
-                            local made = CreateCheckbox(attributes)
-                            for _, control in ipairs(controls) do
-                                if made.Parent ~= "" then
-                                    addComponent(made, control)
-                                end
-                            end
-                        end)						
-                        .case("button", function() 
-                            local made = CreateButton(attributes)
-                            for _, control in ipairs(controls) do
-                                if made.Parent ~= "" then
-                                    addComponent(made, control)
-                                end
-                            end
-                        end)
-                        .case("label", function() 
-                            local made = CreateLabel(attributes)
-                            for _, control in ipairs(controls) do
-                                if made.Parent ~= "" then
-                                    addComponent(made, control)
-                                end
-                            end
-                        end)
-                        .case("form", function() 
-                            controls[#controls +1] = CreateForm(attributes)
-                        end)
-                        .case("awtab", function() 
-                            controls[#controls +1] = CreateAWTab(attributes)
-                        end)
-                        .default(function() print("Type not found.") end)
-                    .process() 
-                end
-            end
-        end
-    end
-end
-]]--
---gui.Command('lua.run "print("hello wlrd")"')
-
 function getControlByName(form, name)
     for _m, main in ipairs(controls) do
         if main.Name == form then
@@ -265,7 +173,7 @@ function updateControlByName(form, name, controle)
     end
 end
 
---Form:Initialize()
+Form:Initialize()
 
 
 callbacks.Register("Draw", "Render", function()
