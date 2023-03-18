@@ -898,7 +898,6 @@ function CreatePictureBox(properties)
 		
 		switch(img:lower())
             .case("jpg", function() 
-                print(src)
                 local jpgData = http.Get(src);
                 local imgRGBA, imgWidth, imgHeight = common.DecodeJPEG(jpgData);
                 local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
@@ -936,30 +935,32 @@ function CreatePictureBox(properties)
             .case("mouseclick", function() Control.MouseClick = value end)
             .case("image", function() 
                 local args = split(value, ",")
-                local type = args[1]
-                local src = args[2]
-                switch(type:lower())
-                .case("jpg", function() 
-                    print(src)
-                    local jpgData = http.Get(src);
-                    local imgRGBA, imgWidth, imgHeight = common.DecodeJPEG(jpgData);
-                    local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
-                    Control.BackgroundImage = texture
-                end)
-                .case("png", function() 
-                    local pngData = http.Get(src);
-                    local imgRGBA, imgWidth, imgHeight = common.DecodePNG(pngData);
-                    local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
-                    Control.BackgroundImage = texture
-                end)
-                .case("svg", function() 
-                    local svgData = http.Get(src);
-                    local imgRGBA, imgWidth, imgHeight = common.RasterizeSVG(svgData);
-                    local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
-                    Control.BackgroundImage = texture
-                end)
-                .default(function() print("Image Type not found. key=" .. key) end)
-                .process() 
+				local src = args[2]
+				local imgtype = args[1]
+				switch(imgtype:lower())
+					.case("jpg", function() 
+						
+						http.Get(src, function (jpgData)
+							local imgRGBA, imgWidth, imgHeight = common.DecodeJPEG(jpgData);
+							Control.BackgroundImage = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
+						end)
+						
+					end)
+					.case("png", function() 
+						http.Get(src, function (pngData)
+							local imgRGBA, imgWidth, imgHeight = common.DecodePNG(pngData);
+							Control.BackgroundImage = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
+						end);
+						
+					end)
+					.case("svg", function() 
+						http.Get(src, function (svgData)
+							local imgRGBA, imgWidth, imgHeight = common.RasterizeSVG(svgData);
+							Control.BackgroundImage =  draw.CreateTexture(imgRGBA, imgWidth, imgHeight);			
+						end);
+					end)
+					.default(function() print("Attribute not found. key=" .. key) end)
+					.process()
             end)
             .case("background", function() 
                 if string.find(value, "theme") then

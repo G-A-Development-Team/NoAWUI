@@ -154,7 +154,6 @@ end
 function GetAttributesFromArrayByName(json, name)
 	
 	for _, jElement in pairs(json) do
-		print(TablePrint(jElement))
 		if jElement['name'] == name then
 			return jElement
 		end
@@ -174,8 +173,6 @@ local jsontextobj = file.Open(jsonfilepath, "r");
 	end
 	return out_array
 end
-
-
 
 local b='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/' -- You will need this for encoding/decoding
 -- encoding
