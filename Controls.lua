@@ -640,8 +640,8 @@ function CreateButton(properties)
             .case("group", function() Control.Group = value end)
             .case("parent", function() Control.Parent = value end)
             .case("type", function() Control.Type = value end)
-            .case("x", function() Control.X = value end)
-            .case("y", function() Control.Y = value end)
+            .case("x", function() Control.X = value Control.SetX = value end)
+            .case("y", function() Control.Y = value Control.SetY = value end)
             .case("width", function() Control.Width = value end)
             .case("height", function() Control.Height = value end)
             .case("fontfamily", function() Control.FontFamily = value end)
@@ -1115,7 +1115,9 @@ function CreateMusicLinkButton(properties)
             --print(control.MouseDown) 
             if input.IsButtonReleased(1) then
                 if isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height) then
-                    Form:ClickedMLButton(properties.Parent, properties.Name)
+                    panorama.RunScript([[
+											SteamOverlayAPI.OpenURL("]] .. properties.URL .. [[")
+    								   ]])
                 end
             end
         end

@@ -78,14 +78,6 @@ function Form:ChangePictureBox(parent, name, url, ext)
 	sender.ChangeImage(sender, url, ext)
 end
 
--- By: Agentsix1
-function Form:ClickedMLButton(parent, name)
-	local sender = getControlByName(parent, name)
-	panorama.RunScript([[
-            SteamOverlayAPI.OpenURL("]] .. sender.URL .. [[")
-        ]])
-end
-
 --local listbox = getControlByName("Test_Tab", "guns")
 
 return Form

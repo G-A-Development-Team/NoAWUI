@@ -1,15 +1,15 @@
 { 
-* Createing Form
+* Form
 	{
 		"details": {
 			"type": "form",
-			"name": "mainForm"
+			"name": "Main"
 		},
 		"dimensions": {
-			"x": 15,
-			"y": 15,
+			"x": 400,
+			"y": 100,
 			"width": 800,
-			"height": 800
+			"height": 600
 		},
 		"optional": {
 			"style": {
@@ -25,22 +25,23 @@
 			
 		}
 	},
-* Creation of Panel
+* TitleBar
 	{
 		"details": {
 			"type": "panel",
-			"name": "testpanel",
-			"parent": "mainForm"
+			"name": "TitleBar",
+			"parent": "Main"
 		},
 		"dimensions": {
-			"x": 15,
-			"y": 15,
-			"width": 200,
-			"height": 200
+			"x": 0,
+			"y": -25,
+			"width": 180,
+			"height": 25,
+            "roundness": "4,4,4,0,0"
 		},
 		"optional": {
 			"style": {
-				"background": "255,255,255,255",
+				"background": "theme.footer.bg",
 				"border": "theme.ui2.border"
 			},
 			"function": {
@@ -52,5 +53,461 @@
 			
 		}
 	},
-	
+* TitleBar -> Title
+	{
+		"details": {
+			"type": "label",
+			"name": "Title",
+			"parent": "TitleBar"
+		},
+		"dimensions": {
+			"x": 15,
+			"y": 6,
+		},
+		"optional": {
+			"style": {
+				"color": "theme.header.text",
+			},
+			"function": {
+			},
+			"other": {
+				"text": "Music Kit Changer"
+			}
+			
+		}
+	},
+* ActionBar
+	{
+		"details": {
+			"type": "panel",
+			"name": "ActionBar",
+			"parent": "Main"
+		},
+		"dimensions": {
+			"x": 770,
+			"y": -25,
+			"width": 30,
+			"height": 25,
+            "roundness": "4,4,4,0,0"
+		},
+		"optional": {
+			"style": {
+				"background": "theme.footer.bg",
+				"border": "theme.ui2.border"
+			},
+			"function": {
+			},
+			"other": {
+				"image": "jpg,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/1326583.jpg"
+			}
+			
+		}
+	},
+* ActionBar -> Exit
+	{
+		"details": {
+			"type": "button",
+			"name": "Exit",
+			"parent": "ActionBar"
+		},
+		"dimensions": {
+			"width": 30,
+			"height": 25,
+            "roundness": "4,4,4,0,0"
+		},
+		"optional": {
+			"style": {
+				"background": "0,0,0,0",
+				"border": "theme.ui2.border",
+                "fontweight": 1000,
+                "fontheight": 25
+			},
+			"function": {
+				"mouseclick": "Form:Click()" 
+			},
+			"other": {
+				"text": "X"
+			}
+			
+		}
+	},
+* Navigation
+	{
+		"details": {
+			"type": "panel",
+			"name": "Navigation",
+			"parent": "Main"
+		},
+		"dimensions": {
+			"x": 15,
+			"y": 549,
+			"width": 770,
+			"height": 50,
+            "roundness": "4,0,0,0,0"
+		},
+		"optional": {
+			"style": {
+				"background": "theme.footer.bg",
+				"border": "theme.header.line"
+			},
+			"function": {
+			},
+			"other": {
+			}
+			
+		}
+	},
+* Navigation -> Tab1
+	{
+		"details": {
+			"type": "button",
+			"name": "Navigation_Tab1",
+			"parent": "Navigation"
+		},
+		"dimensions": {
+			"x": 5,
+			"y": 5,
+			"width": 100,
+			"height": 40,
+            "roundness": "4,0,0,0,0"
+		},
+		"optional": {
+			"style": {
+				"background": "theme.nav.bg",
+				"border": "theme.nav.active",
+                "active": "theme.nav.active",
+                "fontweight": 500,
+                "fontheight": 18
+			},
+			"function": {
+                "mouseclick": "Form:Tab1()"
+			},
+			"other": {
+                "text": "Changer"
+			}
+			
+		}
+	},
+* Navigation -> Tab2
+	{
+		"details": {
+			"type": "button",
+			"name": "Navigation_Tab2",
+			"parent": "Navigation"
+		},
+		"dimensions": {
+			"x": 110,
+			"y": 5,
+			"width": 100,
+			"height": 40,
+            "roundness": "4,0,0,0,0"
+		},
+		"optional": {
+			"style": {
+				"background": "theme.nav.bg",
+				"border": "theme.nav.active",
+                "active": "theme.nav.active",
+                "fontweight": 500,
+                "fontheight": 18
+			},
+			"function": {
+                "mouseclick": "Form:Tab2()"
+			},
+			"other": {
+                "text": "Manager"
+			}
+			
+		}
+	},
+* Navigation -> Tab3
+	{
+		"details": {
+			"type": "button",
+			"name": "Navigation_Tab3",
+			"parent": "Navigation"
+		},
+		"dimensions": {
+			"x": 215,
+			"y": 5,
+			"width": 100,
+			"height": 40,
+            "roundness": "4,0,0,0,0"
+		},
+		"optional": {
+			"style": {
+				"background": "theme.nav.bg",
+				"border": "theme.nav.active",
+                "active": "theme.nav.active",
+                "fontweight": 500,
+                "fontheight": 18
+			},
+			"function": {
+                "mouseclick": "Form:Tab2()"
+			},
+			"other": {
+                "text": "Banner"
+			}
+			
+		}
+	},
+* Navigation -> Tab4
+	{
+		"details": {
+			"type": "button",
+			"name": "Navigation_Tab4",
+			"parent": "Navigation"
+		},
+		"dimensions": {
+			"x": 320,
+			"y": 5,
+			"width": 100,
+			"height": 40,
+            "roundness": "4,0,0,0,0"
+		},
+		"optional": {
+			"style": {
+				"background": "theme.nav.bg",
+				"border": "theme.nav.active",
+                "active": "theme.nav.active",
+                "fontweight": 500,
+                "fontheight": 18
+			},
+			"function": {
+                "mouseclick": "Form:Tab2()"
+			},
+			"other": {
+                "text": "Remover"
+			}
+			
+		}
+	},
+* Navigation -> Tab5
+	{
+		"details": {
+			"type": "button",
+			"name": "Navigation_Tab5",
+			"parent": "Navigation"
+		},
+		"dimensions": {
+			"x": 665,
+			"y": 5,
+			"width": 100,
+			"height": 40,
+            "roundness": "4,0,0,0,0"
+		},
+		"optional": {
+			"style": {
+				"background": "theme.nav.bg",
+				"border": "theme.nav.active",
+                "active": "theme.nav.active",
+                "fontweight": 500,
+                "fontheight": 18
+			},
+			"function": {
+                "mouseclick": "Form:Tab2()"
+			},
+			"other": {
+                "text": "About"
+			}
+			
+		}
+	},
+* Tab1 -> GroupBox1
+	{
+		"details": {
+			"type": "panel",
+			"name": "Tab1_GroupBox1",
+			"parent": "Main",
+            "group": "Navigation_Tab1"
+		},
+		"dimensions": {
+			"x": 15,
+			"y": 15,
+			"width": 770,
+			"height": 292,
+            "roundness": "7,7,7,7,7"
+		},
+		"optional": {
+			"style": {
+				"background": "33,33,33,200",
+				"border": "50,50,50,150"
+			},
+			"function": {
+			},
+			"other": {
+			}
+			
+		}
+	},
+* Tab1 -> GroupBox1 -> KitPreview
+	{
+		"details": {
+			"type": "picturebox",
+			"name": "KitPreview",
+			"parent": "Tab1_GroupBox1",
+            "group": "Navigation_Tab1"
+		},
+		"dimensions": {
+			"x": 20,
+			"y": 20,
+			"width": 250,
+			"height": 252,
+            "roundness": "7,7,7,7,7"
+		},
+		"optional": {
+			"style": {
+				"background": "255,255,255,200",
+			},
+			"function": {
+			},
+			"other": {
+                "image": "jpg,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/1326583.jpg"
+			}
+			
+		}
+	},
+* Tab1 -> GroupBox1 -> KitName
+	{
+		"details": {
+			"type": "label",
+			"name": "KitName",
+			"parent": "Tab1_GroupBox1",
+            "group": "Navigation_Tab1"
+		},
+		"dimensions": {
+			"x": 630,
+			"y": 15,
+		},
+		"optional": {
+			"style": {
+				"color": "255,255,255,255",
+			},
+			"function": {
+			},
+			"other": {
+                "text": "Music Kit Group"
+			}
+			
+		}
+	},
+* Tab1 -> GroupBox1 -> MLBmvp
+	{
+		"details": {
+			"type": "mlbutton",
+			"name": "MLBmvp",
+			"parent": "Tab1_GroupBox1",
+            "group": "Navigation_Tab1"
+		},
+		"dimensions": {
+			"x": 400,
+			"y": 60,
+            "width": 170,
+			"height": 50,
+		},
+		"optional": {
+			"style": {
+				"color": "255,255,255,255",
+                "fontweight": 500,
+                "fontheight": 25
+			},
+			"function": {
+                "mouseclick": "Form:Click()"
+			},
+			"other": {
+                "text": "MVP Award",
+                "url": "google.com"
+			}
+			
+		}
+	},
+* Tab1 -> GroupBox1 -> MLBroundloss
+	{
+		"details": {
+			"type": "mlbutton",
+			"name": "MLBroundloss",
+			"parent": "Tab1_GroupBox1",
+            "group": "Navigation_Tab1"
+		},
+		"dimensions": {
+			"x": 400,
+			"y": 130,
+            "width": 170,
+			"height": 50,
+		},
+		"optional": {
+			"style": {
+				"color": "255,255,255,255",
+                "fontweight": 500,
+                "fontheight": 25
+			},
+			"function": {
+                "mouseclick": "Form:Click()"
+			},
+			"other": {
+                "text": "Round Loss",
+                "url": "google.com"
+			}
+			
+		}
+	},
+* Tab1 -> GroupBox1 -> MLBdeaththeme
+	{
+		"details": {
+			"type": "mlbutton",
+			"name": "MLBdeaththeme",
+			"parent": "Tab1_GroupBox1",
+            "group": "Navigation_Tab1"
+		},
+		"dimensions": {
+			"x": 400,
+			"y": 200,
+            "width": 170,
+			"height": 50,
+		},
+		"optional": {
+			"style": {
+				"color": "255,255,255,255",
+                "fontweight": 500,
+                "fontheight": 25
+			},
+			"function": {
+                "mouseclick": "Form:Click()"
+			},
+			"other": {
+                "text": "Death Theme",
+                "url": "google.com"
+			}
+			
+		}
+	},
+* Tab1 -> GroupBox1 -> CHKtest
+	{
+		"details": {
+			"type": "checkbox",
+			"name": "CHKtest",
+			"parent": "Tab1_GroupBox1",
+            "group": "Navigation_Tab1"
+		},
+		"dimensions": {
+			"x": 400,
+			"y": 270,
+            "width": 30,
+			"height": 30
+		},
+		"optional": {
+			"style": {
+				"color": "255,255,255,255",
+                "fontweight": 500,
+                "fontheight": 25
+			},
+			"function": {
+                "mouseclick": "Form:Click()"
+			},
+			"other": {
+                "text": "Share Kit TEMP",
+                "checkstate": "true"
+			}
+			
+		}
+	},
 }
