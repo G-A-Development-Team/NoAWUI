@@ -224,7 +224,6 @@ function CreateForm(properties)
         if properties.ForceDrag ~= nil then
             properties.DragNow = properties.ForceDrag
         end
-
         
         if properties.Drag or properties.DragNow then
             --print(globaldragging)

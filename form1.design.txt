@@ -151,7 +151,7 @@
                 "fontheight": 25
 			},
 			"function": {
-				"mouseclick": "Form:Click()" 
+				"mouseclick": "print('asd')" 
 			},
 			"other": {
 				"text": "X"
@@ -317,7 +317,7 @@
 			"parent": "Navigation"
 		},
 		"dimensions": {
-			"x": 665,
+			"x": 425,
 			"y": 5,
 			"width": 100,
 			"height": 40,
@@ -335,7 +335,38 @@
                 "mouseclick": "Form:Tab2()"
 			},
 			"other": {
-                "text": "About"
+                "text": "Borrower"
+			}
+			
+		}
+	},
+* Navigation -> Tab6
+	{
+		"details": {
+			"type": "button",
+			"name": "Navigation_Tab6",
+			"parent": "Navigation"
+		},
+		"dimensions": {
+			"x": 530,
+			"y": 5,
+			"width": 100,
+			"height": 40,
+            "roundness": "4,0,0,0,0"
+		},
+		"optional": {
+			"style": {
+				"background": "theme.nav.bg",
+				"border": "theme.nav.active",
+                "active": "theme.nav.active",
+                "fontweight": 500,
+                "fontheight": 18
+			},
+			"function": {
+                "mouseclick": "Form:Tab2()"
+			},
+			"other": {
+                "text": "Settings"
 			}
 			
 		}
