@@ -3,7 +3,7 @@ Form = {}
 -- By: CarterPoe
 function Form:Initialize()
 	--print("hello world")
-    --Form:Tab1()
+    Form:Tab1()
 
     --local managelist = getControlByName("mainForm", "managelist")
 
