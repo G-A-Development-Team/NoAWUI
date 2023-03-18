@@ -45,7 +45,6 @@
 				"border": "theme.ui2.border"
 			},
 			"function": {
-				"drag": true
                 "toggle": 46
 			},
 			"other": {
@@ -74,7 +73,7 @@
 				"border": "theme.ui2.border"
 			},
 			"function": {
-				"drag": true
+				"dragparent": true
 			},
 			"other": {
 				"image": "jpg,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/1326583.jpg"

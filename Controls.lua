@@ -97,6 +97,7 @@ end
 -- By: CarterPoe
 function CreateForm(properties)
     local Control = CreateControl()
+    Control.DragNow = false
     for key, value in pairs(properties) do
 		value = tostring(value)
             switch(key:lower())
@@ -108,7 +109,13 @@ function CreateForm(properties)
             .case("y", function() Control.Y = value end)
             .case("width", function() Control.Width = value end)
             .case("height", function() Control.Height = value end)
-            .case("drag", function() Control.Drag = value end)
+            .case("drag", function() 
+                if value == "false" then
+                    Control.Drag = false
+                else
+                    Control.Drag = true
+                end
+            end)
             .case("visible", function() Control.Visible = value
                 if value == "false" then
                     Control.Visible = false
@@ -214,9 +221,14 @@ function CreateForm(properties)
             Renderer:OutlinedRectangle({properties.X, properties.Y}, {properties.Width, properties.Height}, properties.BorderColor)
         end
 
-        if properties.Drag then
+        if properties.ForceDrag ~= nil then
+            properties.DragNow = properties.ForceDrag
+        end
+
+        
+        if properties.Drag or properties.DragNow then
             --print(globaldragging)
-            if isMouseInRect(properties.X, properties.Y, properties.Width, properties.Height) then
+            if isMouseInRect(properties.X, properties.Y, properties.Width, properties.Height) or properties.DragNow then
                 if true then
                     if input.IsButtonDown(1) then
                         
@@ -271,7 +283,13 @@ function CreatePanel(properties)
             .case("y", function() Control.Y = value Control.SetY = value end)
             .case("width", function() Control.Width = value end)
             .case("height", function() Control.Height = value end)
-            .case("drag", function() Control.Drag = value end)
+            .case("dragparent", function() 
+                if value == "false" then
+                    Control.DragParent = false
+                else
+                    Control.DragParent = true
+                end
+            end)
             .case("mouseclick", function() Control.MouseClick = value end)
             .case("image", function() 
                 local args = split(value, ",")
@@ -383,6 +401,18 @@ function CreatePanel(properties)
 
             control.Render(control, properties)
 
+        end
+
+        if properties.DragParent ~= nil then
+            if properties.DragParent then
+                if isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height) then
+                    if input.IsButtonDown(1) then
+                        form.ForceDrag = true
+                    else
+                        form.ForceDrag = false
+                    end
+                end 
+            end
         end
 
         if properties.Drag then
