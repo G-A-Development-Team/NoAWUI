@@ -3,7 +3,7 @@ Form = {}
 -- By: CarterPoe
 function Form:Initialize()
 	--print("hello world")
-    --Form:Tab1()
+    Form:Tab1()
 
     --local managelist = getControlByName("mainForm", "managelist")
 
@@ -36,16 +36,16 @@ end
 
 -- By: CarterPoe
 function Form:Tab1()
-    local sender = getControlByName("mainForm", "tab2")
-    local controls = getControlsByGroup("mainForm", "tab2")
+    local sender = getControlByName("Main", "Navigation_Tab2")
+    local controls = getControlsByGroup("Main", "Navigation_Tab2")
     for _, control in ipairs(controls) do
         print(control.Group, control.Name)
         control.Visible = false
     end
     sender.Active = false
 
-    sender = getControlByName("mainForm", "tab1")
-    controls = getControlsByGroup("mainForm", "tab1")
+    sender = getControlByName("Main", "Navigation_Tab1")
+    controls = getControlsByGroup("Main", "Navigation_Tab1")
     for _, control in ipairs(controls) do
         print(control.Group, control.Name)
         control.Visible = true
@@ -55,16 +55,16 @@ end
 
 -- By: CarterPoe
 function Form:Tab2()
-    local sender = getControlByName("mainForm", "tab1")
-    local controls = getControlsByGroup("mainForm", "tab1")
+    local sender = getControlByName("Main", "Navigation_Tab1")
+    local controls = getControlsByGroup("Main", "Navigation_Tab1")
     for _, control in ipairs(controls) do
         print(control.Group, control.Name)
         control.Visible = false
     end
     sender.Active = false
 
-    sender = getControlByName("mainForm", "tab2")
-    controls = getControlsByGroup("mainForm", "tab2")
+    sender = getControlByName("Main", "Navigation_Tab2")
+    controls = getControlsByGroup("Main", "Navigation_Tab2")
     for _, control in ipairs(controls) do
         print(control.Group, control.Name)
         control.Visible = true

@@ -135,30 +135,46 @@ end
 
 
 function getControlByName(form, name)
-    for _m, main in ipairs(controls) do
+    for _, main in ipairs(controls) do
         if main.Name == form then
-            for _, control in ipairs(main.Children) do
+            local function findControl(control)
                 if control.Name == name then
                     return control
+                else
+                    for _, child in ipairs(control.Children or {}) do
+                        local result = findControl(child)
+                        if result then
+                            return result
+                        end
+                    end
                 end
             end
+            return findControl(main)
         end
     end
 end
 
+
 function getControlsByGroup(form, group)
     local list = {}
-    for _m, main in ipairs(controls) do
+    for _, main in ipairs(controls) do
         if main.Name == form then
-            for _, control in ipairs(main.Children) do
-                if control.Group == group then
-                    table.insert(list, control)
+            local function searchChildren(children)
+                for _, control in ipairs(children) do
+                    if control.Group == group then
+                        table.insert(list, control)
+                    end
+                    if control.Children then
+                        searchChildren(control.Children)
+                    end
                 end
             end
+            searchChildren(main.Children)
         end
     end
     return list
 end
+
 
 function updateControlByName(form, name, controle)
     for _m, main in ipairs(controls) do
