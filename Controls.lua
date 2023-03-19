@@ -414,11 +414,38 @@ function CreatePictureListBox(properties)
             x = 1,
             y = Control.StartHeight,
             width = Control.Width - 2,
-            Height = 200,
+            height = 200,
             background = "50,50,50,255",
-            roundness = "6,0,0,6,6"
+            roundness = "6,0,0,6,6",
+            scrollheight = 20,
         })
     }
+
+    for i = 1,10 do
+        local panel = CreatePanel({
+            type = "panel",
+            name = "paneltest" .. i,
+            parent = Control.Children[1].Name,
+            x = 1,
+            y = 1,
+            width = Control.Children[1].Width - 2,
+            height = 20,
+            background = "1,1,1,255",
+            border = "255,255,255,255"
+        })
+        panel.Children[1] = CreateLabel({
+            type = "label",
+            name = "labeltest" .. i,
+            parent = "paneltest" .. i,
+            color = "255,255,255,255",
+            x = 2,
+            y = 2,
+            text = "Item" .. i
+        })
+
+        Control.Children[1].Children[#Control.Children[1].Children+1] = panel
+    end
+
 
     Control.Render = function(properties, form)
         if not properties.Visible or not form.Visible then
@@ -432,7 +459,7 @@ function CreatePictureListBox(properties)
 
         Renderer:ShadowRectangle({properties.X + form.X, properties.Y + form.Y}, {properties.Width, properties.Height}, {0,0,0,40}, 25)
         if properties.Rounded then            
-            if not properties.Selected and isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height) or properties.Active then
+            if properties.Selected or isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height) or properties.Active then
                 Renderer:FilledRoundedRectangle({properties.X + form.X, properties.Y + form.Y}, {properties.Width, properties.Height}, properties.ActiveBackground, properties.Roundness)
             else
                 Renderer:FilledRoundedRectangle({properties.X + form.X, properties.Y + form.Y}, {properties.Width, properties.Height}, properties.Background, properties.Roundness)
@@ -451,8 +478,10 @@ function CreatePictureListBox(properties)
 
 
         if input.IsButtonReleased(1) then
-            if isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height) then
+            if isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height)  then
                 properties.Selected = not properties.Selected
+            else
+                properties.Selected = false
             end
         end
 
