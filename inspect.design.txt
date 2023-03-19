@@ -36,7 +36,7 @@
 		"dimensions": {
 			"x": 0,
 			"y": -25,
-			"width": 180,
+			"width": 800,
 			"height": 25,
             "roundness": "4,4,4,0,0"
 		},
@@ -77,4 +77,90 @@
 			
 		}
 	}
+* Inspect - TitleBar -> Exit
+	{
+		"details": {
+			"type": "button",
+			"name": "Exit",
+			"parent": "Inspect_TitleBar"
+		},
+		"dimensions": {
+            "x": 770,
+			"width": 30,
+			"height": 25,
+            "roundness": "4,0,4,0,0"
+		},
+		"optional": {
+			"style": {
+				"background": "0,0,0,0",
+                "active": "80,80,80,255",
+                "fontweight": 1000,
+                "fontheight": 25
+			},
+			"function": {
+				"mouseclick": "Form:Exit()" 
+			},
+			"other": {
+				"text": "X"
+			}
+			
+		}
+	},
+* Inspect -> Flowlayout
+	{
+		"details": {
+			"type": "flowlayout",
+			"name": "Inspect_flowlayout",
+			"parent": "Inspect",
+		},
+		"dimensions": {
+			"x": 15,
+			"y": 15,
+			"width": 770,
+			"height": 508,
+            "roundness": "7,7,7,7,7"
+		},
+		"optional": {
+			"style": {
+				"background": "20,20,20,200",
+				"border": "50,50,50,150"
+			},
+			"function": {
+			},
+			"other": {
+                "scrollheight": 166,
+			}
+			
+		}
+	}
+* Inspect -> Reload
+	{
+		"details": {
+			"type": "button",
+			"name": "Reload",
+			"parent": "Inspect"
+		},
+		"dimensions": {
+            "x": 15,
+            "y": 540,
+			"width": 100,
+			"height": 50,
+            "roundness": "4,0,4,0,0"
+		},
+		"optional": {
+			"style": {
+                "background": "20,20,20,200",
+                "active": "80,80,80,255",
+                "fontweight": 1000,
+                "fontheight": 25
+			},
+			"function": {
+				"mouseclick": "Inspect:Reload()" 
+			},
+			"other": {
+				"text": "Reload"
+			}
+			
+		}
+	},
 }
