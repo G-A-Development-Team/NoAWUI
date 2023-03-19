@@ -34,6 +34,10 @@ end
 function Form:Click()
 end
 
+function Form:Exit()
+    getFormByName("Main").Visible = false
+end
+
 -- By: CarterPoe
 function Form:Tab1()
     local sender = getControlByName("Main", "Navigation_Tab2")

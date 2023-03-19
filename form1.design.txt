@@ -146,13 +146,14 @@
 		},
 		"optional": {
 			"style": {
-				"background": "0,0,0,0",
+				"background": "theme.nav.bg",
 				"border": "theme.ui2.border",
+                "active": "theme.nav.active",
                 "fontweight": 1000,
                 "fontheight": 25
 			},
 			"function": {
-				"mouseclick": "print('as')" 
+				"mouseclick": "Form:Exit()" 
 			},
 			"other": {
 				"text": "X"

@@ -123,6 +123,14 @@ function getControlByName(form, name)
     end
 end
 
+function getFormByName(form)
+    for _, main in ipairs(controls) do
+        if main.Name == form then
+            return main
+        end
+    end
+end
+
 
 function getControlsByGroup(form, group)
     local list = {}
