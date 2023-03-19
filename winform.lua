@@ -5,14 +5,15 @@ RunScript("WinForm/Renderer.lua")
 RunScript("WinForm/Controls.lua")
 
 -- Set the json files to an array
-local json_files = {}
-	table.insert("WinForm/form1.design.txt")
-	table.insert("WinForm/inspect.design.txt")
--- Json file paths
-
-
-local designCode = file.Open("WinForm/form1.code.lua", "r");
-RunScript("WinForm/form1.code.lua")
+local json_files = {
+    [1] = {
+        Json = "WinForm/form1.design.txt",
+        Lua = "WinForm/form1.code.lua"
+    },
+    [2] = {
+        Json = "WinForm/inspect.design.txt"
+    }
+}
 
 local controls = {}
 
@@ -95,25 +96,29 @@ local function LoadJsonElements(jElements)
 end
 
 -- This is used to load all of the control data from json files
-for _, jPath in ipairs(json_files) do
-
-	-- Open the file
-	local jFile = file.Open(jPath, "r");
-	
-	-- Read the file and set to var
-	local jText = jFile:Read();
-	
-	-- Close the file
-	jFile:Close();
-	
-	-- Clean the json of comments
-	jCleanText = cleanJsonComments(jText)
-	
-	-- Create json object from text
-	local jElement = json.decode(jCleanText)
-	
-	-- Load the json data into script
-	LoadJsonElements(jElement)
+for _, element in ipairs(json_files) do
+    if element.Lua ~= nil then
+        RunScript(element.Lua)
+    end
+    if element.Json ~= nil then
+            -- Open the file
+        local jFile = file.Open(element.Json, "r");
+        
+        -- Read the file and set to var
+        local jText = jFile:Read();
+        
+        -- Close the file
+        jFile:Close();
+        
+        -- Clean the json of comments
+        local jCleanText = cleanJsonComments(jText)
+        
+        -- Create json object from text
+        local jElement = json.decode(jCleanText)
+        
+        -- Load the json data into script
+        LoadJsonElements(jElement)
+    end
 end
 
 
