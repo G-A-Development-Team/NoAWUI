@@ -102,6 +102,10 @@ function Inspect:ShowElement(args)
     sender.Children[#sender.Children+1] = flow
 end
 
+function Inspect:Exit()
+    getFormByName("Inspect").Visible = false
+end
+
 function printChildren(node, indent, sender, comLabel)
     indent = indent or 0
     for i, child in ipairs(node.Children) do

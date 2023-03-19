@@ -99,7 +99,7 @@
                 "fontheight": 25
 			},
 			"function": {
-				"mouseclick": "Form:Exit()" 
+				"mouseclick": "Inspect:Exit()" 
 			},
 			"other": {
 				"text": "X"
