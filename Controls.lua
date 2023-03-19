@@ -799,16 +799,16 @@ function CreateButton(properties)
 
         if isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height) then
             if input.IsButtonDown(1) then
-                drawing.background({35, 35, 35, 255})
+                drawing.background(properties.ActiveBackground)
             else
-                drawing.background({65, 65, 65, 255})
+                drawing.background({properties.ActiveBackground[1], properties.ActiveBackground[2], properties.ActiveBackground[3], 100})
             end
         else
             drawing.background(properties.Background)
         end
 
         if properties.Active then
-            drawing.background(Control.ActiveBackground)
+            drawing.background(properties.ActiveBackground)
         end
 
         draw.SetFont(properties.CreatedFont);
