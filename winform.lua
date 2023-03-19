@@ -24,7 +24,15 @@ local function LoadJsonElements(jElements)
                             addComponent(made, control)
                         end
                     end
-                end)
+            end)
+            .case("picturelistbox", function() 
+                local made = CreatePictureListBox(attributes)
+                    for _, control in ipairs(controls) do
+                        if made.Parent ~= "" then
+                            addComponent(made, control)
+                        end
+                    end
+            end)
             .case("flowlayout", function() 
                 local made = CreateFlowLayout(attributes)
                 for _, control in ipairs(controls) do
