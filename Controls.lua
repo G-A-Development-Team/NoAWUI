@@ -417,7 +417,7 @@ function CreatePictureListBox(properties)
             height = 200,
             background = "50,50,50,255",
             roundness = "6,0,0,6,6",
-            scrollheight = 20,
+            scrollheight = 21,
         })
     }
 
