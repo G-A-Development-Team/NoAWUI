@@ -5,12 +5,16 @@ RunScript("WinForm/Renderer.lua")
 RunScript("WinForm/Controls.lua")
 
 local design = file.Open("WinForm/form1.design.txt", "r");
+local design_inspect = file.Open("WinForm/inspect.design.txt", "r");
 
 local designCode = file.Open("WinForm/form1.code.lua", "r");
 RunScript("WinForm/form1.code.lua")
 
 local designText = design:Read();
 design:Close();
+
+local inspectText = design_inspect:Read();
+design_inspect:Close();
 
 local designCodeText = designCode:Read();
 designCode:Close();
@@ -20,87 +24,94 @@ designCode:Close();
 
 -- Clean the json of comments
 designText = cleanJsonComments(designText)
+inspectText = cleanJsonComments(inspectText)
 
 -- Get the Elements from json
 local jsonElements = json.decode(designText)
+local jsonElements_inspect = json.decode(inspectText)
 
 local controls = {}
 
 -- Grab an element from the json
-for _, jElement in ipairs(jsonElements) do
+local function LoadJsonElements(jElements)
+    for _, jElement in ipairs(jElements) do
 	
-	-- Get the attributes from the element
-	local attributes = getDefaultAtts(jElement)
-	
-	print (jElement['details']['type'])
-	
-	-- Get the type and add the component
-	switch(jElement['details']['type']:lower())
-        .case("panel", function() 
-            local made = CreatePanel(attributes)
+        -- Get the attributes from the element
+        local attributes = getDefaultAtts(jElement)
+        
+        print (jElement['details']['type'])
+        
+        -- Get the type and add the component
+        switch(jElement['details']['type']:lower())
+            .case("panel", function() 
+                local made = CreatePanel(attributes)
+                    for _, control in ipairs(controls) do
+                        if made.Parent ~= "" then
+                            addComponent(made, control)
+                        end
+                    end
+                end)
+            .case("flowlayout", function() 
+                local made = CreateFlowLayout(attributes)
                 for _, control in ipairs(controls) do
                     if made.Parent ~= "" then
                         addComponent(made, control)
                     end
                 end
             end)
-		.case("flowlayout", function() 
-			local made = CreateFlowLayout(attributes)
-			for _, control in ipairs(controls) do
-				if made.Parent ~= "" then
-					addComponent(made, control)
-				end
-			end
-		end)
-		.case("picturebox", function() 
-			local made = CreatePictureBox(attributes)
-			for _, control in ipairs(controls) do
-				if made.Parent ~= "" then
-					addComponent(made, control)
-				end
-			end
-		end)
-		.case("mlbutton", function() 
-			local made = CreateMusicLinkButton(attributes)
-			for _, control in ipairs(controls) do
-				if made.Parent ~= "" then
-					addComponent(made, control)
-				end
-			end
-		end)
-		.case("checkbox", function() 
-			local made = CreateCheckbox(attributes)
-			for _, control in ipairs(controls) do
-				if made.Parent ~= "" then
-					addComponent(made, control)
-				end
-			end
-		end)						
-		.case("button", function() 
-			local made = CreateButton(attributes)
-			for _, control in ipairs(controls) do
-				if made.Parent ~= "" then
-					addComponent(made, control)
-				end
-			end
-		end)
-		.case("label", function() 
-			local made = CreateLabel(attributes)
-			for _, control in ipairs(controls) do
-				if made.Parent ~= "" then
-					addComponent(made, control)
-				end
-			end
-		end)
-		.case("form", function() 
-			controls[#controls +1] = CreateForm(attributes)
-		end)
-		.case("awtab", function() 
-			controls[#controls +1] = CreateAWTab(attributes)
-		end)
-		.default(function() print("Type not found.") end)
-	.process()
+            .case("picturebox", function() 
+                local made = CreatePictureBox(attributes)
+                for _, control in ipairs(controls) do
+                    if made.Parent ~= "" then
+                        addComponent(made, control)
+                    end
+                end
+            end)
+            .case("mlbutton", function() 
+                local made = CreateMusicLinkButton(attributes)
+                for _, control in ipairs(controls) do
+                    if made.Parent ~= "" then
+                        addComponent(made, control)
+                    end
+                end
+            end)
+            .case("checkbox", function() 
+                local made = CreateCheckbox(attributes)
+                for _, control in ipairs(controls) do
+                    if made.Parent ~= "" then
+                        addComponent(made, control)
+                    end
+                end
+            end)						
+            .case("button", function() 
+                local made = CreateButton(attributes)
+                for _, control in ipairs(controls) do
+                    if made.Parent ~= "" then
+                        addComponent(made, control)
+                    end
+                end
+            end)
+            .case("label", function() 
+                local made = CreateLabel(attributes)
+                for _, control in ipairs(controls) do
+                    if made.Parent ~= "" then
+                        addComponent(made, control)
+                    end
+                end
+            end)
+            .case("form", function() 
+                controls[#controls +1] = CreateForm(attributes)
+            end)
+            .case("awtab", function() 
+                controls[#controls +1] = CreateAWTab(attributes)
+            end)
+            .default(function() print("Type not found.") end)
+        .process()
+    end
 end
+
+LoadJsonElements(jsonElements)
+LoadJsonElements(jsonElements_inspect)
 
 
 function getControlByName(form, name)
