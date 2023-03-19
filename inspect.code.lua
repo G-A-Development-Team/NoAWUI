@@ -30,7 +30,7 @@ function printChildren(node, indent, sender, comLabel)
                 x = 2,
                 y = 2,
                 color = "255,255,255,255",
-                text = child.Name,
+                text = string.rep("   ", indent) ..  " - " .. child.Name,
             })
         }
         --print(string.rep(" ", indent) .. child.Name)
