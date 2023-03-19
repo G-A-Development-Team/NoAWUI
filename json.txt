@@ -3,7 +3,7 @@
 	{
 		"details": {
 			"type": "panel",
-			"name": "tester",
+			"name": "flowlayout_panel_",
 			"parent": "Tab2_flowlayout",
             "group": "Navigation_Tab2"
 		},
@@ -30,8 +30,8 @@
 	{
 		"details": {
 			"type": "checkbox",
-			"name": "flowlayout_child1_checkId",
-			"parent": "tester",
+			"name": "flowlayout_child1_check_",
+			"parent": "flowlayout_panel_",
             "group": "Navigation_Tab2"
 		},
 		"dimensions": {
@@ -58,8 +58,8 @@
 	{
 		"details": {
 			"type": "picturebox",
-			"name": "flowlayout_child1_avatarId",
-			"parent": "tester",
+			"name": "flowlayout_child1_avatar_",
+			"parent": "flowlayout_panel_",
             "group": "Navigation_Tab2"
 		},
 		"dimensions": {
@@ -84,8 +84,8 @@
 	{
 		"details": {
 			"type": "picturebox",
-			"name": "flowlayout_child1_kitId",
-			"parent": "tester",
+			"name": "flowlayout_child1_kit_",
+			"parent": "flowlayout_panel_",
             "group": "Navigation_Tab2"
 		},
 		"dimensions": {
@@ -110,8 +110,8 @@
 	{
 		"details": {
 			"type": "label",
-			"name": "flowlayout_child1_nameId",
-			"parent": "tester",
+			"name": "flowlayout_child1_name_",
+			"parent": "flowlayout_panel_",
             "group": "Navigation_Tab2"
 		},
 		"dimensions": {
@@ -135,8 +135,8 @@
 	{
 		"details": {
 			"type": "label",
-			"name": "flowlayout_child1_kitnameId",
-			"parent": "tester",
+			"name": "flowlayout_child1_kitname_",
+			"parent": "flowlayout_panel_",
             "group": "Navigation_Tab2"
 		},
 		"dimensions": {

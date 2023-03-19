@@ -940,24 +940,22 @@ function CreatePictureBox(properties)
 				switch(imgtype:lower())
 					.case("jpg", function() 
 						
-						http.Get(src, function (jpgData)
+						local jpgData = http.Get(src)
 							local imgRGBA, imgWidth, imgHeight = common.DecodeJPEG(jpgData);
 							Control.BackgroundImage = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
-						end)
+						
 						
 					end)
 					.case("png", function() 
-						http.Get(src, function (pngData)
+						local pngData = http.Get(src)
 							local imgRGBA, imgWidth, imgHeight = common.DecodePNG(pngData);
 							Control.BackgroundImage = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
-						end);
 						
 					end)
 					.case("svg", function() 
-						http.Get(src, function (svgData)
+						local svgData = http.Get(src)
 							local imgRGBA, imgWidth, imgHeight = common.RasterizeSVG(svgData);
 							Control.BackgroundImage =  draw.CreateTexture(imgRGBA, imgWidth, imgHeight);			
-						end);
 					end)
 					.default(function() print("Attribute not found. key=" .. key) end)
 					.process()
