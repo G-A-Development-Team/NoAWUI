@@ -7,6 +7,20 @@ function Inspect:Initialize()
 
 end
 
+function Inspect:Scroll(t)
+    print(t)
+end
+
+function Inspect:Hover()
+    local Main = getControlByName("Inspect", "Inspect_flowlayout")
+    Main.Scroll = false
+end
+
+function Inspect:Outside()
+    local Main = getControlByName("Inspect", "Inspect_flowlayout")
+    Main.Scroll = true
+end
+
 function Inspect:ShowElement(args)
     local Main = getControlByName("Inspect", "Inspect_flowlayout")
     for i, child in ipairs(Main.Children) do
@@ -38,6 +52,8 @@ function Inspect:ShowElement(args)
         height = 195, -- set height to height of each child panel
         background = "100,100,100,255",
         border = "50,50,50,150",
+        mousehover = "Inspect:Hover()",
+        mouseoutside = "Inspect:Outside()"
     })
     
     for k, v in pairs(senderM) do
@@ -85,7 +101,7 @@ function printChildren(node, indent, sender, comLabel)
             y = 0,
             width = 766,
             height = 20, -- set height to height of each child panel
-            background = "1,1,1,1",
+            background = "20,20,20,255",
             border = "50,50,50,150",
             mouseclick = "Inspect:ShowElement('" .. child.Name .. "," .. "panel" .. identifier .. "')"
         })

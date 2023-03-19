@@ -471,6 +471,7 @@ function CreateFlowLayout(properties)
     Control.ScrollHeight = 20
     Control.ScrollLength = 0
     Control.MaxScrollLength = 0
+    Control.Scroll = true
     for key, value in pairs(properties) do
 		value = tostring(value)
             switch(key:lower())
@@ -485,6 +486,10 @@ function CreateFlowLayout(properties)
             .case("drag", function() Control.Drag = value end)
             .case("scrollheight", function() Control.ScrollHeight = value end)
             .case("mouseclick", function() Control.MouseClick = value end)
+            .case("mousescroll", function() Control.MouseScroll = value end)
+            .case("mousehover", function() Control.MouseHover = value end)
+            .case("mouseoutside", function() Control.MouseOutside = value end)
+            .case("scroll", function() Control.Scroll = value end)
             .case("image", function() 
                 local args = split(value, ",")
                 local type = args[1]
@@ -588,7 +593,10 @@ function CreateFlowLayout(properties)
             end
         end
 
-        if input.GetMouseWheelDelta() ~= 0 and isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height) then
+        if input.GetMouseWheelDelta() ~= 0 and isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height) and properties.Scroll then
+            if properties.MouseScroll ~= nil then
+                gui.Command('lua.run "' .. properties.MouseScroll .. '" ')
+            end
             if input.GetMouseWheelDelta() == -1 then
                 local future = properties.ScrollLength - properties.ScrollHeight
                 print(future, properties.MaxScrollLength)
@@ -625,6 +633,19 @@ function CreateFlowLayout(properties)
         --Renderer:FilledRectangle({properties.X + form.X, properties.Y + form.Y}, {5, properties.Height}, {255,255,255,255})
         --Renderer:FilledRectangle({properties.X + form.X + 1, properties.Y + form.Y + 1}, {3, properties.Height * (properties.Height / math.abs(properties.MaxScrollLength))}, {0,0,0,255})
         --print(properties.MaxScrollLength)
+
+        if properties.MouseHover ~= nil then
+            if isMouseInRect(properties.X  + form.X, properties.Y + form.Y, properties.Width, properties.Height) then
+                gui.Command('lua.run "' .. properties.MouseHover .. '" ')
+            end
+        end
+
+        if properties.MouseOutside ~= nil then
+            if isMouseInRect(properties.X  + form.X, properties.Y + form.Y, properties.Width, properties.Height) then
+            else
+                gui.Command('lua.run "' .. properties.MouseOutside .. '" ')
+            end
+        end
 
         if properties.Drag then
             --print(globaldragging)
