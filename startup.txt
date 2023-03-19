@@ -1,7 +1,8 @@
 {
     {
         "Json": "WinForm/form1.design.txt",
-        "Lua": "WinForm/form1.code.lua"
+        "Lua": "WinForm/form1.code.lua",
+        "LuaInit": "Form:Initialize()"
     },
     {
         "Json": "WinForm/inspect.design.txt"

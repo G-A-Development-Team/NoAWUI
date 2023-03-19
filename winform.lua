@@ -150,14 +150,10 @@ end
 -- Set the json files to an array
 local Jstartup = file.Open("WinForm/startup.txt", "r");
 local JstartupText = Jstartup:Read();
-
 local json_files = json.decode(JstartupText)
 
 -- This is used to load all of the control data from json files
 for _, element in ipairs(json_files) do
-    if element.Lua ~= nil then
-        RunScript(element.Lua)
-    end
     if element.Json ~= nil then
             -- Open the file
         local jFile = file.Open(element.Json, "r");
@@ -177,10 +173,13 @@ for _, element in ipairs(json_files) do
         -- Load the json data into script
         LoadJsonElements(jElement)
     end
+    if element.Lua ~= nil then
+        RunScript(element.Lua)
+        if element.LuaInit ~= nil then
+            gui.Command('lua.run "' .. element.LuaInit .. '" ') 
+        end
+    end
 end
-
-Form:Initialize()
-
 
 callbacks.Register("Draw", "Render", function()
     if input.IsButtonDown(1) then
