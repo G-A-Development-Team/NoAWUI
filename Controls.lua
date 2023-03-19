@@ -44,6 +44,7 @@ function CreateControl()
 
         Visible = true,
         Active = false,
+        Selected = false,
         BackgroundImage = nil,
         CreatedBackgroundImage = false,
 
@@ -243,36 +244,40 @@ function CreateForm(properties)
         if properties.Drag or properties.DragNow then
             --print(globaldragging)
             if isMouseInRect(properties.X, properties.Y, properties.Width, properties.Height) or properties.DragNow then
-                if true then
-                    if input.IsButtonDown(1) then
-                        
-                        local mouseX, mouseY = input.GetMousePos();
-                        if not properties.isDragging then
-                            -- start dragging
-                            properties.isDragging = true
-                            properties.dragOffsetX = mouseX - properties.X
-                            properties.dragOffsetY = mouseY - properties.Y
-         
-                        else
-                            local dx, dy = mouseX - properties.lastMouseX, mouseY - properties.lastMouseY
-                            local distance = math.sqrt(dx * dx + dy * dy)
-            
-                            if distance > properties.MAX_DRAG_DISTANCE then
-                                dx, dy = dx / distance * properties.MAX_DRAG_DISTANCE, dy / distance * properties.MAX_DRAG_DISTANCE
+                if not getSelected() or properties.Selected then
+                    if true then
+                        if input.IsButtonDown(1) then
+                            
+                            local mouseX, mouseY = input.GetMousePos();
+                            if not properties.isDragging then
+                                -- start dragging
+                                properties.isDragging = true
+                                properties.dragOffsetX = mouseX - properties.X
+                                properties.dragOffsetY = mouseY - properties.Y
+             
+                            else
+                                local dx, dy = mouseX - properties.lastMouseX, mouseY - properties.lastMouseY
+                                local distance = math.sqrt(dx * dx + dy * dy)
+                
+                                if distance > properties.MAX_DRAG_DISTANCE then
+                                    dx, dy = dx / distance * properties.MAX_DRAG_DISTANCE, dy / distance * properties.MAX_DRAG_DISTANCE
+                                end
+                                -- update window position
+                                properties.X = mouseX - properties.dragOffsetX + dx
+                                properties.Y = mouseY - properties.dragOffsetY + dy
                             end
-                            -- update window position
-                            properties.X = mouseX - properties.dragOffsetX + dx
-                            properties.Y = mouseY - properties.dragOffsetY + dy
-                        end
-                        properties.lastMouseX = mouseX
-                        properties.lastMouseY = mouseY
-            
+                            properties.lastMouseX = mouseX
+                            properties.lastMouseY = mouseY
+                            properties.Selected = true
+                
+                        else
+                            -- stop dragging
+                            properties.Selected = false
+                            properties.isDragging = false
+                        end 
                     else
-                        -- stop dragging
-                        properties.isDragging = false
-                    end 
-                else
-                  
+                      
+                    end
                 end
             end
         end
@@ -286,6 +291,16 @@ end
 -- By: CarterPoe
 function CreatePictureListBox(properties)
     local Control = CreateControl()
+    Control.ActiveBackground = {240, 240, 240, 255}
+    Control.Background = {200, 200, 200, 255}
+    Control.Roundness = {6, 6, 6, 6, 6}
+    Control.Rounded = true
+    Control.Width = 350
+    Control.StartWidth = 350
+    Control.Height = 25
+    Control.StartHeight = 25
+    Control.BorderColor = {200, 200, 200, 255}
+
     for key, value in pairs(properties) do
 		value = tostring(value)
             switch(key:lower())
@@ -295,8 +310,8 @@ function CreatePictureListBox(properties)
             .case("type", function() Control.Type = value end)
             .case("x", function() Control.X = value Control.SetX = value end)
             .case("y", function() Control.Y = value Control.SetY = value end)
-            .case("width", function() Control.Width = value end)
-            .case("height", function() Control.Height = value end)
+            .case("width", function() Control.Width = value Control.StartWidth = value end)
+            .case("height", function() Control.Height = value Control.StartHeight = value  end)
             .case("dragparent", function() 
                 if value == "false" then
                     Control.DragParent = false
@@ -347,6 +362,21 @@ function CreatePictureListBox(properties)
                     Control.Background[4] = args[4]
                 end
             end)
+            .case("active", function() 
+                if string.find(value, "theme") then
+                    local r,g,b,a = gui.GetValue(value)
+                    Control.ActiveBackground[1] = r
+                    Control.ActiveBackground[2] = g
+                    Control.ActiveBackground[3] = b
+                    Control.ActiveBackground[4] = a
+                else
+                    local args = split(value, ",")
+                    Control.ActiveBackground[1] = args[1]
+                    Control.ActiveBackground[2] = args[2]
+                    Control.ActiveBackground[3] = args[3]
+                    Control.ActiveBackground[4] = args[4]
+                end
+            end)
             .case("border", function() 
                 if string.find(value, "theme") then
                     local r,g,b,a = gui.GetValue(value)
@@ -376,6 +406,20 @@ function CreatePictureListBox(properties)
         --end
     end
 
+    Control.Children = {
+        [1] = CreateFlowLayout({
+            type = "flowlayout",
+            name = tostring(math.random(1, 342)) .. Control.Name .. "flowlayout",
+            parent = Control.Name,
+            x = 1,
+            y = Control.StartHeight,
+            width = Control.Width - 2,
+            Height = 200,
+            background = "50,50,50,255",
+            roundness = "6,0,0,6,6"
+        })
+    }
+
     Control.Render = function(properties, form)
         if not properties.Visible or not form.Visible then
             return properties
@@ -387,8 +431,12 @@ function CreatePictureListBox(properties)
         end
 
         Renderer:ShadowRectangle({properties.X + form.X, properties.Y + form.Y}, {properties.Width, properties.Height}, {0,0,0,40}, 25)
-        if properties.Rounded then
-            Renderer:FilledRoundedRectangle({properties.X + form.X, properties.Y + form.Y}, {properties.Width, properties.Height}, properties.Background, properties.Roundness)
+        if properties.Rounded then            
+            if not properties.Selected and isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height) or properties.Active then
+                Renderer:FilledRoundedRectangle({properties.X + form.X, properties.Y + form.Y}, {properties.Width, properties.Height}, properties.ActiveBackground, properties.Roundness)
+            else
+                Renderer:FilledRoundedRectangle({properties.X + form.X, properties.Y + form.Y}, {properties.Width, properties.Height}, properties.Background, properties.Roundness)
+            end
             Renderer:OutlinedRoundedRectangle({properties.X + form.X, properties.Y + form.Y}, {properties.Width, properties.Height}, properties.BorderColor, properties.Roundness)
         else
             if properties.BackgroundImage ~= nil then
@@ -399,13 +447,21 @@ function CreatePictureListBox(properties)
             Renderer:OutlinedRectangle({properties.X + form.X, properties.Y + form.Y}, {properties.Width, properties.Height}, properties.BorderColor)
         end
 
-        if properties.MouseClick ~= nil then
-            --print(control.MouseDown) 
-            if input.IsButtonReleased(1) then
-                if isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height) then
-                    gui.Command('lua.run "' .. properties.MouseClick .. '" ')
-                end
+        Renderer:Scissor({properties.X + form.X, properties.Y + form.Y}, {properties.Width, properties.Height});
+
+
+        if input.IsButtonReleased(1) then
+            if isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height) then
+                properties.Selected = not properties.Selected
             end
+        end
+
+        if properties.Selected then
+            properties.Height = properties.Children[1].Height + properties.StartHeight + 1
+            properties.Children[1].Visible = true
+        else
+            properties.Height = properties.StartHeight
+            properties.Children[1].Visible = false
         end
 
         for _, control in ipairs(properties.Children) do
@@ -465,6 +521,9 @@ function CreatePictureListBox(properties)
                 end
             end
         end
+
+        local w, h = draw.GetScreenSize()
+        Renderer:Scissor({0, 0}, {w, h});
 
         return properties
     end
@@ -594,7 +653,9 @@ function CreatePanel(properties)
             --print(control.MouseDown) 
             if input.IsButtonReleased(1) then
                 if isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height) then
-                    gui.Command('lua.run "' .. properties.MouseClick .. '" ')
+                    if not getSelected() then
+                        gui.Command('lua.run "' .. properties.MouseClick .. '" ') 
+                    end
                 end
             end
         end
@@ -611,10 +672,12 @@ function CreatePanel(properties)
         if properties.DragParent ~= nil then
             if properties.DragParent then
                 if isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height) then
-                    if input.IsButtonDown(1) then
-                        form.ForceDrag = true
-                    else
-                        form.ForceDrag = false
+                    if not getSelected() then
+                        if input.IsButtonDown(1) then
+                            form.ForceDrag = true
+                        else
+                            form.ForceDrag = false
+                        end
                     end
                 end 
             end
@@ -623,36 +686,38 @@ function CreatePanel(properties)
         if properties.Drag then
             --print(globaldragging)
             if isMouseInRect(properties.X, properties.Y, properties.Width, properties.Height) then
-                if true then
-                    if input.IsButtonDown(1) then
-
-                        local mouseX, mouseY = input.GetMousePos();
-                        if not properties.isDragging then
-                            -- start dragging
-                            properties.isDragging = true
-                            properties.dragOffsetX = mouseX - properties.X
-                            properties.dragOffsetY = mouseY - properties.Y
-
-                        else
-                            local dx, dy = mouseX - properties.lastMouseX, mouseY - properties.lastMouseY
-                            local distance = math.sqrt(dx * dx + dy * dy)
-
-                            if distance > properties.MAX_DRAG_DISTANCE then
-                                dx, dy = dx / distance * properties.MAX_DRAG_DISTANCE, dy / distance * properties.MAX_DRAG_DISTANCE
+                if not getSelected() then
+                    if true then
+                        if input.IsButtonDown(1) then
+    
+                            local mouseX, mouseY = input.GetMousePos();
+                            if not properties.isDragging then
+                                -- start dragging
+                                properties.isDragging = true
+                                properties.dragOffsetX = mouseX - properties.X
+                                properties.dragOffsetY = mouseY - properties.Y
+    
+                            else
+                                local dx, dy = mouseX - properties.lastMouseX, mouseY - properties.lastMouseY
+                                local distance = math.sqrt(dx * dx + dy * dy)
+    
+                                if distance > properties.MAX_DRAG_DISTANCE then
+                                    dx, dy = dx / distance * properties.MAX_DRAG_DISTANCE, dy / distance * properties.MAX_DRAG_DISTANCE
+                                end
+                                -- update window position
+                                properties.X = mouseX - properties.dragOffsetX + dx
+                                properties.Y = mouseY - properties.dragOffsetY + dy
                             end
-                            -- update window position
-                            properties.X = mouseX - properties.dragOffsetX + dx
-                            properties.Y = mouseY - properties.dragOffsetY + dy
+                            properties.lastMouseX = mouseX
+                            properties.lastMouseY = mouseY
+    
+                        else
+                            -- stop dragging
+                            properties.isDragging = false
                         end
-                        properties.lastMouseX = mouseX
-                        properties.lastMouseY = mouseY
-
                     else
-                        -- stop dragging
-                        properties.isDragging = false
+    
                     end
-                else
-
                 end
             end
         end
@@ -1020,14 +1085,16 @@ function CreateButton(properties)
             --print(control.MouseDown) 
             if input.IsButtonReleased(1) then
                 if isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height) then
-                    gui.Command('lua.run "' .. properties.MouseClick .. '" ') 
+                    if not getSelected() then
+                        gui.Command('lua.run "' .. properties.MouseClick .. '" ') 
+                    end
                 end
             end
         end
         
 
         if isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height) then
-            if input.IsButtonDown(1) then
+            if input.IsButtonDown(1) and not getSelected() then
                 drawing.background(properties.ActiveBackground)
             else
                 drawing.background({properties.ActiveBackground[1], properties.ActiveBackground[2], properties.ActiveBackground[3], 100})
@@ -1115,7 +1182,9 @@ function CreateLabel(properties)
                 properties.Height = Th
 
                 if isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height) then
-                    gui.Command('lua.run "' .. properties.MouseClick .. '" ')
+                    if not getSelected() then
+                        gui.Command('lua.run "' .. properties.MouseClick .. '" ') 
+                    end
                 end
             end
         end
@@ -1398,9 +1467,11 @@ function CreateMusicLinkButton(properties)
             --print(control.MouseDown) 
             if input.IsButtonReleased(1) then
                 if isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height) then
-                    panorama.RunScript([[
-											SteamOverlayAPI.OpenURL("]] .. properties.URL .. [[")
-    								   ]])
+                    if not getSelected() then
+                        panorama.RunScript([[
+                            SteamOverlayAPI.OpenURL("]] .. properties.URL .. [[")
+                       ]]) 
+                    end
                 end
             end
         end

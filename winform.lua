@@ -132,6 +132,28 @@ function getControl(name)
     return nil
 end
 
+function getSelected()
+    for _, main in ipairs(controls) do
+        local function findControl(control)
+            if control.Selected then
+                return true
+            else
+                for _, child in ipairs(control.Children or {}) do
+                    local result = findControl(child)
+                    if result then
+                        return result
+                    end
+                end
+            end
+        end
+        local result = findControl(main)
+        if result then
+            return result
+        end
+    end
+    return false
+end
+
 function getParentControl(control)
     return getControl(control.Parent)
 end
@@ -214,6 +236,7 @@ for _, element in ipairs(json_files) do
 end
 
 callbacks.Register("Draw", "Render", function()
+    print(tostring(getSelected()))
     if input.IsButtonDown(1) then
         globaldragging = true
     end
