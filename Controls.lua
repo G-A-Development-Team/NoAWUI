@@ -160,9 +160,9 @@ function CreateForm(properties)
             .case("background", function() 
                 if string.find(value, "theme") then
                     local r,g,b,a = gui.GetValue(value)
-                    Control.Background[1] = r
-                    Control.Background[2] = g
-                    Control.Background[3] = b
+                    Control.Background[1] = r + 25
+                    Control.Background[2] = g+ 25
+                    Control.Background[3] = b+ 25
                     Control.Background[4] = a
                 else
                     local args = split(value, ",")
@@ -217,6 +217,7 @@ function CreateForm(properties)
         Renderer:ShadowRectangle({properties.X, properties.Y}, {properties.Width, properties.Height}, {0,0,0,70}, 25)
 
         if properties.Rounded then
+            
             Renderer:FilledRoundedRectangle({properties.X, properties.Y}, {properties.Width, properties.Height}, properties.Background, properties.Roundness)
             Renderer:OutlinedRoundedRectangle({properties.X, properties.Y}, {properties.Width, properties.Height}, properties.BorderColor, properties.Roundness)
         else
@@ -695,8 +696,8 @@ function CreateButton(properties)
             .case("width", function() Control.Width = value end)
             .case("height", function() Control.Height = value end)
             .case("fontfamily", function() Control.FontFamily = value end)
-            .case("fontheight", function() Control.FontHeight = value end)
-            .case("fontweight", function() Control.FontWeight = value end)
+            .case("fontheight", function() Control.FontHeight = tonumber(value) end)
+            .case("fontweight", function() Control.FontWeight = tonumber(value) end)
             .case("mouseclick", function() Control.MouseClick = value end)
             .case("text", function() 
                 if string.find(value, "_") then
