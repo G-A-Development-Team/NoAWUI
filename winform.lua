@@ -4,31 +4,38 @@ RunScript("WinForm/Misc.lua")
 RunScript("WinForm/Renderer.lua")
 RunScript("WinForm/Controls.lua")
 
-local design = file.Open("WinForm/form1.design.txt", "r");
-local design_inspect = file.Open("WinForm/inspect.design.txt", "r");
+-- Set the json files to an array
+local json_files = {}
+	table.insert("WinForm/form1.design.txt")
+	table.insert("WinForm/inspect.design.txt")
+-- Json file paths
+
 
 local designCode = file.Open("WinForm/form1.code.lua", "r");
 RunScript("WinForm/form1.code.lua")
 
-local designText = design:Read();
-design:Close();
-
-local inspectText = design_inspect:Read();
-design_inspect:Close();
-
-local designCodeText = designCode:Read();
-designCode:Close();
 
 
+for _, jPath in ipairs(json_files) do
 
-
--- Clean the json of comments
-designText = cleanJsonComments(designText)
-inspectText = cleanJsonComments(inspectText)
-
--- Get the Elements from json
-local jsonElements = json.decode(designText)
-local jsonElements_inspect = json.decode(inspectText)
+	-- Open the file
+	local jFile = file.Open(jPath, "r");
+	
+	-- Read the file and set to var
+	local jText = jFile:Read();
+	
+	-- Close the file
+	jFile:Close();
+	
+	-- Clean the json of comments
+	jCleanText = cleanJsonComments(jText)
+	
+	-- Create json object from text
+	local jElement = json.decode(jCleanText)
+	
+	-- Load the json data into script
+	LoadJsonElements(jElement)
+end
 
 local controls = {}
 
@@ -110,8 +117,7 @@ local function LoadJsonElements(jElements)
     end
 end
 
-LoadJsonElements(jsonElements)
-LoadJsonElements(jsonElements_inspect)
+
 
 
 function getControlByName(form, name)
