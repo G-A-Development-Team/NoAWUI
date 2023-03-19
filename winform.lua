@@ -14,29 +14,6 @@ local json_files = {}
 local designCode = file.Open("WinForm/form1.code.lua", "r");
 RunScript("WinForm/form1.code.lua")
 
-
-
-for _, jPath in ipairs(json_files) do
-
-	-- Open the file
-	local jFile = file.Open(jPath, "r");
-	
-	-- Read the file and set to var
-	local jText = jFile:Read();
-	
-	-- Close the file
-	jFile:Close();
-	
-	-- Clean the json of comments
-	jCleanText = cleanJsonComments(jText)
-	
-	-- Create json object from text
-	local jElement = json.decode(jCleanText)
-	
-	-- Load the json data into script
-	LoadJsonElements(jElement)
-end
-
 local controls = {}
 
 -- Grab an element from the json
@@ -117,7 +94,27 @@ local function LoadJsonElements(jElements)
     end
 end
 
+-- This is used to load all of the control data from json files
+for _, jPath in ipairs(json_files) do
 
+	-- Open the file
+	local jFile = file.Open(jPath, "r");
+	
+	-- Read the file and set to var
+	local jText = jFile:Read();
+	
+	-- Close the file
+	jFile:Close();
+	
+	-- Clean the json of comments
+	jCleanText = cleanJsonComments(jText)
+	
+	-- Create json object from text
+	local jElement = json.decode(jCleanText)
+	
+	-- Load the json data into script
+	LoadJsonElements(jElement)
+end
 
 
 function getControlByName(form, name)
