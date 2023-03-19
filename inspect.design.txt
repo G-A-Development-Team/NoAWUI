@@ -1,0 +1,80 @@
+{
+* Form Inspect
+	{
+		"details": {
+			"type": "form",
+			"name": "Inspect"
+		},
+		"dimensions": {
+			"x": 100,
+			"y": 100,
+			"width": 800,
+			"height": 600,
+            "roundness": "10,0,0,10,10"
+		},
+		"optional": {
+			"style": {
+				"background": "30,30,30,255",
+				"border": "80,80,80,255",
+                "visible": false
+			},
+			"function": {
+                "toggle": 112
+			},
+			"other": {
+			}
+			
+		}
+	},
+* Inspect - TitleBar
+	{
+		"details": {
+			"type": "panel",
+			"name": "Inspect_TitleBar",
+			"parent": "Inspect"
+		},
+		"dimensions": {
+			"x": 0,
+			"y": -25,
+			"width": 180,
+			"height": 25,
+            "roundness": "4,4,4,0,0"
+		},
+		"optional": {
+			"style": {
+				"background": "0,0,0,255",
+				"border": "80,80,80,255"
+			},
+			"function": {
+				"dragparent": true
+			},
+			"other": {
+				"image": "jpg,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/1326583.jpg"
+			}
+			
+		}
+	},
+* Inspect - TitleBar -> Title
+	{
+		"details": {
+			"type": "label",
+			"name": "Inspect_Title",
+			"parent": "Inspect_TitleBar"
+		},
+		"dimensions": {
+			"x": 15,
+			"y": 6,
+		},
+		"optional": {
+			"style": {
+				"color": "theme.header.text",
+			},
+			"function": {
+			},
+			"other": {
+				"text": "Inspect Elements"
+			}
+			
+		}
+	}
+}

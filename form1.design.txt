@@ -1,32 +1,4 @@
 { 
-* Form Inspect
-	{
-		"details": {
-			"type": "form",
-			"name": "Inspect"
-		},
-		"dimensions": {
-			"x": 0,
-			"y": 0,
-			"width": 800,
-			"height": 600
-		},
-		"optional": {
-			"style": {
-				"background": "theme.ui2.lowpoly1",
-				"border": "theme.ui2.border",
-                "visible": false
-			},
-			"function": {
-				"drag": true,
-                "toggle": 112
-			},
-			"other": {
-				"image": "jpg,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/1326583.jpg"
-			}
-			
-		}
-	},
 * Form
 	{
 		"details": {
