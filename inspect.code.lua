@@ -33,7 +33,7 @@ function printChildren(node, indent, sender, comLabel)
                 text = child.Name,
             })
         }
-        print(string.rep(" ", indent) .. child.Name)
+        --print(string.rep(" ", indent) .. child.Name)
         sender.Children[#sender.Children+1] = panel
         comCount = comCount + 1
         comLabel.Text = tostring(comCount)
