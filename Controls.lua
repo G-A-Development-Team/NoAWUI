@@ -123,7 +123,13 @@ function CreateForm(properties)
                     Control.Visible = true
                 end
             end)
-            .case("toggle", function() Control.Toggle = tonumber(value) end)
+            .case("toggle", function() 
+                Control.Toggle = tonumber(value) 
+                Control.dummywindow = gui.Window("dummywindow", "", 0, 0, 0, 0)
+                Control.dummywindow:SetPosX(-10)
+                Control.dummywindow:SetPosY(-10)
+                Control.dummywindow:SetOpenKey(tonumber(value))
+            end)
             .case("image", function() 
                 local args = split(value, ",")
                 local type = args[1]
@@ -201,6 +207,7 @@ function CreateForm(properties)
             if input.IsButtonPressed(properties.Toggle) then
                 properties.Visible = not properties.Visible
             end
+            properties.dummywindow:SetActive(properties.Visible)
         end
 
         if not properties.Visible then
