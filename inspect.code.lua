@@ -47,9 +47,9 @@ function Inspect:ShowElement(args)
         name = "flowlayout_darkside",
         parent = sender.Name,
         x = 2,
-        y = 2,
+        y = 20,
         width = 761,
-        height = 195, -- set height to height of each child panel
+        height = 175, -- set height to height of each child panel
         background = "100,100,100,255",
         border = "50,50,50,150",
         mousehover = "Inspect:Hover()",
