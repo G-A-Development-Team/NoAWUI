@@ -634,7 +634,9 @@ function CreateFlowLayout(properties)
             end
         end
         
-        properties.MaxScrollLength = -total
+        if properties.MaxScrollLength == 0 then
+            properties.MaxScrollLength = -total
+        end
 
         --Renderer:FilledRectangle({properties.X + form.X, properties.Y + form.Y}, {5, properties.Height}, {255,255,255,255})
         --Renderer:FilledRectangle({properties.X + form.X + 1, properties.Y + form.Y + 1}, {3, properties.Height * (properties.Height / math.abs(properties.MaxScrollLength))}, {0,0,0,255})
