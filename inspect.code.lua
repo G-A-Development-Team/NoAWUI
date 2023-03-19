@@ -7,6 +7,30 @@ function Inspect:Initialize()
 
 end
 
+function Inspect:ShowElement(args)
+    local Main = getControlByName("Inspect", "Inspect_flowlayout")
+    for i, child in ipairs(Main.Children) do
+        if child.Height == 200 then
+            child.Height = 20
+            child.Background = {1,1,1,1}
+        end
+    end
+
+    local element = split(args, ",")[1]
+    local inspect = split(args, ",")[2]
+    local sender = getControlByName("Inspect", inspect)
+    local senderM = getControlByName("Main", element)
+    sender.Height = 200
+    sender.Background = {50,50,50,255}
+    
+    local s = ""
+    for k, v in pairs(senderM) do
+        s = s .. k .. "=" .. v .. "\n"
+    end
+    sender.Text = s
+
+end
+
 function printChildren(node, indent, sender, comLabel)
     indent = indent or 0
     for i, child in ipairs(node.Children) do
@@ -19,8 +43,9 @@ function printChildren(node, indent, sender, comLabel)
             y = 0,
             width = 766,
             height = 20, -- set height to height of each child panel
-            background = "0,0,0,0",
+            background = "1,1,1,1",
             border = "50,50,50,150",
+            mouseclick = "Inspect:ShowElement('" .. child.Name .. "," .. "panel" .. identifier .. "')"
         })
         panel.Children = {
             [1] = CreateLabel({
