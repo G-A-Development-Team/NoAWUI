@@ -236,7 +236,6 @@ for _, element in ipairs(json_files) do
 end
 
 callbacks.Register("Draw", "Render", function()
-    print(tostring(getSelected()))
     if input.IsButtonDown(1) then
         globaldragging = true
     end
