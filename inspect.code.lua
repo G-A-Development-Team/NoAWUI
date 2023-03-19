@@ -22,6 +22,12 @@ function Inspect:Outside()
 end
 
 function Inspect:ShowElement(args)
+    local element = split(args, ",")[1]
+    local inspect = split(args, ",")[2]
+    local sender = getControlByName("Inspect", inspect)
+    local senderM = getControlByName("Main", element)
+
+
     local Main = getControlByName("Inspect", "Inspect_flowlayout")
     for i, child in ipairs(Main.Children) do
         if child.Height == 200 then
@@ -35,10 +41,6 @@ function Inspect:ShowElement(args)
         end
     end
 
-    local element = split(args, ",")[1]
-    local inspect = split(args, ",")[2]
-    local sender = getControlByName("Inspect", inspect)
-    local senderM = getControlByName("Main", element)
 
     sender.Height = 200
     sender.Background = {50,50,50,255}
@@ -117,7 +119,7 @@ function printChildren(node, indent, sender, comLabel)
                 x = 2,
                 y = 2,
                 color = "255,255,255,255",
-                text = string.rep("   ", indent) ..  " - " .. child.Name,
+                text = string.rep("   ", indent) ..  " - " .. child.Name .. " [" .. child.Type .. "]",
             })
         }
         --print(string.rep(" ", indent) .. child.Name)
