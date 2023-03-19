@@ -475,7 +475,7 @@ function CreatePictureListBox(properties)
 
         if properties.DragParent ~= nil then
             if properties.DragParent then
-                if isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height) then
+                if isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height) and not getSelected() then
                     if input.IsButtonDown(1) then
                         form.ForceDrag = true
                     else
@@ -1596,7 +1596,7 @@ function CreateCheckbox(properties)
         if properties.MouseClick ~= nil then
             --print(control.MouseDown) 
             if input.IsButtonReleased(1) then
-                if isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width+properties.TextWidth, properties.Height) then
+                if isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width+properties.TextWidth, properties.Height) and not getSelected() then
 					if properties.CheckState then
 						properties.CheckState = false
 					else
@@ -1611,7 +1611,7 @@ function CreateCheckbox(properties)
             control.Render(control, properties)
         end
 		
-		if isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width+properties.TextWidth, properties.Height) then
+		if isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width+properties.TextWidth, properties.Height) and not getSelected() then
             local r,g,b,a = gui.GetValue("theme.nav.active")
 			properties.TextColor = { r, g, b, a }
         else
