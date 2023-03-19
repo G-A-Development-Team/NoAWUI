@@ -1,0 +1,9 @@
+{
+    {
+        "Json": "WinForm/form1.design.txt",
+        "Lua": "WinForm/form1.code.lua"
+    },
+    {
+        "Json": "WinForm/inspect.design.txt"
+    }
+}

@@ -4,17 +4,6 @@ RunScript("WinForm/Misc.lua")
 RunScript("WinForm/Renderer.lua")
 RunScript("WinForm/Controls.lua")
 
--- Set the json files to an array
-local json_files = {
-    [1] = {
-        Json = "WinForm/form1.design.txt",
-        Lua = "WinForm/form1.code.lua"
-    },
-    [2] = {
-        Json = "WinForm/inspect.design.txt"
-    }
-}
-
 local controls = {}
 
 -- Grab an element from the json
@@ -95,33 +84,6 @@ local function LoadJsonElements(jElements)
     end
 end
 
--- This is used to load all of the control data from json files
-for _, element in ipairs(json_files) do
-    if element.Lua ~= nil then
-        RunScript(element.Lua)
-    end
-    if element.Json ~= nil then
-            -- Open the file
-        local jFile = file.Open(element.Json, "r");
-        
-        -- Read the file and set to var
-        local jText = jFile:Read();
-        
-        -- Close the file
-        jFile:Close();
-        
-        -- Clean the json of comments
-        local jCleanText = cleanJsonComments(jText)
-        
-        -- Create json object from text
-        local jElement = json.decode(jCleanText)
-        
-        -- Load the json data into script
-        LoadJsonElements(jElement)
-    end
-end
-
-
 function getControlByName(form, name)
     for _, main in ipairs(controls) do
         if main.Name == form then
@@ -182,6 +144,38 @@ function updateControlByName(form, name, controle)
             end
             controls[_m] = main
         end
+    end
+end
+
+-- Set the json files to an array
+local Jstartup = file.Open("WinForm/startup.txt", "r");
+local JstartupText = Jstartup:Read();
+
+local json_files = json.decode(JstartupText)
+
+-- This is used to load all of the control data from json files
+for _, element in ipairs(json_files) do
+    if element.Lua ~= nil then
+        RunScript(element.Lua)
+    end
+    if element.Json ~= nil then
+            -- Open the file
+        local jFile = file.Open(element.Json, "r");
+        
+        -- Read the file and set to var
+        local jText = jFile:Read();
+        
+        -- Close the file
+        jFile:Close();
+        
+        -- Clean the json of comments
+        local jCleanText = cleanJsonComments(jText)
+        
+        -- Create json object from text
+        local jElement = json.decode(jCleanText)
+        
+        -- Load the json data into script
+        LoadJsonElements(jElement)
     end
 end
 
