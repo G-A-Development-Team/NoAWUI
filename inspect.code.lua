@@ -58,11 +58,14 @@ function Inspect:ShowElement(args)
         mouseoutside = "Inspect:Outside()"
     })
     
+    local nextcolor = "80,80,80,255"
     for k, v in pairs(senderM) do
         if v == nil then
             return
         end
-        if type(v) =="string" or type(v) == "number" or type(v) == "boolean" then
+
+
+        if true then
             local identifier = math.random(5184, 98974)
             local panel = CreatePanel({
                 type = "panel",
@@ -72,7 +75,7 @@ function Inspect:ShowElement(args)
                 y = 0,
                 width = 760,
                 height = 20, -- set height to height of each child panel
-                background = "1,1,1,1",
+                background = nextcolor,
                 border = "50,50,50,150",
                 --mouseclick = "Inspect:ShowElement('" .. child.Name .. "," .. "panel" .. identifier .. "')"
             })
@@ -87,6 +90,11 @@ function Inspect:ShowElement(args)
                     text = k .. " = " .. tostring(v),
                 })
             }
+            if nextcolor == "80,80,80,255" then
+                nextcolor = "100,100,100,255"
+            else
+                nextcolor = "80,80,80,255"
+            end
             flow.Children[#flow.Children+1] = panel
         end
     end
