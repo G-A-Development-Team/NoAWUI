@@ -1481,7 +1481,7 @@ function CreateMusicLinkButton(properties)
             control.Render(control, properties)
         end
 		
-		if isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height) then
+		if isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height) and not getSelected() then
             local r,g,b,a = gui.GetValue("theme.nav.active")
 			Control.ForeColor = { r, g, b, a }
         else
