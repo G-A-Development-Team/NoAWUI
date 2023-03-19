@@ -41,7 +41,6 @@ function Inspect:ShowElement(args)
         end
     end
 
-
     sender.Height = 200
     sender.Background = {50,50,50,255}
 
@@ -119,9 +118,19 @@ function printChildren(node, indent, sender, comLabel)
                 x = 2,
                 y = 2,
                 color = "255,255,255,255",
-                text = string.rep("   ", indent) ..  " - " .. child.Name .. " [" .. child.Type .. "]",
+                text = string.rep("   ", indent) ..  " - " .. child.Name,
             })
         }
+        local Tw, Th = draw.GetTextSize(panel.Children[1].Text);
+        table.insert(panel.Children, CreateLabel({
+            type = "label",
+            name = "label" .. identifier .. "type",
+            parent = "panel" .. identifier,
+            x = 2 + Tw,
+            y = 2,
+            color = "0, 102, 255,255",
+            text = " [" .. child.Type .. "]",
+        }))
         --print(string.rep(" ", indent) .. child.Name)
         sender.Children[#sender.Children+1] = panel
         comCount = comCount + 1
