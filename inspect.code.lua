@@ -1,5 +1,5 @@
 Inspect = {}
-local comCount = 0
+comCount = 0
 
 
 -- By: CarterPoe
@@ -130,6 +130,7 @@ function printChildren(node, indent, sender, comLabel)
             })
         }
         local Tw, Th = draw.GetTextSize(panel.Children[1].Text);
+        Tw = Tw + 15
         table.insert(panel.Children, CreateLabel({
             type = "label",
             name = "label" .. identifier .. "type",
@@ -160,6 +161,11 @@ function Inspect:Reload()
     --AddChildPanels(Main, sender, comLabel, 1)
     printChildren(Main, 0, sender, comLabel)
 
+end
+
+function Inspect:Load()
+    Inspect:Reload()
+    Inspect:Reload()
 end
 
 return Inspect

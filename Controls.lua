@@ -207,6 +207,7 @@ function CreateForm(properties)
 	
     Control.Render = function(properties)
         if properties.Toggle ~= nil then
+            
             if input.IsButtonPressed(properties.Toggle) then
                 properties.Visible = not properties.Visible
                 if properties.OnToggle ~= nil and properties.Visible then

@@ -20,7 +20,7 @@
 			},
 			"function": {
                 "toggle": 112,
-                "ontoggle": "Inspect:Reload()"
+                "ontoggle": "Inspect:Load()"
 			},
 			"other": {
 			}
