@@ -19,7 +19,8 @@
                 "visible": false
 			},
 			"function": {
-                "toggle": 112
+                "toggle": 112,
+                "ontoggle": "Inspect:Reload()"
 			},
 			"other": {
 			}
