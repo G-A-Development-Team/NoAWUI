@@ -105,6 +105,29 @@ function getControlByName(form, name)
     return nil
 end
 
+function getControl(name)
+    for _, main in ipairs(controls) do
+        local function findControl(control)
+            if control.Name == name then
+                return control
+            else
+                for _, child in ipairs(control.Children or {}) do
+                    local result = findControl(child)
+                    if result then
+                        return result
+                    end
+                end
+            end
+        end
+        return findControl(main)
+    end
+    return nil
+end
+
+function getParentControl(control)
+    return getControl(control.Parent)
+end
+
 function getFormByName(form)
     for _, main in ipairs(controls) do
         if main.Name == form then

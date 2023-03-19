@@ -625,7 +625,13 @@ function CreateFlowLayout(properties)
 
             total = total + control.Height + control.SetY
 
-            control.Render(control, properties)
+            local controlViewing = isRectInRect(control.X + properties.X, control.Y + properties.Y, control.Width, control.Height, properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height)
+            --local controlPartial = isRectInRectPartial(control.X + properties.X, control.Y + properties.Y, control.Width, control.Height, properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height)
+
+            if controlViewing then
+                control.Render(control, properties)
+            --elseif controlPartial then
+            end
         end
         
         properties.MaxScrollLength = -total

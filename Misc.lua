@@ -49,6 +49,65 @@ function switch(element)
     return Table
 end
 
+function isRectInRect(x1, y1, w1, h1, x2, y2, w2, h2)
+    x1 = tonumber(x1)
+    y1 = tonumber(y1)
+    w1 = tonumber(w1)
+    h1 = tonumber(h1)
+    x2 = tonumber(x2)
+    y2 = tonumber(y2)
+    w2 = tonumber(w2)
+    h2 = tonumber(h2)
+    -- Calculate the boundaries of the first rectangle
+    local left1 = x1
+    local right1 = x1 + w1
+    local top1 = y1
+    local bottom1 = y1 + h1
+    
+    -- Calculate the boundaries of the second rectangle
+    local left2 = x2
+    local right2 = x2 + w2
+    local top2 = y2
+    local bottom2 = y2 + h2
+    
+    -- Check if the first rectangle is fully contained within the second rectangle
+    if left1 >= left2 and right1 <= right2 and top1 >= top2 and bottom1 <= bottom2 then
+      return true
+    else
+      return false
+    end
+end
+
+function isRectInRectPartial(x1, y1, w1, h1, x2, y2, w2, h2)
+    x1 = tonumber(x1)
+    y1 = tonumber(y1)
+    w1 = tonumber(w1)
+    h1 = tonumber(h1)
+    x2 = tonumber(x2)
+    y2 = tonumber(y2)
+    w2 = tonumber(w2)
+    h2 = tonumber(h2)
+    -- Calculate the boundaries of the first rectangle
+    local left1 = x1
+    local right1 = x1 + w1
+    local top1 = y1
+    local bottom1 = y1 + h1
+    
+    -- Calculate the boundaries of the second rectangle
+    local left2 = x2
+    local right2 = x2 + w2
+    local top2 = y2
+    local bottom2 = y2 + h2
+    
+    -- Check if the two rectangles overlap at all
+    if left1 > right2 or right1 < left2 or top1 > bottom2 or bottom1 < top2 then
+        return false
+    else
+        return true
+    end
+end
+  
+
 function isMouseInRect(rectX, rectY, rectWidth, rectHeight)
     rectX = tonumber(rectX)
     rectY = tonumber(rectY)
@@ -62,6 +121,49 @@ function isMouseInRect(rectX, rectY, rectWidth, rectHeight)
         return false
     end
 end
+
+function set_scissor_rect(x1, y1, w1, h1, x2, y2, w2, h2)
+    x1 = tonumber(x1)
+    y1 = tonumber(y1)
+    w1 = tonumber(w1)
+    h1 = tonumber(h1)
+    x2 = tonumber(x2)
+    y2 = tonumber(y2)
+    w2 = tonumber(w2)
+    h2 = tonumber(h2)
+    -- Calculate the boundaries of the first rectangle
+    local left1 = x1
+    local right1 = x1 + w1
+    local top1 = y1
+    local bottom1 = y1 + h1
+    
+    -- Calculate the boundaries of the second rectangle
+    local left2 = x2
+    local right2 = x2 + w2
+    local top2 = y2
+    local bottom2 = y2 + h2
+    
+    -- Calculate the visible portion of the first rectangle
+    local scissor_left, scissor_top, scissor_width, scissor_height
+    if left1 < left2 then
+      scissor_left = left1
+      scissor_width = left2 - left1
+    else
+      scissor_left = left2 + w2
+      scissor_width = right1 - scissor_left
+    end
+    
+    if top1 < top2 then
+      scissor_top = top1
+      scissor_height = top2 - top1
+    else
+      scissor_top = top2 + h2
+      scissor_height = bottom1 - scissor_top
+    end
+    
+    -- Set the scissor rectangle to the non-visible portion of the rectangle
+    draw.SetScissorRect(scissor_left, scissor_top, scissor_width, scissor_height)
+  end
 
 function string.starts(String,Start)
     return string.sub(String,1,string.len(Start))==Start

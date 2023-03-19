@@ -39,6 +39,7 @@ function Inspect:ShowElement(args)
     local inspect = split(args, ",")[2]
     local sender = getControlByName("Inspect", inspect)
     local senderM = getControlByName("Main", element)
+
     sender.Height = 200
     sender.Background = {50,50,50,255}
 
@@ -49,7 +50,7 @@ function Inspect:ShowElement(args)
         x = 2,
         y = 20,
         width = 761,
-        height = 175, -- set height to height of each child panel
+        height = 180, -- set height to height of each child panel
         background = "100,100,100,255",
         border = "50,50,50,150",
         mousehover = "Inspect:Hover()",
@@ -57,6 +58,9 @@ function Inspect:ShowElement(args)
     })
     
     for k, v in pairs(senderM) do
+        if v == nil then
+            return
+        end
         if type(v) =="string" or type(v) == "number" or type(v) == "boolean" then
             local identifier = math.random(5184, 98974)
             local panel = CreatePanel({
