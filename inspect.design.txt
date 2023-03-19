@@ -118,7 +118,6 @@
 			"y": 15,
 			"width": 770,
 			"height": 508,
-            "roundness": "7,7,7,7,7"
 		},
 		"optional": {
 			"style": {
@@ -128,7 +127,7 @@
 			"function": {
 			},
 			"other": {
-                "scrollheight": 166,
+                "scrollheight": 20,
 			}
 			
 		}
@@ -163,4 +162,26 @@
 			
 		}
 	},
+    {
+		"details": {
+			"type": "label",
+			"name": "comCount",
+			"parent": "Inspect"
+		},
+		"dimensions": {
+			"x": 1,
+			"y": 1,
+		},
+		"optional": {
+			"style": {
+				"color": "theme.header.text",
+			},
+			"function": {
+			},
+			"other": {
+				"text": "0"
+			}
+			
+		}
+	}
 }

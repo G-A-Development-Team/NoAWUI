@@ -102,6 +102,7 @@ function getControlByName(form, name)
             return findControl(main)
         end
     end
+    return nil
 end
 
 function getFormByName(form)
