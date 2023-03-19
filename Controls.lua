@@ -161,8 +161,8 @@ function CreateForm(properties)
                 if string.find(value, "theme") then
                     local r,g,b,a = gui.GetValue(value)
                     Control.Background[1] = r + 25
-                    Control.Background[2] = g+ 25
-                    Control.Background[3] = b+ 25
+                    Control.Background[2] = g + 25
+                    Control.Background[3] = b + 25
                     Control.Background[4] = a
                 else
                     local args = split(value, ",")
@@ -624,8 +624,8 @@ function CreateFlowLayout(properties)
             properties.MaxScrollLength = -total
         end
 
-        Renderer:FilledRectangle({properties.X + form.X, properties.Y + form.Y}, {5, properties.Height}, {255,255,255,255})
-        Renderer:FilledRectangle({properties.X + form.X + 1, properties.Y + form.Y + 1}, {3, properties.Height * (properties.Height / math.abs(properties.MaxScrollLength))}, {0,0,0,255})
+        --Renderer:FilledRectangle({properties.X + form.X, properties.Y + form.Y}, {5, properties.Height}, {255,255,255,255})
+        --Renderer:FilledRectangle({properties.X + form.X + 1, properties.Y + form.Y + 1}, {3, properties.Height * (properties.Height / math.abs(properties.MaxScrollLength))}, {0,0,0,255})
         --print(properties.MaxScrollLength)
 
         if properties.Drag then
