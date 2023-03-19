@@ -31,7 +31,7 @@ local managelist = getControlByName("Main", "Tab2_flowlayout")
 		save_data[6] = json.encode(txtKit)
 
 -- This is to create 20 entries
-for i = 1,20,1 do 
+for i = 1,50,1 do 
 	
 	-- Set the panels to the default save value
 	plPanel = json.decode(save_data[1])

@@ -926,6 +926,7 @@ end
 -- By: Agentsix1
 function CreatePictureBox(properties)
     local Control = CreateControl()
+    Control.BackgroundImage = nil
 	
 	Control.ChangeImage = function (properties, src, img)
 		
@@ -967,31 +968,7 @@ function CreatePictureBox(properties)
             .case("drag", function() Control.Drag = value end)
             .case("mouseclick", function() Control.MouseClick = value end)
             .case("image", function() 
-                local args = split(value, ",")
-				local src = args[2]
-				local imgtype = args[1]
-				switch(imgtype:lower())
-					.case("jpg", function() 
-						
-						local jpgData = http.Get(src)
-							local imgRGBA, imgWidth, imgHeight = common.DecodeJPEG(jpgData);
-							Control.BackgroundImage = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
-						
-						
-					end)
-					.case("png", function() 
-						local pngData = http.Get(src)
-							local imgRGBA, imgWidth, imgHeight = common.DecodePNG(pngData);
-							Control.BackgroundImage = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
-						
-					end)
-					.case("svg", function() 
-						local svgData = http.Get(src)
-							local imgRGBA, imgWidth, imgHeight = common.RasterizeSVG(svgData);
-							Control.BackgroundImage =  draw.CreateTexture(imgRGBA, imgWidth, imgHeight);			
-					end)
-					.default(function() print("Attribute not found. key=" .. key) end)
-					.process()
+                Control.Image = value
             end)
             .case("background", function() 
                 if string.find(value, "theme") then
@@ -1029,6 +1006,34 @@ function CreatePictureBox(properties)
         if string.find(properties.Name, "example_paneldrag3") then
             print(properties.X + form.X)
             
+        end
+
+        if properties.BackgroundImage == nil then
+            local args = split(properties.Image, ",")
+            local src = args[2]
+            local imgtype = args[1]
+            switch(imgtype:lower())
+                .case("jpg", function() 
+                    
+                    local jpgData = http.Get(src)
+                        local imgRGBA, imgWidth, imgHeight = common.DecodeJPEG(jpgData);
+                        Control.BackgroundImage = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
+                    
+                    
+                end)
+                .case("png", function() 
+                    local pngData = http.Get(src)
+                        local imgRGBA, imgWidth, imgHeight = common.DecodePNG(pngData);
+                        Control.BackgroundImage = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
+                    
+                end)
+                .case("svg", function() 
+                    local svgData = http.Get(src)
+                        local imgRGBA, imgWidth, imgHeight = common.RasterizeSVG(svgData);
+                        Control.BackgroundImage =  draw.CreateTexture(imgRGBA, imgWidth, imgHeight);			
+                end)
+                .default(function() print("Attribute not found. key=" .. key) end)
+                .process()
         end
 
         Renderer:ShadowRectangle({properties.X + form.X, properties.Y + form.Y}, {properties.Width, properties.Height}, {0,0,0,40}, 25)

@@ -5,6 +5,7 @@ function Form:Initialize()
 	--print("hello world")
     Form:Tab1()
 
+
     --local managelist = getControlByName("mainForm", "managelist")
 
     --[[
