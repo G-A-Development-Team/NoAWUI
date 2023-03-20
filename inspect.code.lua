@@ -163,6 +163,7 @@ end
 
 
 function Inspect:Reload()
+    removeTempDraw("inspect")
     local sender = getControlByName("Inspect", "Inspect_flowlayout")
 
     sender.Children = {}
@@ -177,8 +178,12 @@ function Inspect:Reload()
 end
 
 function Inspect:Load()
+    removeTempDraw("inspect")
     Inspect:Reload()
-    Inspect:Reload()
+end
+
+function Inspect:Unload()
+    removeTempDraw("inspect")
 end
 
 return Inspect

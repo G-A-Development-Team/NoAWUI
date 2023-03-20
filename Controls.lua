@@ -125,6 +125,9 @@ function CreateForm(properties)
             .case("ontoggle", function() 
                 Control.OnToggle = value
             end)
+            .case("unload", function() 
+                Control.Unload = value
+            end)
             .case("image", function() 
                 local args = split(value, ",")
                 local type = args[1]
@@ -204,6 +207,11 @@ function CreateForm(properties)
                 properties.Visible = not properties.Visible
                 if properties.OnToggle ~= nil and properties.Visible then
                     gui.Command('lua.run "' .. properties.OnToggle .. '" ')
+                end
+                if not properties.Visible then
+                    if properties.Unload ~= nil then
+                        gui.Command('lua.run "' .. properties.Unload .. '" ')
+                    end
                 end
             end
             properties.dummywindow:SetActive(properties.Visible)
