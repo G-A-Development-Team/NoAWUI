@@ -299,8 +299,9 @@ function CreatePictureListBox(properties)
     Control.Height = 25
     Control.StartHeight = 25
     Control.BorderColor = {50,50,50,120}
-    Control.ItemHoverColor = {255,255,255,255}
+    Control.ItemHoverColor = {60,60,60,150}
     Control.ItemBackground = {30,30,30,120}
+    Control.ItemHeight = 20
 
     for key, value in pairs(properties) do
 		value = tostring(value)
@@ -418,7 +419,7 @@ function CreatePictureListBox(properties)
             height = 215,
             background = "15,15,15,255",
             roundness = "6,0,0,6,6",
-            scrollheight = 71,
+            scrollheight = Control.ItemHeight + 1,
         })
     }
 
@@ -436,8 +437,6 @@ function CreatePictureListBox(properties)
         .default(function() print("Attribute not found.") end)
         .process() 
 
-        
-
         print(child, parent)
     end
 
@@ -449,7 +448,7 @@ function CreatePictureListBox(properties)
             x = 1,
             y = 1,
             width = Control.Children[1].Width - 2,
-            height = 70,
+            height = Control.ItemHeight,
             background = Control.ItemBackground,
             border = "50,50,50,0",
             mousehover = "ListBox:Event('" .. "paneltest" .. i .. "," .. Control.Children[1].Name .. ",inside')",
