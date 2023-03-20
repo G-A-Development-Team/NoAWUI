@@ -113,6 +113,7 @@ end
 
 function Inspect:Exit()
     getFormByName("Inspect").Visible = false
+    removeTempDraw("inspect")
 end
 
 function printChildren(node, indent, sender, comLabel)
