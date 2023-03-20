@@ -298,7 +298,9 @@ function CreatePictureListBox(properties)
     Control.StartWidth = 350
     Control.Height = 25
     Control.StartHeight = 25
-    Control.BorderColor = {200, 200, 200, 255}
+    Control.BorderColor = {50,50,50,120}
+    Control.ItemHoverColor = {255,255,255,255}
+    Control.ItemBackground = {30,30,30,120}
 
     for key, value in pairs(properties) do
 		value = tostring(value)
@@ -414,11 +416,30 @@ function CreatePictureListBox(properties)
             y = Control.StartHeight,
             width = Control.Width - 2,
             height = 215,
-            background = "50,50,50,255",
+            background = "15,15,15,255",
             roundness = "6,0,0,6,6",
             scrollheight = 71,
         })
     }
+
+    ListBox = {}
+
+    function ListBox:Event(args)
+        local type = split(args, ",")[3]
+        local child = getControl(split(args, ",")[1])
+        local flow_parent = getControl(split(args, ",")[2])
+        local parent = getParentControl(flow_parent)
+
+        switch(type:lower())
+            .case("inside", function() child.Background = parent.ItemHoverColor end)
+            .case("outside", function() child.Background = parent.ItemBackground end)
+        .default(function() print("Attribute not found.") end)
+        .process() 
+
+        
+
+        print(child, parent)
+    end
 
     for i = 1,10 do
         local panel = CreatePanel({
@@ -429,8 +450,10 @@ function CreatePictureListBox(properties)
             y = 1,
             width = Control.Children[1].Width - 2,
             height = 70,
-            background = "1,1,1,255",
-            border = "255,255,255,255"
+            background = Control.ItemBackground,
+            border = "50,50,50,0",
+            mousehover = "ListBox:Event('" .. "paneltest" .. i .. "," .. Control.Children[1].Name .. ",inside')",
+            mouseoutside = "ListBox:Event('" .. "paneltest" .. i .. "," .. Control.Children[1].Name .. ",outside')"
         })
         panel.Children[1] = CreateLabel({
             type = "label",
@@ -571,6 +594,8 @@ function CreatePanel(properties)
             .case("type", function() Control.Type = value end)
             .case("x", function() Control.X = value Control.SetX = value end)
             .case("y", function() Control.Y = value Control.SetY = value end)
+            .case("mousehover", function() Control.MouseHover = value end)
+            .case("mouseoutside", function() Control.MouseOutside = value end)
             .case("width", function() Control.Width = value end)
             .case("height", function() Control.Height = value end)
             .case("dragparent", function() 
@@ -708,6 +733,19 @@ function CreatePanel(properties)
                         end
                     end
                 end 
+            end
+        end
+
+        if properties.MouseHover ~= nil then
+            if isMouseInRect(properties.X  + form.X, properties.Y + form.Y, properties.Width, properties.Height) then
+                gui.Command('lua.run "' .. properties.MouseHover .. '" ')
+            end
+        end
+
+        if properties.MouseOutside ~= nil then
+            if isMouseInRect(properties.X  + form.X, properties.Y + form.Y, properties.Width, properties.Height) then
+            else
+                gui.Command('lua.run "' .. properties.MouseOutside .. '" ')
             end
         end
 
