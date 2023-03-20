@@ -301,7 +301,8 @@ function CreatePictureListBox(properties)
     Control.BorderColor = {50,50,50,120}
     Control.ItemHoverColor = {60,60,60,150}
     Control.ItemBackground = {30,30,30,120}
-    Control.ItemHeight = 20
+    Control.ItemHeight = 70
+    Control.ListHeight = 215
 
     for key, value in pairs(properties) do
 		value = tostring(value)
@@ -416,7 +417,7 @@ function CreatePictureListBox(properties)
             x = 1,
             y = Control.StartHeight,
             width = Control.Width - 2,
-            height = 215,
+            height =  Control.ListHeight,
             background = "15,15,15,255",
             roundness = "6,0,0,6,6",
             scrollheight = Control.ItemHeight + 1,
