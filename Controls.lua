@@ -304,6 +304,10 @@ function CreatePictureListBox(properties)
     Control.ItemHeight = 70
     Control.ListHeight = 215
 
+    Control.AddItem = function(pictureURL, title)
+
+    end
+
     for key, value in pairs(properties) do
 		value = tostring(value)
             switch(key:lower())
@@ -437,8 +441,6 @@ function CreatePictureListBox(properties)
             .case("outside", function() child.Background = parent.ItemBackground end)
         .default(function() print("Attribute not found.") end)
         .process() 
-
-        print(child, parent)
     end
 
     for i = 1,10 do
@@ -460,10 +462,23 @@ function CreatePictureListBox(properties)
             name = "labeltest" .. i,
             parent = "paneltest" .. i,
             color = "255,255,255,255",
-            x = 2,
-            y = 2,
+            x = centerTextOnRectangle({panel.X, panel.Y}, {panel.Width, panel.Height}, "Item" .. i).X,
+            y = centerTextOnRectangle({panel.X, panel.Y}, {panel.Width, panel.Height}, "Item" .. i).Y - 3,
             text = "Item" .. i
         })
+
+        panel.Children[2] = CreatePictureBox({
+            type = "picturebox",
+            name = "pictureboxtest" .. i,
+            parent = "paneltest" .. i,
+            background = "255,255,255,255",
+            x = 5,
+            y = 5,
+            width = 60,
+            height = 60,
+            image = "jpg,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/1326583.jpg"
+        })
+        
 
         Control.Children[1].Children[#Control.Children[1].Children+1] = panel
     end
