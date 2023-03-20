@@ -405,10 +405,10 @@ function CreatePictureListBox(properties)
             x = 1,
             y = Control.StartHeight,
             width = Control.Width - 2,
-            height = 200,
+            height = 215,
             background = "50,50,50,255",
             roundness = "6,0,0,6,6",
-            scrollheight = 21,
+            scrollheight = 71,
         })
     }
 
@@ -420,7 +420,7 @@ function CreatePictureListBox(properties)
             x = 1,
             y = 1,
             width = Control.Children[1].Width - 2,
-            height = 20,
+            height = 70,
             background = "1,1,1,255",
             border = "255,255,255,255"
         })
