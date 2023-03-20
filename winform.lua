@@ -5,6 +5,7 @@ RunScript("WinForm/Renderer.lua")
 RunScript("WinForm/Controls.lua")
 
 local controls = {}
+local tempDraw = {}
 
 -- Grab an element from the json
 local function LoadJsonElements(jElements)
@@ -90,6 +91,18 @@ local function LoadJsonElements(jElements)
             .default(function() print("Type not found.") end)
         .process()
     end
+end
+
+function getTotalX(control)
+    local parent = getParentControl(control)
+    
+    return parent.X + control.X
+end
+
+function getTotalY(control)
+    local parent = getParentControl(control)
+    
+    return parent.Y + control.Y
 end
 
 function getControlByName(form, name)
@@ -201,6 +214,18 @@ function updateControlByName(form, name, controle)
     end
 end
 
+function addTempDraw(func)
+    table.insert(tempDraw, func)
+end
+
+function removeTempDraw(name)
+    for _m, main in ipairs(tempDraw) do
+        if main.Name == name then
+            table.remove(tempDraw, _m)
+        end
+    end
+end
+
 -- Set the json files to an array
 local Jstartup = file.Open("WinForm/startup.txt", "r");
 local JstartupText = Jstartup:Read();
@@ -285,4 +310,9 @@ callbacks.Register("Draw", "Render", function()
             end
         end
     end
+
+    for _m, main in ipairs(tempDraw) do
+        main.Render()
+    end
+
 end)

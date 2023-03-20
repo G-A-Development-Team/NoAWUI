@@ -27,7 +27,7 @@ function Renderer:ShadowRectangle(cord, size, color, radius)
 end
 
 -- By: CarterPoe
-function Renderer:OutlinedRectangle(cord, size, color, radius)
+function Renderer:OutlinedRectangle(cord, size, color)
     draw_Color(color[1], color[2], color[3], color[4]) -- Set color to white
     draw_OutlinedRect(cord[1], cord[2], cord[1] + size[1], cord[2] + size[2]) -- Draw filled rectangle using the specified parameters
 end

@@ -59,6 +59,15 @@ function Inspect:ShowElement(args)
     })
     
     local nextcolor = "80,80,80,255"
+
+    removeTempDraw("inspect")
+    addTempDraw({
+        Name = "inspect",
+        Render = function()
+            Renderer:OutlinedRectangle({getTotalX(senderM), getTotalY(senderM)}, {senderM.Width, senderM.Height}, {0,0,255,255})
+        end
+    })
+
     for k, v in pairs(senderM) do
         if v == nil then
             return
