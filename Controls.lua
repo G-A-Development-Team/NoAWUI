@@ -443,7 +443,7 @@ function CreatePictureListBox(properties)
         .process() 
     end
 
-    for i = 1,10 do
+    for i = 1,69 do
         local panel = CreatePanel({
             type = "panel",
             name = "paneltest" .. i,
