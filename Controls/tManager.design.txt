@@ -1,0 +1,30 @@
+{ 
+* Tab2 -> Flowlayout
+	{
+		"details": {
+			"type": "flowlayout",
+			"name": "Tab2_flowlayout",
+			"parent": "Main",
+            "group": "Navigation_Tab2"
+		},
+		"dimensions": {
+			"x": 15,
+			"y": 15,
+			"width": 770,
+			"height": 508,
+            "roundness": "7,7,7,7,7"
+		},
+		"optional": {
+			"style": {
+				"background": "33,33,33,200",
+				"border": "50,50,50,150"
+			},
+			"function": {
+			},
+			"other": {
+                "scrollheight": 166,
+			}
+			
+		}
+	}
+}

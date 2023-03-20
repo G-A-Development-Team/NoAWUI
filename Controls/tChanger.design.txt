@@ -1,0 +1,192 @@
+{ 
+* Tab1 -> GroupBox1
+	{
+		"details": {
+			"type": "panel",
+			"name": "gbChanger",
+			"parent": "Main",
+           "group": "Navigation_Tab1"
+		},
+		"dimensions": {
+			"x": 15,
+			"y": 15,
+			"width": 770,
+			"height": 315,
+            "roundness": "7,7,7,7,7"
+		},
+		"optional": {
+			"style": {
+				"background": "33,33,33,200",
+				"border": "50,50,50,150"
+			},
+			"function": {
+			},
+			"other": {
+			}
+			
+		}
+	},
+* Tab1 -> GroupBox1 -> KitPreview
+	{
+		"details": {
+			"type": "picturebox",
+			"name": "pbKitPreview",
+			"parent": "gbChanger",
+            "group": "Navigation_Tab1"
+		},
+		"dimensions": {
+			"x": 20,
+			"y": 20,
+			"width": 250,
+			"height": 252,
+            "roundness": "7,7,7,7,7"
+		},
+		"optional": {
+			"style": {
+				"background": "255,255,255,200",
+			},
+			"function": {
+			},
+			"other": {
+                "image": "jpg,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/1326583.jpg"
+			}
+			
+		}
+	},
+* Tab1 -> GroupBox1 -> KitName
+	{
+		"details": {
+			"type": "label",
+			"name": "lblKitName",
+			"parent": "gbChanger",
+            "group": "Navigation_Tab1"
+		},
+		"dimensions": {
+			"x": 30,
+			"y": 5,
+		},
+		"optional": {
+			"style": {
+				"color": "255,255,255,255",
+			},
+			"function": {
+			},
+			"other": {
+                "text": "Music Kit Group"
+			}
+			
+		}
+	},
+* Tab1 -> GroupBox1 -> MLBmvp
+	{
+		"details": {
+			"type": "mlbutton",
+			"name": "mlMVP",
+			"parent": "gbChanger",
+            "group": "Navigation_Tab1"
+		},
+		"dimensions": {
+			"x": 570,
+			"y": 60,
+            "width": 170,
+			"height": 50,
+		},
+		"optional": {
+			"style": {
+				"color": "255,255,255,255",
+                "fontweight": 500,
+                "fontheight": 25
+			},
+			"function": {
+                "mouseclick": "Form:Click()"
+			},
+			"other": {
+                "text": "MVP Award",
+                "url": "google.com"
+			}
+			
+		}
+	},
+* Tab1 -> GroupBox1 -> MLBroundloss
+	{
+		"details": {
+			"type": "mlbutton",
+			"name": "mlRoundLoss",
+			"parent": "gbChanger",
+            "group": "Navigation_Tab1"
+		},
+		"dimensions": {
+			"x": 570,
+			"y": 120,
+            "width": 170,
+			"height": 50,
+		},
+		"optional": {
+			"style": {
+				"color": "255,255,255,255",
+                "fontweight": 500,
+                "fontheight": 25
+			},
+			"function": {
+                "mouseclick": "Form:Click()"
+			},
+			"other": {
+                "text": "Round Loss",
+                "url": "google.com"
+			}
+			
+		}
+	},
+* Tab1 -> GroupBox1 -> MLBdeaththeme
+	{
+		"details": {
+			"type": "mlbutton",
+			"name": "mlDeathTheme",
+			"parent": "gbChanger",
+            "group": "Navigation_Tab1"
+		},
+		"dimensions": {
+			"x": 570,
+			"y": 180,
+            "width": 170,
+			"height": 50,
+		},
+		"optional": {
+			"style": {
+				"color": "255,255,255,255",
+                "fontweight": 500,
+                "fontheight": 25
+			},
+			"function": {
+                "mouseclick": "Form:Click()"
+			},
+			"other": {
+                "text": "Death Theme",
+                "url": "google.com"
+			}
+			
+		}
+	},
+* Tab1 -> GroupBox1 -> listbox
+	{
+		"details": {
+			"type": "picturelistbox",
+			"name": "plbChanger",
+			"parent": "gbChanger",
+            "group": "Navigation_Tab1"
+		},
+		"dimensions": {
+			"x": 390,
+			"y": 20,
+		},
+		"optional": {
+			"style": {
+			},
+			"function": {
+			},
+			"other": {
+			}
+			
+		}
+	}
+}

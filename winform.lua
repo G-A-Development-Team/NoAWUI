@@ -258,7 +258,9 @@ for _, element in ipairs(json_files) do
         if element.LuaInit ~= nil then
             gui.Command('lua.run "' .. element.LuaInit .. '" ') 
         end
-    end
+    elseif element.LuaInit ~= nil then
+		gui.Command('lua.run "' .. element.LuaInit .. '" ') 
+	end
 end
 
 callbacks.Register("Draw", "Render", function()

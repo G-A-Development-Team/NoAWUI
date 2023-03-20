@@ -5,8 +5,9 @@ LoadScript("\\Cache/Renderer.lua")
 
 RunScript("WinForm/winform.lua")
 
-Form:ChangePictureBox("Main", "KitPreview","https://static.wikia.nocookie.net/cswikia/images/7/7b/Csgo-musickit-matt_lange_01.png/revision/latest?cb=20150213193222", "png")
-
+Form:ChangePictureBox("Main", "pbKitPreview","https://static.wikia.nocookie.net/cswikia/images/7/7b/Csgo-musickit-matt_lange_01.png/revision/latest?cb=20150213193222", "png")
+local lblKitName = getControlByName("Main", "lblKitName")
+lblKitName.Text = "Set Text"
 
 local managelist = getControlByName("Main", "Tab2_flowlayout")
     
@@ -14,12 +15,12 @@ local managelist = getControlByName("Main", "Tab2_flowlayout")
 	local jsonatts = GetMultipleAttributesFromFile("WinForm/json.txt")
 	
 	-- Split the array into objects
-	local plPanel = GetAttributesFromArrayByName(jsonatts, "flowlayout_panel_")
-	local chkToggle = GetAttributesFromArrayByName(jsonatts, "flowlayout_child1_check_")
-	local pbAvatar = GetAttributesFromArrayByName(jsonatts, "flowlayout_child1_avatar_")
-	local pbKit = GetAttributesFromArrayByName(jsonatts, "flowlayout_child1_kit_")
-	local txtName = GetAttributesFromArrayByName(jsonatts, "flowlayout_child1_name_")
-	local txtKit = GetAttributesFromArrayByName(jsonatts, "flowlayout_child1_kitname_")
+	local plPanel = GetAttributesFromArrayByName(jsonatts, "flplManager_")
+	local chkToggle = GetAttributesFromArrayByName(jsonatts, "flchkmToggle_")
+	local pbAvatar = GetAttributesFromArrayByName(jsonatts, "flpbmAvatar_")
+	local pbKit = GetAttributesFromArrayByName(jsonatts, "flpbmKit_")
+	local txtName = GetAttributesFromArrayByName(jsonatts, "fltxtmName_")
+	local txtKit = GetAttributesFromArrayByName(jsonatts, "fltxtmKit_")
 	
 	-- Save the object arrays as strings because lua is retarded
 	local save_data = {}
