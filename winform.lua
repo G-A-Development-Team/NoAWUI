@@ -204,6 +204,7 @@ end
 -- Set the json files to an array
 local Jstartup = file.Open("WinForm/startup.txt", "r");
 local JstartupText = Jstartup:Read();
+JstartupText = cleanJsonComments(JstartupText)
 local json_files = json.decode(JstartupText)
 
 -- This is used to load all of the control data from json files
@@ -259,6 +260,7 @@ callbacks.Register("Draw", "Render", function()
                         local properties = control
                         properties = properties.AWInit(properties, x, y, x2, y2)
                         main.Children[_] = control.Render(properties, main)
+                        --[[
                         if main.Children[_].X ~= x then
                             main.Children[_].AdditionalX = main.Children[_].X - x
                             --main.Children[_].Reference:SetPosX(main.Children[_].AdditionalX)
@@ -271,7 +273,7 @@ callbacks.Register("Draw", "Render", function()
                         end
                         if main.Children[_].Height ~= y2 -properties.Y then
                             main.Children[_].AdditionalHeight = main.Children[_].Height - (y2 -properties.Y)
-                        end
+                        end]]
 
                     end, function() end, function() end)
                     control.Reference = custom

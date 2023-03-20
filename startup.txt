@@ -8,5 +8,5 @@
         "Json": "WinForm/inspect.design.txt",
         "Lua": "WinForm/inspect.code.lua",
         "LuaInit": "Inspect:Initialize()"
-    }
+    },
 }
