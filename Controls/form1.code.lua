@@ -5,6 +5,8 @@ function Form:Initialize()
 	--print("hello world")
     Form:Tab1()
 
+    local sender = getControlByName("Main", "plbChanger")
+    sender.AddItem("jpg,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/1326583.jpg", "niiiiggaaa")
 
     --local managelist = getControlByName("mainForm", "managelist")
 

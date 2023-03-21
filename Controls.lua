@@ -304,10 +304,6 @@ function CreatePictureListBox(properties)
     Control.ItemHeight = 70
     Control.ListHeight = 215
 
-    Control.AddItem = function(pictureURL, title)
-
-    end
-
     for key, value in pairs(properties) do
 		value = tostring(value)
             switch(key:lower())
@@ -443,6 +439,46 @@ function CreatePictureListBox(properties)
         .process() 
     end
 
+    Control.AddItem = function(picture, title)
+        local panel = CreatePanel({
+            type = "panel",
+            name = "item_" .. title,
+            parent = Control.Children[1].Name,
+            x = 1,
+            y = 1,
+            width = Control.Children[1].Width - 2,
+            height = Control.ItemHeight,
+            background = Control.ItemBackground,
+            border = "50,50,50,0",
+            mousehover = "ListBox:Event('" .. "item_" .. title .. "," .. Control.Children[1].Name .. ",inside')",
+            mouseoutside = "ListBox:Event('" .. "item_" .. title .. "," .. Control.Children[1].Name .. ",outside')"
+        })
+        panel.Children[1] = CreateLabel({
+            type = "label",
+            name = "label_" .. title,
+            parent = "item_" .. title,
+            color = "255,255,255,255",
+            x = centerTextOnRectangle({panel.X, panel.Y}, {panel.Width, panel.Height}, title).X,
+            y = centerTextOnRectangle({panel.X, panel.Y}, {panel.Width, panel.Height}, title).Y - 3,
+            text = title
+        })
+
+        panel.Children[2] = CreatePictureBox({
+            type = "picturebox",
+            name = "picturebox" .. title,
+            parent = "item_" .. title,
+            background = "255,255,255,255",
+            x = 5,
+            y = 5,
+            width = 60,
+            height = 60,
+            image = picture
+        })
+        
+
+        Control.Children[1].Children[#Control.Children[1].Children+1] = panel
+    end
+    --[[
     for i = 1,69 do
         local panel = CreatePanel({
             type = "panel",
@@ -481,7 +517,7 @@ function CreatePictureListBox(properties)
         
 
         Control.Children[1].Children[#Control.Children[1].Children+1] = panel
-    end
+    end]]--
 
 
     Control.Render = function(properties, form)
