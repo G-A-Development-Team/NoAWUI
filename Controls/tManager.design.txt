@@ -5,7 +5,7 @@
 			"type": "flowlayout",
 			"name": "Tab2_flowlayout",
 			"parent": "Main",
-            "group": "Navigation_Tab2"
+            "group": "tManager"
 		},
 		"dimensions": {
 			"x": 15,

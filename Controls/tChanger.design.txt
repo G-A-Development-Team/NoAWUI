@@ -5,7 +5,7 @@
 			"type": "panel",
 			"name": "gbChanger",
 			"parent": "Main",
-           "group": "Navigation_Tab1"
+           "group": "tChanger"
 		},
 		"dimensions": {
 			"x": 15,
@@ -32,7 +32,7 @@
 			"type": "picturebox",
 			"name": "pbKitPreview",
 			"parent": "gbChanger",
-            "group": "Navigation_Tab1"
+            "group": "tChanger"
 		},
 		"dimensions": {
 			"x": 20,
@@ -59,7 +59,7 @@
 			"type": "label",
 			"name": "lblKitName",
 			"parent": "gbChanger",
-            "group": "Navigation_Tab1"
+            "group": "tChanger"
 		},
 		"dimensions": {
 			"x": 30,
@@ -83,7 +83,7 @@
 			"type": "mlbutton",
 			"name": "mlMVP",
 			"parent": "gbChanger",
-            "group": "Navigation_Tab1"
+            "group": "tChanger"
 		},
 		"dimensions": {
 			"x": 570,
@@ -113,7 +113,7 @@
 			"type": "mlbutton",
 			"name": "mlRoundLoss",
 			"parent": "gbChanger",
-            "group": "Navigation_Tab1"
+            "group": "tChanger"
 		},
 		"dimensions": {
 			"x": 570,
@@ -143,7 +143,7 @@
 			"type": "mlbutton",
 			"name": "mlDeathTheme",
 			"parent": "gbChanger",
-            "group": "Navigation_Tab1"
+            "group": "tChanger"
 		},
 		"dimensions": {
 			"x": 570,
@@ -173,7 +173,7 @@
 			"type": "picturelistbox",
 			"name": "plbChanger",
 			"parent": "gbChanger",
-            "group": "Navigation_Tab1"
+            "group": "tChanger"
 		},
 		"dimensions": {
 			"x": 390,
