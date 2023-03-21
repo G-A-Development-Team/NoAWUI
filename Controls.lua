@@ -158,9 +158,9 @@ function CreateForm(properties)
             .case("background", function() 
                 if string.find(value, "theme") then
                     local r,g,b,a = gui.GetValue(value)
-                    Control.Background[1] = r + 25
-                    Control.Background[2] = g + 25
-                    Control.Background[3] = b + 25
+                    Control.Background[1] = r
+                    Control.Background[2] = g
+                    Control.Background[3] = b
                     Control.Background[4] = a
                 else
                     local args = split(value, ",")
