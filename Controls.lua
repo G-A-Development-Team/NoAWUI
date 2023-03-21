@@ -29,7 +29,7 @@ function CreateControl()
         dragOffsetY = 0,
         lastMouseX = 0,
         lastMouseY = 0,
-        MAX_DRAG_DISTANCE = 10,
+        MAX_DRAG_DISTANCE = 0,
 
         Roundness = {},
         Rounded = false,
@@ -90,6 +90,7 @@ end
 function CreateForm(properties)
     local Control = CreateControl()
     Control.DragNow = false
+    Control.Focused = false
     for key, value in pairs(properties) do
 		value = tostring(value)
             switch(key:lower())
@@ -239,6 +240,14 @@ function CreateForm(properties)
         if properties.ForceDrag ~= nil then
             properties.DragNow = properties.ForceDrag
         end
+
+        if isMouseInRect(properties.X, properties.Y, properties.Width, properties.Height) then
+            if input.IsButtonDown(1) or input.IsButtonPressed(1) or input.IsButtonReleased(1) then
+                if not getSelected() then
+                    FocusForm(properties.Name)
+                end
+            end
+        end
         
         if properties.Drag or properties.DragNow then
             --print(globaldragging)
@@ -246,7 +255,7 @@ function CreateForm(properties)
                 if not getSelected() or properties.Selected then
                     if true then
                         if input.IsButtonDown(1) then
-                            
+                            FocusForm(properties.Name)
                             local mouseX, mouseY = input.GetMousePos();
                             if not properties.isDragging then
                                 -- start dragging

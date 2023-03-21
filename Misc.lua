@@ -20,6 +20,20 @@ function TablePrint(t)
     end
 end
 
+function deepcopy(orig)
+    local copy
+    if type(orig) == "table" then
+        copy = {}
+        for orig_key, orig_value in next, orig, nil do
+            copy[deepcopy(orig_key)] = deepcopy(orig_value)
+        end
+        setmetatable(copy, deepcopy(getmetatable(orig)))
+    else
+        copy = orig
+    end
+    return copy
+end
+
 function switch(element)
     local Table = {
         ["Value"] = element,

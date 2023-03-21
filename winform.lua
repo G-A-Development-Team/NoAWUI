@@ -6,6 +6,7 @@ RunScript("WinForm/Controls.lua")
 
 local controls = {}
 local tempDraw = {}
+local focuslist = {}
 
 -- Grab an element from the json
 local function LoadJsonElements(jElements)
@@ -226,6 +227,25 @@ function removeTempDraw(name)
     end
 end
 
+function FocusForm(name)
+    table.remove(focuslist, 1)
+    if #focuslist == 0 then
+        local found = false
+        for _, _name in ipairs(focuslist) do
+            if _name == name then
+                found = true
+            end
+        end
+        if not found then
+            table.insert(focuslist, name) 
+        end
+    end
+end
+
+function getCurrentFocus()
+    return focuslist[1]
+end
+
 -- Set the json files to an array
 local Jstartup = file.Open("WinForm/startup.txt", "r");
 local JstartupText = Jstartup:Read();
@@ -270,47 +290,61 @@ callbacks.Register("Draw", "Render", function()
     if input.IsButtonReleased(1) then
         globaldragging = false
     end
-
+    TablePrint(focuslist)
     for _m, main in ipairs(controls) do
-        if main.Type == "form" and not string.starts(main.Type, "aw") then
-            local newcontrol = main.Render(main)
-            for _, control in ipairs(main.Children) do
-                local properties = control
-                --print(#control.Children .. control.Name)
-                main.Children[_] = control.Render(properties, main)
-            end
-            controls[_m] = newcontrol
-        elseif string.starts(main.Type, "aw") then
-            for _, control in ipairs(main.Children) do
-                if control.Reference == nil then
-                    local custom = gui.Custom(main.ReferenceTab, "asdasd", control.X, control.Y, control.Width, control.Height, function(x, y, x2, y2, active)
-                        local properties = control
-                        properties = properties.AWInit(properties, x, y, x2, y2)
-                        main.Children[_] = control.Render(properties, main)
-                        --[[
-                        if main.Children[_].X ~= x then
-                            main.Children[_].AdditionalX = main.Children[_].X - x
-                            --main.Children[_].Reference:SetPosX(main.Children[_].AdditionalX)
-                        end
-                        if main.Children[_].Y ~= y then
-                            main.Children[_].AdditionalY = main.Children[_].Y - y
-                        end
-                        if main.Children[_].Width ~= x2 -properties.X then
-                            main.Children[_].AdditionalWidth = main.Children[_].Width - (x2 -properties.X)
-                        end
-                        if main.Children[_].Height ~= y2 -properties.Y then
-                            main.Children[_].AdditionalHeight = main.Children[_].Height - (y2 -properties.Y)
-                        end]]
-
-                    end, function() end, function() end)
-                    control.Reference = custom
-                    main.Children[_] = control
-                    controls[_m] = main
-                else
-                    --control.Reference:SetPosX(control.X + control.AdditionalX)
+        if getCurrentFocus() ~= main.Name then
+            if main.Type == "form" and not string.starts(main.Type, "aw") then
+                local newcontrol = main.Render(main)
+                for _, control in ipairs(main.Children) do
+                    local properties = control
+                    --print(#control.Children .. control.Name)
+                    main.Children[_] = control.Render(properties, main)
+                end
+                controls[_m] = newcontrol
+            elseif string.starts(main.Type, "aw") then
+                for _, control in ipairs(main.Children) do
+                    if control.Reference == nil then
+                        local custom = gui.Custom(main.ReferenceTab, "asdasd", control.X, control.Y, control.Width, control.Height, function(x, y, x2, y2, active)
+                            local properties = control
+                            properties = properties.AWInit(properties, x, y, x2, y2)
+                            main.Children[_] = control.Render(properties, main)
+                            --[[
+                            if main.Children[_].X ~= x then
+                                main.Children[_].AdditionalX = main.Children[_].X - x
+                                --main.Children[_].Reference:SetPosX(main.Children[_].AdditionalX)
+                            end
+                            if main.Children[_].Y ~= y then
+                                main.Children[_].AdditionalY = main.Children[_].Y - y
+                            end
+                            if main.Children[_].Width ~= x2 -properties.X then
+                                main.Children[_].AdditionalWidth = main.Children[_].Width - (x2 -properties.X)
+                            end
+                            if main.Children[_].Height ~= y2 -properties.Y then
+                                main.Children[_].AdditionalHeight = main.Children[_].Height - (y2 -properties.Y)
+                            end]]
+    
+                        end, function() end, function() end)
+                        control.Reference = custom
+                        main.Children[_] = control
+                        controls[_m] = main
+                    else
+                        --control.Reference:SetPosX(control.X + control.AdditionalX)
+                    end
                 end
             end
         end
+    end
+
+    for _, _name in ipairs(focuslist) do
+        local main = getFormByName(_name)
+        local newcontrol = main.Render(main)
+        for _, control in ipairs(main.Children) do
+            local properties = control
+            --print(#control.Children .. control.Name)
+            main.Children[_] = control.Render(properties, main)
+        end
+        main = newcontrol
+
     end
 
     --local sender = getControlByName("Main", "plbChanger")
