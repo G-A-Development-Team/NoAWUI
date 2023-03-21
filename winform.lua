@@ -313,6 +313,8 @@ callbacks.Register("Draw", "Render", function()
         end
     end
 
+    --local sender = getControlByName("Main", "plbChanger")
+    --print(sender.GetSelectedItem().Name)
     for _m, main in ipairs(tempDraw) do
         main.Render()
     end

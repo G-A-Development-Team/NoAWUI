@@ -431,12 +431,23 @@ function CreatePictureListBox(properties)
         local child = getControl(split(args, ",")[1])
         local flow_parent = getControl(split(args, ",")[2])
         local parent = getParentControl(flow_parent)
-
         switch(type:lower())
             .case("inside", function() child.Background = parent.ItemHoverColor end)
             .case("outside", function() child.Background = parent.ItemBackground end)
+            .case("click", function()
+                parent.SelectedItem = {
+                    Name = child.Children[1].Text,
+                    Image = child.Children[2].Image
+                }
+                print(parent.GetSelectedItem().Name, parent.GetSelectedItem().Image)
+            
+            end)
         .default(function() print("Attribute not found.") end)
         .process() 
+    end
+
+    Control.GetSelectedItem = function()
+        return Control.SelectedItem
     end
 
     Control.AddItem = function(picture, title)
@@ -451,7 +462,8 @@ function CreatePictureListBox(properties)
             background = Control.ItemBackground,
             border = "50,50,50,0",
             mousehover = "ListBox:Event('" .. "item_" .. title .. "," .. Control.Children[1].Name .. ",inside')",
-            mouseoutside = "ListBox:Event('" .. "item_" .. title .. "," .. Control.Children[1].Name .. ",outside')"
+            mouseoutside = "ListBox:Event('" .. "item_" .. title .. "," .. Control.Children[1].Name .. ",outside')",
+            mouseclick = "ListBox:Event('" .. "item_" .. title .. "," .. Control.Children[1].Name .. ",click')",
         })
         panel.Children[1] = CreateLabel({
             type = "label",
@@ -550,11 +562,11 @@ function CreatePictureListBox(properties)
         Renderer:Scissor({properties.X + form.X, properties.Y + form.Y}, {properties.Width, properties.Height});
 
 
-        if input.IsButtonReleased(1) then
+        if input.IsButtonReleased(2) then
             if isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height)  then
                 properties.Selected = not properties.Selected
             else
-                properties.Selected = false
+                --properties.Selected = false
             end
         end
 
@@ -753,17 +765,6 @@ function CreatePanel(properties)
 
         Renderer:Scissor({properties.X + form.X, properties.Y + form.Y}, {properties.Width, properties.Height});
 
-        if properties.MouseClick ~= nil then
-            --print(control.MouseDown) 
-            if input.IsButtonReleased(1) then
-                if isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height) then
-                    if not getSelected() then
-                        gui.Command('lua.run "' .. properties.MouseClick .. '" ') 
-                    end
-                end
-            end
-        end
-
         for _, control in ipairs(properties.Children) do
 
             control.X = form.X + control.SetX
@@ -797,6 +798,15 @@ function CreatePanel(properties)
             if isMouseInRect(properties.X  + form.X, properties.Y + form.Y, properties.Width, properties.Height) then
             else
                 gui.Command('lua.run "' .. properties.MouseOutside .. '" ')
+            end
+        end
+
+        if properties.MouseClick ~= nil then
+            --print(control.MouseDown) 
+            if input.IsButtonReleased(1) then
+                if isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height) then
+                    gui.Command('lua.run "' .. properties.MouseClick .. '" ') 
+                end
             end
         end
 
