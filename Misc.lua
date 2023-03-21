@@ -9,7 +9,7 @@ function split(inputstr, sep)
     return t
 end
 
-local function TablePrint(t)
+function TablePrint(t)
     for k, v in pairs(t) do
         if type(v) == "table" then
             print(k)

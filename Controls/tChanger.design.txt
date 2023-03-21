@@ -185,6 +185,16 @@
 			"function": {
 			},
 			"other": {
+                "items": {
+                    {
+                        "name": "noobie",
+                        "image": "jpg,https://th.bing.com/th/id/OIP.IMUAROkrpzegxrBwGzNbzQHaJQ?pid=ImgDet&rs=1"
+                    },
+                    {
+                        "name": "shittydoppy",
+                        "image": "jpg,https://th.bing.com/th/id/OIP.IMUAROkrpzegxrBwGzNbzQHaJQ?pid=ImgDet&rs=1"
+                    },
+                }
 			}
 			
 		}

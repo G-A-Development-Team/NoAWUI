@@ -305,7 +305,6 @@ function CreatePictureListBox(properties)
     Control.ListHeight = 215
 
     for key, value in pairs(properties) do
-		value = tostring(value)
             switch(key:lower())
             .case("name", function() Control.Name = value end)
             .case("group", function() Control.Group = value end)
@@ -506,6 +505,12 @@ function CreatePictureListBox(properties)
         
 
         Control.Children[1].Children[#Control.Children[1].Children+1] = panel
+    end
+
+    if properties["items"] ~= nil then
+        for jkey, jvalue in ipairs(properties["items"]) do
+            Control.AddItem(jvalue["image"], jvalue["name"])
+        end
     end
     --[[
     for i = 1,69 do
