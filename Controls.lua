@@ -296,8 +296,8 @@ function CreatePictureListBox(properties)
     Control.Rounded = true
     Control.Width = 350
     Control.StartWidth = 350
-    Control.Height = 25
-    Control.StartHeight = 25
+    Control.Height = 45
+    Control.StartHeight = 45
     Control.BorderColor = {50,50,50,120}
     Control.ItemHoverColor = {60,60,60,150}
     Control.ItemBackground = {30,30,30,120}
@@ -444,7 +444,8 @@ function CreatePictureListBox(properties)
                 parent.SelectedItem = {
                     Index = Index,
                     Name = child.Children[1].Text,
-                    Image = child.Children[2].Image
+                    Image = child.Children[2].Image,
+                    ImageData = child.Children[2].BackgroundImage
                 }
                 print(parent.GetSelectedItem().Index, parent.GetSelectedItem().Name, parent.GetSelectedItem().Image)
                 parent.Selected = false
@@ -590,7 +591,13 @@ function CreatePictureListBox(properties)
 		end
 
         if properties.SelectedItem ~= nil then
-            Renderer:Text({properties.X + form.X + 5, properties.Y + form.Y + 5}, {0,0,0,255}, properties.SelectedItem.Name)
+            Renderer:Text({properties.X + form.X + 55, properties.Y + form.Y + 14}, {0,0,0,255}, properties.SelectedItem.Name)
+
+            draw.SetTexture(properties.SelectedItem.ImageData)
+            Renderer:FilledRectangle({properties.X + form.X + 4, properties.Y + form.Y + 3}, {40, properties.StartHeight - 5}, properties.Background)
+            draw.SetTexture(nil)
+
+
         end
 		
 		--[[
