@@ -25,7 +25,7 @@
 			
 		}
 	},
-* TitleBar
+* Title Background
 	{
 		"details": {
 			"type": "panel",
@@ -53,7 +53,7 @@
 			
 		}
 	},
-* TitleBar -> Title
+* TitleBar -> Title Text
 	{
 		"details": {
 			"type": "label",
@@ -158,11 +158,11 @@
 			
 		}
 	},
-* Navigation -> Tab1
+* Navigation -> Changer
 	{
 		"details": {
 			"type": "button",
-			"name": "Navigation_Tab1",
+			"name": "tChanger",
 			"parent": "Navigation"
 		},
 		"dimensions": {
@@ -189,11 +189,11 @@
 			
 		}
 	},
-* Navigation -> Tab2
+* Navigation -> Manager
 	{
 		"details": {
 			"type": "button",
-			"name": "Navigation_Tab2",
+			"name": "tManager",
 			"parent": "Navigation"
 		},
 		"dimensions": {
@@ -313,11 +313,11 @@
 			
 		}
 	},
-* Navigation -> Tab6
+* Navigation -> Settings
 	{
 		"details": {
 			"type": "button",
-			"name": "Navigation_Tab6",
+			"name": "tSettings",
 			"parent": "Navigation"
 		},
 		"dimensions": {
@@ -340,6 +340,37 @@
 			},
 			"other": {
                 "text": "Settings"
+			}
+			
+		}
+	}
+* Navigation -> About
+	{
+		"details": {
+			"type": "button",
+			"name": "tAbout",
+			"parent": "Navigation"
+		},
+		"dimensions": {
+			"x": 660,
+			"y": 5,
+			"width": 100,
+			"height": 40,
+            "roundness": "5,0,5,0,0"
+		},
+		"optional": {
+			"style": {
+				"background": "theme.nav.bg",
+				"border": "theme.nav.active",
+                "active": "theme.nav.active",
+                "fontweight": 500,
+                "fontheight": 18
+			},
+			"function": {
+                "mouseclick": "Form:Tab2()"
+			},
+			"other": {
+                "text": "About"
 			}
 			
 		}

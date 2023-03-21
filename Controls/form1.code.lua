@@ -43,16 +43,16 @@ end
 
 -- By: CarterPoe
 function Form:Tab1()
-    local sender = getControlByName("Main", "Navigation_Tab2")
-    local controls = getControlsByGroup("Main", "Navigation_Tab2")
+    local sender = getControlByName("Main", "tManager")
+    local controls = getControlsByGroup("Main", "tManager")
     for _, control in ipairs(controls) do
         print(control.Group, control.Name)
         control.Visible = false
     end
     sender.Active = false
 
-    sender = getControlByName("Main", "Navigation_Tab1")
-    controls = getControlsByGroup("Main", "Navigation_Tab1")
+    sender = getControlByName("Main", "tChanger")
+    controls = getControlsByGroup("Main", "tChanger")
     for _, control in ipairs(controls) do
         print(control.Group, control.Name)
         control.Visible = true
@@ -62,16 +62,16 @@ end
 
 -- By: CarterPoe
 function Form:Tab2()
-    local sender = getControlByName("Main", "Navigation_Tab1")
-    local controls = getControlsByGroup("Main", "Navigation_Tab1")
+    local sender = getControlByName("Main", "tChanger")
+    local controls = getControlsByGroup("Main", "tChanger")
     for _, control in ipairs(controls) do
         print(control.Group, control.Name)
         control.Visible = false
     end
     sender.Active = false
 
-    sender = getControlByName("Main", "Navigation_Tab2")
-    controls = getControlsByGroup("Main", "Navigation_Tab2")
+    sender = getControlByName("Main", "tManager")
+    controls = getControlsByGroup("Main", "tManager")
     for _, control in ipairs(controls) do
         print(control.Group, control.Name)
         control.Visible = true
