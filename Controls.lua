@@ -560,8 +560,20 @@ function CreatePictureListBox(properties)
         end
 
         Renderer:Scissor({properties.X + form.X, properties.Y + form.Y}, {properties.Width, properties.Height});
-
-
+		
+        if input.IsButtonReleased(1) then
+				
+			if isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height) then
+				if not getSelected() then
+					properties.Selected = not properties.Selected
+				
+				end
+			else 
+				properties.Selected = false
+			end
+		end
+		
+		--[[
         if input.IsButtonReleased(2) then
             if isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height)  then
                 properties.Selected = not properties.Selected
@@ -569,7 +581,7 @@ function CreatePictureListBox(properties)
                 --properties.Selected = false
             end
         end
-
+		]]--
         if properties.Selected then
             properties.Height = properties.Children[1].Height + properties.StartHeight + 1
             properties.Children[1].Visible = true
