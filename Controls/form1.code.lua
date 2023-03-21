@@ -6,7 +6,11 @@ function Form:Initialize()
     Form:Tab1()
 
     local sender = getControlByName("Main", "plbChanger")
-    sender.AddItem("jpg,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/1326583.jpg", "niiiiggaaa")
+    sender.AddItem("jpg,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/1326583.jpg", "niiiiggaaa1")
+    sender.AddItem("jpg,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/1326583.jpg", "niiiiggaaa2")
+    sender.AddItem("jpg,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/1326583.jpg", "niiiiggaaa3")
+    sender.AddItem("jpg,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/1326583.jpg", "niiiiggaaa4")
+    sender.AddItem("jpg,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/1326583.jpg", "niiiiggaaa5")
 
     --local managelist = getControlByName("mainForm", "managelist")
 

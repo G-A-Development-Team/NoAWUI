@@ -435,11 +435,19 @@ function CreatePictureListBox(properties)
             .case("inside", function() child.Background = parent.ItemHoverColor end)
             .case("outside", function() child.Background = parent.ItemBackground end)
             .case("click", function()
+                local Index = 0
+                for i, childr in ipairs(flow_parent.Children) do
+                    if childr.Name == child.Name then
+                        Index = i
+                    end
+                end
                 parent.SelectedItem = {
+                    Index = Index,
                     Name = child.Children[1].Text,
                     Image = child.Children[2].Image
                 }
-                print(parent.GetSelectedItem().Name, parent.GetSelectedItem().Image)
+                print(parent.GetSelectedItem().Index, parent.GetSelectedItem().Name, parent.GetSelectedItem().Image)
+                Control.RemoveItem(parent.GetSelectedItem().Index)
             
             end)
         .default(function() print("Attribute not found.") end)
@@ -448,6 +456,13 @@ function CreatePictureListBox(properties)
 
     Control.GetSelectedItem = function()
         return Control.SelectedItem
+    end
+
+    Control.RemoveItem = function(index)
+        if index == Control.SelectedItem.Index then
+            Control.SelectedItem = nil
+        end
+        table.remove(Control.Children[1].Children, index)
     end
 
     Control.AddItem = function(picture, title)
@@ -572,6 +587,10 @@ function CreatePictureListBox(properties)
 				properties.Selected = false
 			end
 		end
+
+        if properties.SelectedItem ~= nil then
+            Renderer:Text({properties.X + form.X + 5, properties.Y + form.Y + 5}, {0,0,0,255}, properties.SelectedItem.Name)
+        end
 		
 		--[[
         if input.IsButtonReleased(2) then
