@@ -909,6 +909,7 @@ function CreateFlowLayout(properties)
     Control.ScrollLength = 0
     Control.MaxScrollLength = 0
     Control.Scroll = true
+    Control.Orientation = "Vertical"
     for key, value in pairs(properties) do
 		value = tostring(value)
             switch(key:lower())
@@ -927,6 +928,7 @@ function CreateFlowLayout(properties)
             .case("mousehover", function() Control.MouseHover = value end)
             .case("mouseoutside", function() Control.MouseOutside = value end)
             .case("scroll", function() Control.Scroll = value end)
+            .case("orientation", function() Control.Orientation = value end)
             .case("image", function() 
                 local args = split(value, ",")
                 local type = args[1]
@@ -1041,12 +1043,21 @@ function CreateFlowLayout(properties)
 
                 else
                     if future ~= properties.MaxScrollLength then
-                        properties.Children[1].SetY = properties.Children[1].SetY - properties.ScrollHeight
+                        if properties.Orientation == "Vertical" then
+                            properties.Children[1].SetY = properties.Children[1].SetY - properties.ScrollHeight
+                        elseif properties.Orientation == "Horizontal" then
+
+                            properties.Children[1].SetX = properties.Children[1].SetX - properties.ScrollHeight 
+                        end
                         properties.ScrollLength = properties.ScrollLength - properties.ScrollHeight 
                     end
                 end
             elseif properties.ScrollLength ~= 0 then
-                properties.Children[1].SetY = properties.Children[1].SetY + properties.ScrollHeight
+                if properties.Orientation == "Vertical" then
+                    properties.Children[1].SetY = properties.Children[1].SetY + properties.ScrollHeight
+                elseif properties.Orientation == "Horizontal" then
+                    properties.Children[1].SetX = properties.Children[1].SetX + properties.ScrollHeight
+                end
                 properties.ScrollLength = properties.ScrollLength + properties.ScrollHeight
             end
         end
@@ -1057,10 +1068,17 @@ function CreateFlowLayout(properties)
             control.Y = form.Y + control.SetY
             
             if properties.Children[_-1] ~= nil then
-                control.Y = control.SetY + properties.Children[_-1].Height + properties.Children[_-1].Y
+                if properties.Orientation == "Vertical" then
+                    control.Y = control.SetY + properties.Children[_-1].Height + properties.Children[_-1].Y
+                elseif properties.Orientation == "Horizontal" then
+                    control.X = control.SetX + properties.Children[_-1].Width + properties.Children[_-1].X
+                end
             end
-
-            total = total + control.Height + control.SetY
+            if properties.Orientation == "Vertical" then
+                total = total + control.Height + control.SetY
+            elseif properties.Orientation == "Horizontal" then
+                total = total + control.Width + control.SetX
+            end
 
             local controlViewing = isRectInRect(control.X + properties.X, control.Y + properties.Y, control.Width, control.Height, properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height)
             --local controlPartial = isRectInRectPartial(control.X + properties.X, control.Y + properties.Y, control.Width, control.Height, properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height)

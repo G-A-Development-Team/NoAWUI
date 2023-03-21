@@ -158,6 +158,31 @@
 			
 		}
 	},
+* Navigation Tabs Container
+	{
+		"details": {
+			"type": "panel",
+			"name": "Navigation",
+			"parent": "Navigation"
+		},
+		"dimensions": {
+			"x": 5,
+			"y": 10,
+			"width": 765,
+			"height": 40,
+            "roundness": "5,5,5,0,0"
+		},
+		"optional": {
+			"style": {
+				"background": "theme.nav.bg",
+			},
+			"function": {
+			},
+			"other": {
+			}
+			
+		}
+	},
 * Navigation -> Changer
 	{
 		"details": {
