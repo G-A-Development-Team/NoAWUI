@@ -909,7 +909,7 @@ function CreateFlowLayout(properties)
     Control.ScrollLength = 0
     Control.MaxScrollLength = 0
     Control.Scroll = true
-    Control.Orientation = "Vertical"
+    Control.Orientation = "vertical"
     for key, value in pairs(properties) do
 		value = tostring(value)
             switch(key:lower())
