@@ -161,20 +161,22 @@
 * Navigation Tabs Container
 	{
 		"details": {
-			"type": "panel",
-			"name": "Navigation",
+			"type": "flowlayout",
+			"name": "Navigation_flowlayout",
 			"parent": "Navigation"
 		},
 		"dimensions": {
 			"x": 5,
-			"y": 10,
-			"width": 765,
-			"height": 40,
+			"y": 5,
+			"width": 760,
+			"height": 45,
             "roundness": "5,5,5,0,0"
 		},
 		"optional": {
 			"style": {
 				"background": "theme.nav.bg",
+                "orientation": "Horizontal",
+                "scroll" : false,
 			},
 			"function": {
 			},
@@ -188,13 +190,11 @@
 		"details": {
 			"type": "button",
 			"name": "tChanger",
-			"parent": "Navigation"
+			"parent": "Navigation_flowlayout"
 		},
 		"dimensions": {
-			"x": 5,
-			"y": 5,
-			"width": 100,
-			"height": 40,
+			"width": 108.5,
+			"height": 45,
             "roundness": "5,5,0,0,0"
 		},
 		"optional": {
@@ -218,13 +218,11 @@
 		"details": {
 			"type": "button",
 			"name": "tManager",
-			"parent": "Navigation"
+			"parent": "Navigation_flowlayout"
 		},
 		"dimensions": {
-			"x": 110,
-			"y": 5,
-			"width": 100,
-			"height": 40,
+			"width": 108.5,
+			"height": 45,
             "roundness": "4,0,0,0,0"
 		},
 		"optional": {
@@ -248,13 +246,11 @@
 		"details": {
 			"type": "button",
 			"name": "Navigation_Tab3",
-			"parent": "Navigation"
+			"parent": "Navigation_flowlayout"
 		},
 		"dimensions": {
-			"x": 215,
-			"y": 5,
-			"width": 100,
-			"height": 40,
+			"width": 108.5,
+			"height": 45,
             "roundness": "4,0,0,0,0"
 		},
 		"optional": {
@@ -278,13 +274,11 @@
 		"details": {
 			"type": "button",
 			"name": "Navigation_Tab4",
-			"parent": "Navigation"
+			"parent": "Navigation_flowlayout"
 		},
 		"dimensions": {
-			"x": 320,
-			"y": 5,
-			"width": 100,
-			"height": 40,
+			"width": 108.5,
+			"height": 45,
             "roundness": "4,0,0,0,0"
 		},
 		"optional": {
@@ -308,13 +302,11 @@
 		"details": {
 			"type": "button",
 			"name": "Navigation_Tab5",
-			"parent": "Navigation"
+			"parent": "Navigation_flowlayout"
 		},
 		"dimensions": {
-			"x": 425,
-			"y": 5,
-			"width": 100,
-			"height": 40,
+			"width": 108.5,
+			"height": 45,
             "roundness": "4,0,0,0,0"
 		},
 		"optional": {
@@ -338,14 +330,11 @@
 		"details": {
 			"type": "button",
 			"name": "tSettings",
-			"parent": "Navigation"
+			"parent": "Navigation_flowlayout"
 		},
 		"dimensions": {
-			"x": 530,
-			"y": 5,
-			"width": 100,
-			"height": 40,
-            "roundness": "5,0,5,0,0"
+			"width": 108.5,
+			"height": 45,
 		},
 		"optional": {
 			"style": {
@@ -368,13 +357,11 @@
 		"details": {
 			"type": "button",
 			"name": "tAbout",
-			"parent": "Navigation"
+			"parent": "Navigation_flowlayout"
 		},
 		"dimensions": {
-			"x": 660,
-			"y": 5,
-			"width": 100,
-			"height": 40,
+			"width": 108.5,
+			"height": 45,
             "roundness": "5,0,5,0,0"
 		},
 		"optional": {
