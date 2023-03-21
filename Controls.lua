@@ -447,7 +447,8 @@ function CreatePictureListBox(properties)
                     Image = child.Children[2].Image
                 }
                 print(parent.GetSelectedItem().Index, parent.GetSelectedItem().Name, parent.GetSelectedItem().Image)
-                Control.RemoveItem(parent.GetSelectedItem().Index)
+                parent.Selected = false
+                --Control.RemoveItem(parent.GetSelectedItem().Index)
             
             end)
         .default(function() print("Attribute not found.") end)
