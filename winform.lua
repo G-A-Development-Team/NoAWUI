@@ -127,6 +127,18 @@ function getControlByName(form, name)
     return nil
 end
 
+function getParents(control)
+    local parents = {}
+    local parent = getParentControl(control)
+    while parent do
+        if parent.Type:lower() == "form" then
+            table.insert(parents, 1, parent) 
+        end
+        parent = getParentControl(parent)
+    end
+    return parents
+end
+
 function getControl(name)
     for _, main in ipairs(controls) do
         local function findControl(control)
@@ -215,6 +227,8 @@ function updateControlByName(form, name, controle)
     end
 end
 
+
+
 function addTempDraw(func)
     table.insert(tempDraw, func)
 end
@@ -244,6 +258,14 @@ end
 
 function getCurrentFocus()
     return focuslist[1]
+end
+
+function AmIAllowed(control)
+    local name = getParents(control)[1].Name
+    if name:lower() == getCurrentFocus():lower() then
+        return true
+    end
+    return false
 end
 
 -- Set the json files to an array

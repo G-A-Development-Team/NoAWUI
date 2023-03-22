@@ -417,6 +417,10 @@ function CreatePictureListBox(properties)
         --end
     end
 
+    if Control.Parent ~= nil then
+        Control.FormName = "" 
+    end
+
     Control.Children = {
         [1] = CreateFlowLayout({
             type = "flowlayout",
@@ -564,6 +568,9 @@ function CreatePictureListBox(properties)
 
 
     Control.Render = function(properties, form)
+        --print(getTopmostParent(properties.Name).Name)
+        
+        --print(AmIAllowed(properties))
         if not properties.Visible or not form.Visible then
             return properties
         end
