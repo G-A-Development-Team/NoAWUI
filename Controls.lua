@@ -135,7 +135,6 @@ function CreateForm(properties)
                 local src = args[2]
                 switch(type:lower())
                 .case("jpg", function() 
-                    print(src)
                     local jpgData = http.Get(src);
                     local imgRGBA, imgWidth, imgHeight = common.DecodeJPEG(jpgData);
                     local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
@@ -336,8 +335,7 @@ function CreatePictureListBox(properties)
                 local type = args[1]
                 local src = args[2]
                 switch(type:lower())
-                .case("jpg", function() 
-                    print(src)
+                .case("jpg", function()
                     local jpgData = http.Get(src);
                     local imgRGBA, imgWidth, imgHeight = common.DecodeJPEG(jpgData);
                     local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
@@ -459,7 +457,7 @@ function CreatePictureListBox(properties)
                     Image = child.Children[2].Image,
                     ImageData = child.Children[2].BackgroundImage
                 }
-                print(parent.GetSelectedItem().Index, parent.GetSelectedItem().Name, parent.GetSelectedItem().Image)
+                --print(parent.GetSelectedItem().Index, parent.GetSelectedItem().Name, parent.GetSelectedItem().Image)
                 parent.Selected = false
                 --Control.RemoveItem(parent.GetSelectedItem().Index)
             
@@ -576,7 +574,7 @@ function CreatePictureListBox(properties)
         end
 
         if string.find(properties.Name, "example_paneldrag3") then
-            print(properties.X + form.X)
+            --print(properties.X + form.X)
             
         end
 
@@ -735,7 +733,6 @@ function CreatePanel(properties)
                 local src = args[2]
                 switch(type:lower())
                 .case("jpg", function() 
-                    print(src)
                     local jpgData = http.Get(src);
                     local imgRGBA, imgWidth, imgHeight = common.DecodeJPEG(jpgData);
                     local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
@@ -806,7 +803,7 @@ function CreatePanel(properties)
         end
 
         if string.find(properties.Name, "example_paneldrag3") then
-            print(properties.X + form.X)
+            --print(properties.X + form.X)
             
         end
 
@@ -957,7 +954,6 @@ function CreateFlowLayout(properties)
                 local src = args[2]
                 switch(type:lower())
                 .case("jpg", function() 
-                    print(src)
                     local jpgData = http.Get(src);
                     local imgRGBA, imgWidth, imgHeight = common.DecodeJPEG(jpgData);
                     local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
@@ -1027,7 +1023,7 @@ function CreateFlowLayout(properties)
         end
 
         if string.find(properties.Name, "example_paneldrag3") then
-            print(properties.X + form.X)
+            --print(properties.X + form.X)
             
         end
 
@@ -1060,7 +1056,7 @@ function CreateFlowLayout(properties)
             end
             if input.GetMouseWheelDelta() == -1 then
                 local future = properties.ScrollLength - properties.ScrollHeight
-                print(future, properties.MaxScrollLength)
+                --print(future, properties.MaxScrollLength)
                 if future < properties.MaxScrollLength then
 
                 else
@@ -1346,8 +1342,8 @@ function CreateLabel(properties)
             .case("mouseclick", function() Control.MouseClick = value end)
             .case("color", function()
                 if string.find(value, "theme") then
-                    print("-" .. enc(tostring(value)) .. "-")
-                    print("-" .. enc("theme.header.text") .. "-")
+                    --print("-" .. enc(tostring(value)) .. "-")
+                    --print("-" .. enc("theme.header.text") .. "-")
                     local r,g,b,a = gui.GetValue(value)
                     Control.Color[1] = r
                     Control.Color[2] = g
@@ -1487,7 +1483,7 @@ function CreatePictureBox(properties)
         end
 
         if string.find(properties.Name, "example_paneldrag3") then
-            print(properties.X + form.X)
+            --print(properties.X + form.X)
             
         end
 
@@ -1591,7 +1587,6 @@ function CreateMusicLinkButton(properties)
                 local src = args[2]
                 switch(type:lower())
                 .case("jpg", function() 
-                    print(src)
                     local jpgData = http.Get(src);
                     local imgRGBA, imgWidth, imgHeight = common.DecodeJPEG(jpgData);
                     local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
@@ -1653,7 +1648,7 @@ function CreateMusicLinkButton(properties)
 		
 		-- Drag function
         if string.find(properties.Name, "example_paneldrag3") then
-            print(properties.X + form.X)
+            --print(properties.X + form.X)
             
         end
 		
@@ -1777,7 +1772,7 @@ function CreateCheckbox(properties)
 		
 		-- Drag function
         if string.find(properties.Name, "example_paneldrag3") then
-            print(properties.X + form.X)
+            --print(properties.X + form.X)
             
         end
 		

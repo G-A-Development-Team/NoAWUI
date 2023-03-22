@@ -312,7 +312,7 @@ callbacks.Register("Draw", "Render", function()
     if input.IsButtonReleased(1) then
         globaldragging = false
     end
-    TablePrint(focuslist)
+    --TablePrint(focuslist)
     for _m, main in ipairs(controls) do
         if getCurrentFocus() ~= main.Name then
             if main.Type == "form" and not string.starts(main.Type, "aw") then
