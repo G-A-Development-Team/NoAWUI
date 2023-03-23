@@ -803,6 +803,11 @@ function CreateToolTip(properties)
         --end
     end
 
+    if properties["lines"] ~= nil then
+        Control.Lines = properties["lines"]
+        TablePrint(Control.Lines)
+    end
+
     Control.Render = function(properties, form)
         if not properties.Visible or not form.Visible then
             return properties
@@ -817,14 +822,27 @@ function CreateToolTip(properties)
             local mouseX, mouseY = input.GetMousePos()
             if properties.Alignment == "dynamic" then
                 mouseX = mouseX + 10
-                local Tw, Th = draw.GetTextSize(properties.Text)
-                local cords = centerRectAbovePoint(mouseX, mouseY, Tw + 10, Th + 10)
-                Renderer:FilledRoundedRectangle({cords.X, cords.Y}, {Tw + 10, Th + 10}, {60,60,60,220}, {3,3,3,3,3})
+                local Tw, Th = 0,0
+
+                for jkey, jvalue in ipairs(properties.Lines) do
+                    local w, h = draw.GetTextSize(jvalue)
+                    Th = Th + h + 5
+                    if w > Tw then
+                        Tw = w
+                    end
+                end
+                print(Th)
+
+                local cords = centerRectAbovePoint(mouseX, mouseY, Tw + 10, Th)
+                Renderer:FilledRoundedRectangle({cords.X, cords.Y}, {Tw + 10, Th}, {60,60,60,220}, {3,3,3,3,3})
     
-                
-                Renderer:Text({cords.X + 5, cords.Y + 2}, {255,255,255,255}, properties.Text)
+                for jkey, jvalue in ipairs(properties.Lines) do
+                    local w, h = draw.GetTextSize(jvalue)
+                    local cords2 = centerRectAbovePoint(mouseX, mouseY, w + 10, h)
+                    Renderer:Text({cords2.X + 5, cords2.Y}, {255,255,255,255}, jvalue)
+                end
                 mouseX = mouseX - 10
-                Renderer:Triangle({mouseX + 9 , mouseY - 11}, {mouseX - 9, mouseY - 11}, {mouseX, mouseY + 0}, {60,60,60,220}) 
+                --Renderer:Triangle({mouseX + 9 , mouseY - 11}, {mouseX - 9, mouseY - 11}, {mouseX, mouseY + 0}, {60,60,60,220}) 
             end
             if properties.Alignment == "static" then
                 local Tw, Th = draw.GetTextSize(properties.Text)

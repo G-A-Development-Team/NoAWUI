@@ -211,7 +211,15 @@
 			},
 			"other": {
                 "alignment": "dynamic",
-                "text": "Music kit you want to play in game."
+                "lines": [
+                    "Music kit you want to play in game",
+                    "Music kit you want to play in game",
+                    "Music kit you want to play in gameasdasd",
+                    "Music kit you want to play in gameasdasd",
+                    "Music kit you want to play in gameasdasd",
+                    "Music kit you want to play in gameasdasd",
+
+                ]
 			}
 			
 		}
