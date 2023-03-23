@@ -5,12 +5,12 @@ function Form:Initialize()
 	--print("hello world")
     Form:Tab1()
 
-    local sender = getControlByName("Main", "plbChanger")
+    --[[local sender = getControlByName("Main", "plbChanger")
     sender.AddItem("jpg,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/1326583.jpg", "niiiiggaaa1")
     sender.AddItem("jpg,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/1326583.jpg", "niiiiggaaa2")
     sender.AddItem("jpg,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/1326583.jpg", "niiiiggaaa3")
     sender.AddItem("jpg,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/1326583.jpg", "niiiiggaaa4")
-    sender.AddItem("jpg,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/1326583.jpg", "niiiiggaaa5")
+    sender.AddItem("jpg,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/1326583.jpg", "niiiiggaaa5")]]--
 
     --local managelist = getControlByName("mainForm", "managelist")
 
@@ -87,6 +87,11 @@ end
 function Form:ChangePictureBox(parent, name, url, ext)
 	local sender = getControlByName(parent, name)
 	sender.ChangeImage(sender, url, ext)
+end
+
+function Form:ChangedPicture(parent, name)
+	local sender = getControlByName(parent, name)
+	print(tostring(sender.SelectedIndex))
 end
 
 --local listbox = getControlByName("Test_Tab", "guns")
