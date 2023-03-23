@@ -446,8 +446,8 @@ function CreatePictureListBox(properties)
 
     function ListBox:Event(args)
         local type = split(args, ",")[3]
-        local child = getControl(split(args, ",")[1])
-        local flow_parent = getControl(split(args, ",")[2])
+        local child = getControl(dec(split(args, ",")[1]))
+        local flow_parent = getControl(dec(split(args, ",")[2]))
         local parent = getParentControl(flow_parent)
         switch(type:lower())
             .case("inside", function() child.Background = parent.ItemHoverColor end)
@@ -497,9 +497,9 @@ function CreatePictureListBox(properties)
             height = Control.ItemHeight,
             background = Control.ItemBackground,
             border = "50,50,50,0",
-            mousehover = "ListBox:Event('" .. "item_" .. title .. "," .. Control.Children[1].Name .. ",inside')",
-            mouseoutside = "ListBox:Event('" .. "item_" .. title .. "," .. Control.Children[1].Name .. ",outside')",
-            mouseclick = "ListBox:Event('" .. "item_" .. title .. "," .. Control.Children[1].Name .. ",click')",
+            mousehover = "ListBox:Event('" .. enc("item_" .. title) .. "," .. enc(Control.Children[1].Name) .. ",inside')",
+            mouseoutside = "ListBox:Event('" .. enc("item_" .. title) .. "," .. enc(Control.Children[1].Name) .. ",outside')",
+            mouseclick = "ListBox:Event('" .. enc("item_" .. title) .. "," .. enc(Control.Children[1].Name) .. ",click')",
         })
         panel.Children[1] = CreateLabel({
             type = "label",
