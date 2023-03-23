@@ -376,3 +376,9 @@ callbacks.Register("Draw", "Render", function()
     end
 
 end)
+
+callbacks.Register("Unload", function()
+    UnloadScript("WinForm/Misc.lua")
+    UnloadScript("WinForm/Renderer.lua")
+    UnloadScript("WinForm/Controls.lua")
+end)

@@ -1,5 +1,6 @@
 {
     "Lua.diagnostics.globals": [
-        "RunScript"
+        "RunScript",
+        "UnloadScript"
     ]
 }
