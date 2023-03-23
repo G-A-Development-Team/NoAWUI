@@ -26,6 +26,7 @@
 			
 		}
 	},
+    
 * Tab1 -> GroupBox1 -> KitPreview
 	{
 		"details": {
@@ -181,11 +182,36 @@
 		},
 		"optional": {
 			"style": {
+                "tooltip" : {
+                    "text" : "johnny",
+                }
 			},
 			"function": {
 				"changeevent": "Form:plbChanger_Changed()",
 			},
 			"other": {
+			}
+			
+		}
+	},
+* Tab1 -> GroupBox1 -> listbox tooltip
+	{
+		"details": {
+			"type": "tooltip",
+			"name": "tooltippers",
+			"parent": "plbChanger",
+            "group": "tChanger"
+		},
+		"dimensions": {
+		},
+		"optional": {
+			"style": {
+			},
+			"function": {
+			},
+			"other": {
+                "alignment": "dynamic",
+                "text": "Music kit you want to play in game."
 			}
 			
 		}

@@ -200,6 +200,29 @@ function centerTextOnRectangle(cords, size, text)
     return {X = textX, Y = textY}
 end
 
+function centerRect(innerWidth, innerHeight, outerX, outerY, outerWidth, outerHeight)
+    local newX = outerX + (outerWidth - innerWidth) / 2
+    local newY = outerY + (outerHeight - innerHeight) / 2
+    return {X = newX, Y = newY, Width = innerWidth, Height = innerHeight}
+end
+
+function centerTriangleInRect(x1, y1, x2, y2, x3, y3, rectX, rectY, rectWidth, rectHeight)
+    -- Calculate the center of the rectangle
+    local centerX = rectX + rectWidth / 2
+    local centerY = rectY + rectHeight / 2
+    
+    -- Calculate the offset of each triangle vertex from the center of the rectangle
+    local dx1 = x1 - centerX
+    local dy1 = y1 - centerY
+    local dx2 = x2 - centerX
+    local dy2 = y2 - centerY
+    local dx3 = x3 - centerX
+    local dy3 = y3 - centerY
+    
+    -- Return the coordinates of the triangle vertices relative to the center of the rectangle
+    return {X1 = centerX + dx1, Y1 = centerY + dy1, X2 = centerX + dx2, Y2 = centerY + dy2, X3 = centerX + dx3, Y3 = centerY + dy3}
+end
+
 function addComponent(component, parent)
     -- Check if the parent is the correct one
     if parent.Name == component.Parent then

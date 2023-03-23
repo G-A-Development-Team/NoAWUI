@@ -1,6 +1,6 @@
 Renderer = {}
 
-local draw_Scissor, draw_Color, draw_FilledRect, draw_Text, draw_ShadowRect, draw_RoundedRectFill, draw_TextP, draw_OutlinedRect, draw_RoundedRect =  draw.SetScissorRect, draw.Color, draw.FilledRect, draw.TextShadow, draw.ShadowRect, draw.RoundedRectFill, draw.Text, draw.OutlinedRect, draw.RoundedRect
+local draw_Triangle, draw_Scissor, draw_Color, draw_FilledRect, draw_Text, draw_ShadowRect, draw_RoundedRectFill, draw_TextP, draw_OutlinedRect, draw_RoundedRect =  draw.Triangle, draw.SetScissorRect, draw.Color, draw.FilledRect, draw.TextShadow, draw.ShadowRect, draw.RoundedRectFill, draw.Text, draw.OutlinedRect, draw.RoundedRect
 
 -- By: CarterPoe
 function Renderer:FilledRectangle(cord, size, color)
@@ -55,6 +55,11 @@ function Renderer:RoundedRectangleBorder(cord, size, outer_color, inner_color, r
     draw_RoundedRectFill(cord[1], cord[2], cord[1] + size[1], cord[2] + size[2], roundness) -- Draw filled rectangle using the specified parameters
 	draw_Color(inner_color[1], inner_color[2], inner_color[3], inner_color[4]) -- Set color to white
     draw_RoundedRectFill(cord[1] + thickness, cord[2] + thickness, cord[1] + size[1] - thickness , cord[2] + size[2] - thickness, roundness) -- Draw filled rectangle using the specified parameters
+end
+
+function Renderer:Triangle(cord1, cord2, cord3, color)
+    draw_Color(color[1], color[2], color[3], color[4])
+    draw_Triangle(cord1[1], cord1[2], cord2[1], cord2[2], cord3[1], cord3[2])
 end
 
 return Renderer

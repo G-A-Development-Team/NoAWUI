@@ -43,6 +43,14 @@ local function LoadJsonElements(jElements)
                     end
                 end
             end)
+            .case("tooltip", function() 
+                local made = CreateToolTip(attributes)
+                for _, control in ipairs(controls) do
+                    if made.Parent ~= "" then
+                        addComponent(made, control)
+                    end
+                end
+            end)
             .case("picturebox", function() 
                 local made = CreatePictureBox(attributes)
                 for _, control in ipairs(controls) do
