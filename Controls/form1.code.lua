@@ -89,10 +89,40 @@ function Form:ChangePictureBox(parent, name, url, ext)
 	sender.ChangeImage(sender, url, ext)
 end
 
-function Form:ChangedPicture(parent, name)
-	local sender = getControlByName(parent, name)
-	print(tostring(sender.SelectedIndex))
+-- By: Agentsix1
+function Form:plbChanger_Changed()
+	-- Get the controls needed to be modified
+	local plbChanger = getControlByName("Main", "plbChanger")
+	local lblKitName = getControlByName("Main", "lblKitName")
+	local mlMVP = getControlByName("Main", "mlMVP")
+	local mlRoundLoss = getControlByName("Main", "mlRoundLoss")
+	local mlDeathTheme = getControlByName("Main", "mlDeathTheme")
+
+	-- Set the label to the name of the kit
+	lblKitName.Text = kits[plbChanger.SelectedIndex]
+	
+	-- Set the urls for the play buttons
+	mlMVP.URL = kits_details[kits[plbChanger.SelectedIndex]]['Round MVP anthem']
+	mlRoundLoss.URL = kits_details[kits[plbChanger.SelectedIndex]]['Round Loss']
+	mlDeathTheme.URL = kits_details[kits[plbChanger.SelectedIndex]]['Deathcam']
+	
+	-- Set the image for the Album Art
+	Form:ChangePictureBox("Main", "pbKitPreview", kits_details[kits[plbChanger.SelectedIndex]]['img'], "png")
+	plbChanger.ChangedStatus = true
 end
+
+function Form:mlMVP_Clicked()
+	print("mlMVP_Clicked")
+end
+
+function Form:mlRoundLoss_Clicked()
+	print("mlRoundLoss_Clicked")
+end
+
+function Form:mlDeathTheme_Clicked()
+	print("mlDeathTheme_Clicked")
+end
+
 
 --local listbox = getControlByName("Test_Tab", "guns")
 

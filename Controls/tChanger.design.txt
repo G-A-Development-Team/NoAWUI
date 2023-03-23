@@ -98,7 +98,7 @@
                 "fontheight": 25
 			},
 			"function": {
-                "mouseclick": "Form:Click()"
+                "mouseclick": "Form:mlMVP_Clicked()"
 			},
 			"other": {
                 "text": "MVP Award",
@@ -128,7 +128,7 @@
                 "fontheight": 25
 			},
 			"function": {
-                "mouseclick": "Form:Click()"
+                "mouseclick": "Form:mlRoundLoss_Clicked()"
 			},
 			"other": {
                 "text": "Round Loss",
@@ -158,7 +158,7 @@
                 "fontheight": 25
 			},
 			"function": {
-                "mouseclick": "Form:Click()"
+                "mouseclick": "Form:mlDeathTheme_Clicked()"
 			},
 			"other": {
                 "text": "Death Theme",
@@ -183,19 +183,9 @@
 			"style": {
 			},
 			"function": {
-				"changeevent": "Form:ChangedPicture('Main','plbChanger')",
+				"changeevent": "Form:plbChanger_Changed()",
 			},
 			"other": {
-                "items": {
-                    {
-                        "name": "noobie",
-                        "image": "jpg,https://th.bing.com/th/id/OIP.IMUAROkrpzegxrBwGzNbzQHaJQ?pid=ImgDet&rs=1"
-                    },
-                    {
-                        "name": "shittydoppy",
-                        "image": "jpg,https://th.bing.com/th/id/OIP.IMUAROkrpzegxrBwGzNbzQHaJQ?pid=ImgDet&rs=1"
-                    }
-                }
 			}
 			
 		}

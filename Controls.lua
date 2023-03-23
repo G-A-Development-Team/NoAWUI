@@ -295,12 +295,6 @@ function CreateForm(properties)
 end
 
 -- By: CarterPoe
--- Features to add
-------------------
--- Changed event
--- Default selected item would be nil while selected index would be 0
--- Add Control.SelectedIndex
--- 
 function CreatePictureListBox(properties)
     local Control = CreateControl()
     Control.ActiveBackground = {240, 240, 240, 255}
@@ -318,7 +312,7 @@ function CreatePictureListBox(properties)
     Control.ListHeight = 215
 	Control.PreviousIndex = 0
 	Control.SelectedIndex = 0
-	
+	Control.ChangedStatus = false
     for key, value in pairs(properties) do
             switch(key:lower())
             .case("name", function() Control.Name = value end)
@@ -1692,7 +1686,10 @@ function CreateMusicLinkButton(properties)
                     if not getSelected() then
                         panorama.RunScript([[
                             SteamOverlayAPI.OpenURL("]] .. properties.URL .. [[")
-                       ]]) 
+                       ]])
+						
+						gui.Command('lua.run "' .. properties.MouseClick .. '" ') 
+						
                     end
                 end
             end
