@@ -223,6 +223,13 @@ function centerTriangleInRect(x1, y1, x2, y2, x3, y3, rectX, rectY, rectWidth, r
     return {X1 = centerX + dx1, Y1 = centerY + dy1, X2 = centerX + dx2, Y2 = centerY + dy2, X3 = centerX + dx3, Y3 = centerY + dy3}
 end
 
+function centerRectAbovePoint(x, y, width, height)
+    local rectX = x - width / 2
+    local rectY = y - height / 2 - height
+    return {X = rectX, Y = rectY}
+end
+
+
 function addComponent(component, parent)
     -- Check if the parent is the correct one
     if parent.Name == component.Parent then

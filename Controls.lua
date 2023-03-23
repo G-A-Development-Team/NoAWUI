@@ -816,19 +816,15 @@ function CreateToolTip(properties)
         if isMouseInRect(form.X + c.X, form.Y + c.Y, form.Width, form.Height) and not getSelected() then
             local mouseX, mouseY = input.GetMousePos()
             if properties.Alignment == "dynamic" then
-                mouseY = mouseY - 10
+                mouseX = mouseX + 10
                 local Tw, Th = draw.GetTextSize(properties.Text)
+                local cords = centerRectAbovePoint(mouseX, mouseY, Tw + 10, Th + 10)
+                Renderer:FilledRoundedRectangle({cords.X, cords.Y}, {Tw + 10, Th + 10}, {60,60,60,220}, {3,3,3,3,3})
     
-                Renderer:FilledRoundedRectangle({mouseX - 45, mouseY - 30}, {Tw + 10, Th + 10}, {60,60,60,220}, {3,3,3,3,3})
-    
-                Renderer:Text({mouseX - 40, mouseY - 28}, {255,255,255,255}, properties.Text)
-    
-                mouseX = mouseX - 30
-                local rectCenterX = mouseX - 15 + (Tw + 10) / 2 -- calculate center x of the rectangle
-                local triangleWidth = 18 -- set width of triangle
-                local triangleCenterX = rectCenterX - triangleWidth / 2 -- calculate center x of the triangle
-    
-                --Renderer:Triangle({triangleCenterX + 9 , mouseY - 8}, {triangleCenterX - 9, mouseY - 8}, {triangleCenterX, mouseY + 5}, {60,60,60,220}) 
+                
+                Renderer:Text({cords.X + 5, cords.Y + 2}, {255,255,255,255}, properties.Text)
+                mouseX = mouseX - 10
+                Renderer:Triangle({mouseX + 9 , mouseY - 11}, {mouseX - 9, mouseY - 11}, {mouseX, mouseY + 0}, {60,60,60,220}) 
             end
             if properties.Alignment == "static" then
                 local Tw, Th = draw.GetTextSize(properties.Text)
