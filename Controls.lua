@@ -438,8 +438,35 @@ function CreatePictureListBox(properties)
             background = "15,15,15,255",
             roundness = "6,0,0,6,6",
             scrollheight = Control.ItemHeight + 1,
-        })
+        }),
     }
+
+    Control.Children[2] = CreatePanel({
+        type = "panel",
+        name = "apanel",
+        parent = Control.Name,
+        x = 44,
+        y = 1,
+        width = Control.Width - 55,
+        height = 20,
+        background = "0,0,0,0"
+    })
+
+    local a = centerTextOnRectangle({Control.Children[2].X, Control.Children[2].Y}, {Control.Children[2].Width, Control.Height}, "")
+
+
+    Control.Children[3] = CreateLabel({
+        type = "label",
+        name = "alabel",
+        parent = Control.Name,
+        x = 44,
+        y = a.Y - 4,
+        width = Control.Width - 55,
+        height = 20,
+        color = "0,0,0,255",
+        alignment = "autosize",
+        text = ""
+    })
 
     ListBox = {}
 
@@ -635,26 +662,11 @@ function CreatePictureListBox(properties)
 		end
         draw.SetFont(properties.CreatedFont);
         if properties.SelectedItem ~= nil then
-            local Tw, Th = draw.GetTextSize(properties.SelectedItem.Name)
 
-            if tonumber(Tw) >= tonumber(properties.Width - 85) then
-                if properties.Multipler == nil then
-                    properties.Multipler = 2
-                else
-                    properties.Multipler = properties.Multipler + 2
-                end
-                local Font = draw.CreateFont(properties.FontFamily, properties.FontHeight - properties.Multipler, properties.FontWeight)
-
-                properties.CreatedFont = Font
-                properties.SelectedItem.Custom = true
-            else
-                if properties.SelectedItem.Custom == nil then
-                    draw.SetFont(properties.DefaultFont);
-                    --print("default")
-                end
-                print("mutlply", properties.Multipler, Tw, properties.Width - 85)
-                Renderer:Text({properties.X + form.X + 45, properties.Y + form.Y + 16}, {0,0,0,255}, properties.SelectedItem.Name)
-            end
+            local a = centerTextOnRectangle({properties.Children[2].X, properties.Children[2].Y}, {properties.Children[2].Width, properties.Height}, properties.SelectedItem.Name)
+            
+            properties.Children[3].Y = a.Y - 4
+            properties.Children[3].Text = properties.SelectedItem.Name
 
             draw.SetTexture(properties.SelectedItem.ImageData)
             Renderer:FilledRectangle({properties.X + form.X + 4, properties.Y + form.Y + 3}, {40, properties.StartHeight - 5}, properties.Background)
