@@ -65,7 +65,7 @@ local dctxtKit = GetAttributesFromArrayByName(jsonatts, "fltxtmKit_")
 
 
 function setManagerData()
-	flTogglePlayers.Children = {}
+	flTogglePlayers.Clear()
 	
 	local lp_event = entities.GetLocalPlayer()
 	-- This is to create 20 entries
@@ -123,7 +123,8 @@ function setManagerData()
 					panel.Children[#panel.Children+1] = CreateLabel(txtName)
 					
 					-- add all the objects to the panels and complete the process
-					flTogglePlayers.Children[#flTogglePlayers.Children+1] = panel
+                    flTogglePlayers.AddItem(panel)
+					--flTogglePlayers.Children[#flTogglePlayers.Children+1] = panel
 				
 				end
 			end

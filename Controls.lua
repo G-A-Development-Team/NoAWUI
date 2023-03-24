@@ -1184,6 +1184,13 @@ function CreateFlowLayout(properties)
 
     Control.AddItem = function(item)
         table.insert(Control.Children, item)
+        Control.ScrollLength = 0
+        Control.MaxScrollLength = 0
+    end
+
+    Control.Clear = function(item)
+        Control.Children = {}
+        Control.ScrollLength = 0
         Control.MaxScrollLength = 0
     end
 
