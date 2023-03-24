@@ -1605,7 +1605,7 @@ function CreateLabel(properties)
                 else
                     properties.Multipler = properties.Multipler + 1
                 end
-                local Font = draw.CreateFont(Control.FontFamily, Control.FontHeight - properties.Multipler, Control.FontWeight)
+                local Font = draw.CreateFont(properties.FontFamily, properties.FontHeight - properties.Multipler, properties.FontWeight)
 
                 properties.CreatedFont = Font
             else
