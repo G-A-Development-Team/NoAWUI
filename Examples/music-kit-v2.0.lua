@@ -30,111 +30,6 @@ kit_details = http.Get('https://raw.githubusercontent.com/G-A-Development-Team/S
 kits_details = json.decode(kit_details)['details']
 
 
----------------
--- Load Data --
----------------
--- Populate the Changer Drop Down Box
--- Grab the drop down box
-local plbChanger = getControlByName("Main", "plbChanger")
-
--- Loop through all the kits
-for i = 1, table.getn(kits), 1 do
-	-- Add the kit to the plbChanger
-	plbChanger.AddItem("png," .. kits_details[kits[i]]['img'], kits[i])
-end
-
---------------------
--- Create Manager --
---------------------
---
--- flTogglePlayers.Children = {} Clears all children
---
--- Get the Toggle Players Control
-local flTogglePlayers = getControlByName("Main", "flTogglePlayers")
---
--- Load the attributes to an array
-local jsonatts = GetMultipleAttributesFromFile("WinForm/Controls/tManager.Flowlayout.Child.design.txt")
-	
--- Split the array into objects
-local dcplPanel = GetAttributesFromArrayByName(jsonatts, "flplManager_")
-local dcchkToggle = GetAttributesFromArrayByName(jsonatts, "flchkmToggle_")
-local dcpbAvatar = GetAttributesFromArrayByName(jsonatts, "flpbmAvatar_")
-local dcpbKit = GetAttributesFromArrayByName(jsonatts, "flpbmKit_")
-local dctxtName = GetAttributesFromArrayByName(jsonatts, "fltxtmName_")
-local dctxtKit = GetAttributesFromArrayByName(jsonatts, "fltxtmKit_")
-
-
-function setManagerData()
-	flTogglePlayers.Clear()
-	
-	local lp_event = entities.GetLocalPlayer()
-	-- This is to create 20 entries
-	if lp_event ~= nil then
-	
-		local players = entities.FindByClass("CCSPlayer")
-		local temp_players = {}
-		
-		for i = 1, #players do
-		
-			player = players[i]
-			if player:GetName() ~= "GOTV" then
-			
-				data = client.GetPlayerInfo(player:GetIndex())
-				
-				if data['SteamID'] >= 5000 then
-				
-				
-					-- Set the panels to the default save value
-					plPanel = deepcopy(dcplPanel)
-					chkToggle = deepcopy(dcchkToggle)
-					pbAvatar = deepcopy(dcpbAvatar)
-					pbKit = deepcopy(dcpbKit)
-					txtName = deepcopy(dctxtName)
-					txtKit = deepcopy(dctxtKit)
-					
-					-- Add the id to the name of the object and create the panel
-					plPanel['name'] = plPanel['name'] .. i
-					local panel = CreatePanel(plPanel)
-					
-					-- add the id to the name and parent of the object and create the Picture Box
-					pbAvatar['name'] = pbAvatar['name'] .. i
-					pbAvatar['parent'] = pbAvatar['parent'] .. i
-					panel.Children[#panel.Children+1] = CreatePictureBox(pbAvatar)
-					
-					-- add the id to the name and parent of the object and create the Picture Box
-					pbKit['name'] = pbKit['name'] .. i
-					pbKit['parent'] = pbKit['parent'] .. i
-					panel.Children[#panel.Children+1] = CreatePictureBox(pbKit)
-					
-					-- add the id to the name and parent of the object and create the Checkbox
-					chkToggle['name'] = chkToggle['name'] .. i
-					chkToggle['parent'] = chkToggle['parent'] .. i
-					panel.Children[#panel.Children+1] = CreateCheckbox(chkToggle)
-					
-					-- add the id to the name and parent of the object and create the Label
-					txtKit['name'] = txtKit['name'] .. i
-					txtKit['parent'] = txtKit['parent'] .. i
-					txtKit['text'] = kits[entities.GetPlayerResources():GetPropInt("m_nMusicID", player:GetIndex())]
-					panel.Children[#panel.Children+1] = CreateLabel(txtKit)
-					
-					-- add the id to the name and parent of the object and create the Label
-					txtName['name'] = txtName['name'] .. i
-					txtName['parent'] = txtName['parent'] .. i
-					txtName['text'] = player:GetName()
-					panel.Children[#panel.Children+1] = CreateLabel(txtName)
-					
-					-- add all the objects to the panels and complete the process
-                    flTogglePlayers.AddItem(panel)
-					--flTogglePlayers.Children[#flTogglePlayers.Children+1] = panel
-				
-				end
-			end
-		end		
-	end
-end
-
-
-
 -----------
 -- Users --
 -----------
@@ -189,6 +84,146 @@ if not exists then
 	h = ''
 	file.Write("mkc_queue.dat", h)
 end
+
+
+---------------
+-- Load Data --
+---------------
+-- Populate the Changer Drop Down Box
+-- Grab the drop down box
+local plbChanger = getControlByName("Main", "plbChanger")
+
+-- Loop through all the kits
+for i = 1, table.getn(kits), 1 do
+	-- Add the kit to the plbChanger
+	plbChanger.AddItem("png," .. kits_details[kits[i]]['img'], kits[i])
+end
+
+--------------------
+-- Create Manager --
+--------------------
+--
+-- flTogglePlayers.Children = {} Clears all children
+--
+-- Get the Toggle Players Control
+local flTogglePlayers = getControlByName("Main", "flTogglePlayers")
+--
+-- Load the attributes to an array
+local jsonatts = GetMultipleAttributesFromFile("WinForm/Controls/tManager.Flowlayout.Child.design.txt")
+	
+-- Split the array into objects
+local dcplPanel = GetAttributesFromArrayByName(jsonatts, "flplManager_")
+local dcchkToggle = GetAttributesFromArrayByName(jsonatts, "flchkmToggle_")
+local dcpbAvatar = GetAttributesFromArrayByName(jsonatts, "flpbmAvatar_")
+local dcpbKit = GetAttributesFromArrayByName(jsonatts, "flpbmKit_")
+local dctxtName = GetAttributesFromArrayByName(jsonatts, "fltxtmName_")
+local dctxtKit = GetAttributesFromArrayByName(jsonatts, "fltxtmKit_")
+
+function setManagerData()
+	flTogglePlayers.Clear()
+	
+	local lp_event = entities.GetLocalPlayer()
+	-- This is to create 20 entries
+	if lp_event ~= nil then
+		local steamidar = {}
+		local players = entities.FindByClass("CCSPlayer")
+		local detailed_players = '{}'
+		detailed_players = json.decode(detailed_players)
+		local loop_i = 1
+		for i = 1, #players do
+		
+			player = players[i]
+			if player:GetName() ~= "GOTV" then
+			
+				data = client.GetPlayerInfo(player:GetIndex())
+				
+				if data['SteamID'] >= 5000 then
+					local steamid32 = tostring(data['SteamID'])
+					detailed_players[steamid32] = {}
+					detailed_players[steamid32]['steamid32'] = data['SteamID']
+					detailed_players[steamid32]['steamid64'] = ""
+					detailed_players[steamid32]['avatar'] = ""
+					table.insert(steamidar, data['SteamID'])
+				end
+				
+			end
+			
+		end
+		local url = domain .. 'getavatar.php?id=' .. id .. '&json=' .. json.encode(steamidar)
+		http.Get(url, function (httpreturn)
+			httpreturn = json.decode(httpreturn)
+			for _, v in pairs(steamidar) do
+				v = tostring(v)
+				detailed_players[v]['avatar'] = httpreturn[v]['avatar']
+				detailed_players[v]['steamid64'] = httpreturn[v]['steamid64']
+			end	
+			
+			local temp_players = {}
+		
+			for i = 1, #players do
+			
+				player = players[i]
+				if player:GetName() ~= "GOTV" then
+				
+					data = client.GetPlayerInfo(player:GetIndex())
+					
+					if data['SteamID'] >= 5000 then
+						local steamid32 = tostring(data['SteamID'])
+					
+						-- Set the panels to the default save value
+						plPanel = deepcopy(dcplPanel)
+						chkToggle = deepcopy(dcchkToggle)
+						pbAvatar = deepcopy(dcpbAvatar)
+						pbKit = deepcopy(dcpbKit)
+						txtName = deepcopy(dctxtName)
+						txtKit = deepcopy(dctxtKit)
+						
+						-- Add the id to the name of the object and create the panel
+						plPanel['name'] = plPanel['name'] .. i
+						local panel = CreatePanel(plPanel)
+						
+						-- add the id to the name and parent of the object and create the Picture Box
+						pbAvatar['name'] = pbAvatar['name'] .. i
+						pbAvatar['parent'] = pbAvatar['parent'] .. i
+						pbAvatar['image'] = 'jpg,' .. detailed_players[steamid32]['avatar']
+						panel.Children[#panel.Children+1] = CreatePictureBox(pbAvatar)
+						
+						-- add the id to the name and parent of the object and create the Picture Box
+						pbKit['name'] = pbKit['name'] .. i
+						pbKit['parent'] = pbKit['parent'] .. i
+						panel.Children[#panel.Children+1] = CreatePictureBox(pbKit)
+						
+						-- add the id to the name and parent of the object and create the Checkbox
+						chkToggle['name'] = chkToggle['name'] .. i
+						chkToggle['parent'] = chkToggle['parent'] .. i
+						panel.Children[#panel.Children+1] = CreateCheckbox(chkToggle)
+						
+						-- add the id to the name and parent of the object and create the Label
+						txtKit['name'] = txtKit['name'] .. i
+						txtKit['parent'] = txtKit['parent'] .. i
+						txtKit['text'] = kits[entities.GetPlayerResources():GetPropInt("m_nMusicID", player:GetIndex())]
+						panel.Children[#panel.Children+1] = CreateLabel(txtKit)
+						
+						-- add the id to the name and parent of the object and create the Label
+						txtName['name'] = txtName['name'] .. i
+						txtName['parent'] = txtName['parent'] .. i
+						txtName['text'] = player:GetName()
+						panel.Children[#panel.Children+1] = CreateLabel(txtName)
+						
+						-- add all the objects to the panels and complete the process
+						flTogglePlayers.AddItem(panel)
+						--flTogglePlayers.Children[#flTogglePlayers.Children+1] = panel
+					
+					end
+				end
+			end	
+		end)
+	end
+end
+
+
+
+
 
 local setkits = true
 queue_tick = 100
