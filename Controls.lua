@@ -417,6 +417,11 @@ function CreatePictureListBox(properties)
         --end
     end
 
+    local Font = draw.CreateFont(Control.FontFamily, Control.FontHeight, Control.FontWeight)
+
+    Control.CreatedFont = Font
+    Control.DefaultFont = Font
+
     if Control.Parent ~= nil then
         Control.FormName = "" 
     end
@@ -628,9 +633,28 @@ function CreatePictureListBox(properties)
 				properties.Selected = false
 			end
 		end
-
+        draw.SetFont(properties.CreatedFont);
         if properties.SelectedItem ~= nil then
-            Renderer:Text({properties.X + form.X + 55, properties.Y + form.Y + 14}, {0,0,0,255}, properties.SelectedItem.Name)
+            local Tw, Th = draw.GetTextSize(properties.SelectedItem.Name)
+
+            if tonumber(Tw) >= tonumber(properties.Width - 85) then
+                if properties.Multipler == nil then
+                    properties.Multipler = 2
+                else
+                    properties.Multipler = properties.Multipler + 2
+                end
+                local Font = draw.CreateFont(properties.FontFamily, properties.FontHeight - properties.Multipler, properties.FontWeight)
+
+                properties.CreatedFont = Font
+                properties.SelectedItem.Custom = true
+            else
+                if properties.SelectedItem.Custom == nil then
+                    draw.SetFont(properties.DefaultFont);
+                    --print("default")
+                end
+                print("mutlply", properties.Multipler, Tw, properties.Width - 85)
+                Renderer:Text({properties.X + form.X + 45, properties.Y + form.Y + 16}, {0,0,0,255}, properties.SelectedItem.Name)
+            end
 
             draw.SetTexture(properties.SelectedItem.ImageData)
             Renderer:FilledRectangle({properties.X + form.X + 4, properties.Y + form.Y + 3}, {40, properties.StartHeight - 5}, properties.Background)
