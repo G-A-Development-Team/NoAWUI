@@ -1182,6 +1182,11 @@ function CreateFlowLayout(properties)
             .process() 
     end
 
+    Control.AddItem = function(item)
+        table.insert(Control.Children, item)
+        Control.MaxScrollLength = 0
+    end
+
     Control.Render = function(properties, form)
         if not properties.Visible or not form.Visible then
             return properties
