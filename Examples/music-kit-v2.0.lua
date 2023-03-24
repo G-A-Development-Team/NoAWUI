@@ -43,6 +43,95 @@ for i = 1, table.getn(kits), 1 do
 	plbChanger.AddItem("png," .. kits_details[kits[i]]['img'], kits[i])
 end
 
+--------------------
+-- Create Manager --
+--------------------
+--
+-- flTogglePlayers.Children = {} Clears all children
+--
+-- Get the Toggle Players Control
+local flTogglePlayers = getControlByName("Main", "flTogglePlayers")
+--
+-- Load the attributes to an array
+local jsonatts = GetMultipleAttributesFromFile("WinForm/Controls/tManager.Flowlayout.Child.design.txt")
+	
+-- Split the array into objects
+local dcplPanel = GetAttributesFromArrayByName(jsonatts, "flplManager_")
+local dcchkToggle = GetAttributesFromArrayByName(jsonatts, "flchkmToggle_")
+local dcpbAvatar = GetAttributesFromArrayByName(jsonatts, "flpbmAvatar_")
+local dcpbKit = GetAttributesFromArrayByName(jsonatts, "flpbmKit_")
+local dctxtName = GetAttributesFromArrayByName(jsonatts, "fltxtmName_")
+local dctxtKit = GetAttributesFromArrayByName(jsonatts, "fltxtmKit_")
+
+
+function setManagerData()
+	flTogglePlayers.Children = {}
+	
+	local lp_event = entities.GetLocalPlayer()
+	-- This is to create 20 entries
+	if lp_event ~= nil then
+	
+		local players = entities.FindByClass("CCSPlayer")
+		local temp_players = {}
+		
+		for i = 1, #players do
+		
+			player = players[i]
+			if player:GetName() ~= "GOTV" then
+			
+				data = client.GetPlayerInfo(player:GetIndex())
+				
+				if data['SteamID'] >= 5000 then
+				
+				
+					-- Set the panels to the default save value
+					plPanel = deepcopy(dcplPanel)
+					chkToggle = deepcopy(dcchkToggle)
+					pbAvatar = deepcopy(dcpbAvatar)
+					pbKit = deepcopy(dcpbKit)
+					txtName = deepcopy(dctxtName)
+					txtKit = deepcopy(dctxtKit)
+					
+					-- Add the id to the name of the object and create the panel
+					plPanel['name'] = plPanel['name'] .. i
+					local panel = CreatePanel(plPanel)
+					
+					-- add the id to the name and parent of the object and create the Picture Box
+					pbAvatar['name'] = pbAvatar['name'] .. i
+					pbAvatar['parent'] = pbAvatar['parent'] .. i
+					panel.Children[#panel.Children+1] = CreatePictureBox(pbAvatar)
+					
+					-- add the id to the name and parent of the object and create the Picture Box
+					pbKit['name'] = pbKit['name'] .. i
+					pbKit['parent'] = pbKit['parent'] .. i
+					panel.Children[#panel.Children+1] = CreatePictureBox(pbKit)
+					
+					-- add the id to the name and parent of the object and create the Checkbox
+					chkToggle['name'] = chkToggle['name'] .. i
+					chkToggle['parent'] = chkToggle['parent'] .. i
+					panel.Children[#panel.Children+1] = CreateCheckbox(chkToggle)
+					
+					-- add the id to the name and parent of the object and create the Label
+					txtKit['name'] = txtKit['name'] .. i
+					txtKit['parent'] = txtKit['parent'] .. i
+					panel.Children[#panel.Children+1] = CreateLabel(txtKit)
+					
+					-- add the id to the name and parent of the object and create the Label
+					txtName['name'] = txtName['name'] .. i
+					txtName['parent'] = txtName['parent'] .. i
+					txtName['text'] = player:GetName()
+					panel.Children[#panel.Children+1] = CreateLabel(txtName)
+					
+					-- add all the objects to the panels and complete the process
+					flTogglePlayers.Children[#flTogglePlayers.Children+1] = panel
+				
+				end
+			end
+		end		
+	end
+end
+
+
 
 -----------
 -- Users --
@@ -103,7 +192,7 @@ local setkits = true
 queue_tick = 100
 queue_last = 0
 local pcb_lastselected = 0
-callbacks.Register("Draw", function()
+callbacks.Register("Draw", "Default_Execution", function()
    -- Shared checkbox listener
    --[[if gui_shared_value ~= gui_shared:GetValue() then
         gui_shared_value = gui_shared:GetValue()
@@ -240,4 +329,40 @@ callbacks.Register("FireGameEvent", function(e)
 		end
 		setkits = true
 	--end
+end)
+
+local cur_players = {}
+callbacks.Register("Draw", function()
+	
+	local lp_event = entities.GetLocalPlayer()
+	
+	if lp_event ~= nil then
+	
+		local players = entities.FindByClass("CCSPlayer")
+		local temp_players = {}
+		
+		for i = 1, #players do
+		
+			player = players[i]
+			if player:GetName() ~= "GOTV" then
+			
+				data = client.GetPlayerInfo(player:GetIndex())
+				
+				if data['SteamID'] >= 5000 then
+				
+					steamid = tostring(data['SteamID'])
+					table.insert(temp_players, steamid)
+				
+				end
+			end
+		end
+		comp_cur = json.encode(cur_players)
+		comp_temp = json.encode(temp_players)
+		if comp_temp ~= comp_cur then
+			cur_players = temp_players
+			
+			setManagerData()
+		end
+		
+	end
 end)
