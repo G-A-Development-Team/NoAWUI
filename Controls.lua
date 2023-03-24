@@ -1642,15 +1642,15 @@ function CreateLabel(properties)
                 Renderer:FilledRectangle({properties.X + form.X, properties.Y + form.Y}, {5,5}, {255,0,0,255})
             end
         end
-
         if properties.Alignment == "autosize" then
             local Tw, Th = draw.GetTextSize(properties.Text)
 
             if tonumber(Tw) >= tonumber(properties.Width) then
+                Renderer:Text({properties.X + form.X, properties.Y + form.Y}, properties.Color, "Loading..")
                 if properties.Multipler == nil then
-                    properties.Multipler = .5
+                    properties.Multipler = .1
                 else
-                    properties.Multipler = properties.Multipler + .5
+                    properties.Multipler = properties.Multipler + .1
                 end
                 local Font = draw.CreateFont(properties.FontFamily, properties.FontHeight - properties.Multipler, properties.FontWeight)
 
