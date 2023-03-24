@@ -495,14 +495,31 @@ function CreatePictureListBox(properties)
             mouseoutside = "ListBox:Event('" .. enc("item_" .. title) .. "," .. enc(Control.Children[1].Name) .. ",outside')",
             mouseclick = "ListBox:Event('" .. enc("item_" .. title) .. "," .. enc(Control.Children[1].Name) .. ",click')",
         })
+
+
+        panel.Children[3] = CreatePanel({
+            type = "panel",
+            name = "textholder" .. title,
+            parent = "item_" .. title,
+            background = "0,0,0,0",
+            width = Control.Children[1].Width - 100,
+            height = 10,
+            x = 65,
+            y = centerTextOnRectangle({panel.X, panel.Y}, {panel.Width, panel.Height}, title).Y - 3,
+
+        })
+        local a = centerTextOnRectangle({panel.Children[3].X, panel.Children[3].Y}, {panel.Children[3].Width, panel.Children[3].Height}, title)
         panel.Children[1] = CreateLabel({
             type = "label",
             name = "label_" .. title,
             parent = "item_" .. title,
             color = "255,255,255,255",
-            x = centerTextOnRectangle({panel.X, panel.Y}, {panel.Width, panel.Height}, title).X,
-            y = centerTextOnRectangle({panel.X, panel.Y}, {panel.Width, panel.Height}, title).Y - 3,
-            text = title
+            x = 75,
+            y = a.Y,
+            text = title,
+            alignment = "autosize",
+            width = panel.Children[3].Width,
+            height = panel.Children[3].Height
         })
 
         panel.Children[2] = CreatePictureBox({
@@ -1514,6 +1531,8 @@ function CreateLabel(properties)
             .case("type", function() Control.Type = value end)
             .case("x", function() Control.X = value Control.SetX = value end)
             .case("y", function() Control.Y = value Control.SetY = value end)
+            .case("width", function() Control.Width = value end)
+            .case("height", function() Control.Height = value end)
             .case("fontfamily", function() Control.FontFamily = value end)
             .case("fontheight", function() Control.FontHeight = value end)
             .case("fontweight", function() Control.FontWeight = value end)
@@ -1571,10 +1590,33 @@ function CreateLabel(properties)
         if properties.Alignment == "right" then
             local Tw, Th = draw.GetTextSize(properties.Text)
             Renderer:Text({properties.X + form.X - Tw, properties.Y + form.Y}, properties.Color, properties.Text) 
+        
+            if properties.ShowSquare then
+                Renderer:FilledRectangle({properties.X + form.X, properties.Y + form.Y}, {5,5}, {255,0,0,255})
+            end
         end
 
-        if properties.ShowSquare then
-            Renderer:FilledRectangle({properties.X + form.X, properties.Y + form.Y}, {5,5}, {255,0,0,255})
+        if properties.Alignment == "autosize" then
+            if string.find(properties.Name, "label_") then
+                local Tw, Th = draw.GetTextSize(properties.Text)
+
+                if tonumber(Tw) >= tonumber(properties.Width) then
+                    if properties.Multipler == nil then
+                        properties.Multipler = 1
+                    else
+                        properties.Multipler = properties.Multipler + 1
+                    end
+                    local Font = draw.CreateFont(Control.FontFamily, Control.FontHeight - properties.Multipler, Control.FontWeight)
+
+                    properties.CreatedFont = Font
+                else
+                    Renderer:Text({properties.X + form.X, properties.Y + form.Y}, properties.Color, properties.Text) 
+                end
+
+                if properties.ShowSquare then
+                    Renderer:FilledRectangle({properties.X + form.X, properties.Y + form.Y}, {properties.Width,properties.Height}, {255,0,0,255})
+                end
+            end
         end
 
         if properties.MouseClick ~= nil then
