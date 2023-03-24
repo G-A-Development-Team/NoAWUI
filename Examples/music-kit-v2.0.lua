@@ -114,6 +114,7 @@ function setManagerData()
 					-- add the id to the name and parent of the object and create the Label
 					txtKit['name'] = txtKit['name'] .. i
 					txtKit['parent'] = txtKit['parent'] .. i
+					txtKit['text'] = kits[entities.GetPlayerResources():GetPropInt("m_nMusicID", player:GetIndex())]
 					panel.Children[#panel.Children+1] = CreateLabel(txtKit)
 					
 					-- add the id to the name and parent of the object and create the Label
@@ -366,4 +367,12 @@ callbacks.Register("Draw", function()
 		end
 		
 	end
+end)
+
+
+callbacks.Register("Unload", function()
+    UnloadScript("WinForm/Misc.lua")
+    UnloadScript("WinForm/Renderer.lua")
+    UnloadScript("WinForm/Controls.lua")
+    UnloadScript("WinForm/winform.lua")
 end)
