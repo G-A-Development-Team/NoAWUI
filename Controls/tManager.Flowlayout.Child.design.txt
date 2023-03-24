@@ -4,7 +4,7 @@
 		"details": {
 			"type": "panel",
 			"name": "flplManager_",
-			"parent": "Tab2_flowlayout",
+			"parent": "flTogglePlayers",
             "group": "Navigation_Tab2"
 		},
 		"dimensions": {
@@ -75,7 +75,7 @@
 			"function": {
 			},
 			"other": {
-                "image": "jpg,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/1326583.jpg",
+                "image": "png,https://static.wikia.nocookie.net/cswikia/images/7/7b/Csgo-musickit-matt_lange_01.png/revision/latest?cb=20150213193222",
 			}
 			
 		}
@@ -101,7 +101,7 @@
 			"function": {
 			},
 			"other": {
-                "image": "jpg,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/1326583.jpg",
+                "image": "png,https://static.wikia.nocookie.net/cswikia/images/7/7b/Csgo-musickit-matt_lange_01.png/revision/latest?cb=20150213193222",
 			}
 			
 		}

@@ -3,7 +3,7 @@
 	{
 		"details": {
 			"type": "flowlayout",
-			"name": "Tab2_flowlayout",
+			"name": "flTogglePlayers",
 			"parent": "Main",
             "group": "tManager"
 		},
