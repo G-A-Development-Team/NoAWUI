@@ -1597,25 +1597,23 @@ function CreateLabel(properties)
         end
 
         if properties.Alignment == "autosize" then
-            if string.find(properties.Name, "label_") then
-                local Tw, Th = draw.GetTextSize(properties.Text)
+            local Tw, Th = draw.GetTextSize(properties.Text)
 
-                if tonumber(Tw) >= tonumber(properties.Width) then
-                    if properties.Multipler == nil then
-                        properties.Multipler = 1
-                    else
-                        properties.Multipler = properties.Multipler + 1
-                    end
-                    local Font = draw.CreateFont(Control.FontFamily, Control.FontHeight - properties.Multipler, Control.FontWeight)
-
-                    properties.CreatedFont = Font
+            if tonumber(Tw) >= tonumber(properties.Width) then
+                if properties.Multipler == nil then
+                    properties.Multipler = 1
                 else
-                    Renderer:Text({properties.X + form.X, properties.Y + form.Y}, properties.Color, properties.Text) 
+                    properties.Multipler = properties.Multipler + 1
                 end
+                local Font = draw.CreateFont(Control.FontFamily, Control.FontHeight - properties.Multipler, Control.FontWeight)
 
-                if properties.ShowSquare then
-                    Renderer:FilledRectangle({properties.X + form.X, properties.Y + form.Y}, {properties.Width,properties.Height}, {255,0,0,255})
-                end
+                properties.CreatedFont = Font
+            else
+                Renderer:Text({properties.X + form.X, properties.Y + form.Y}, properties.Color, properties.Text) 
+            end
+
+            if properties.ShowSquare then
+                Renderer:FilledRectangle({properties.X + form.X, properties.Y + form.Y}, {properties.Width,properties.Height}, {255,0,0,255})
             end
         end
 
