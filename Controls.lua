@@ -662,6 +662,10 @@ function CreatePictureListBox(properties)
 		end
         draw.SetFont(properties.CreatedFont);
         if properties.SelectedItem ~= nil then
+            if properties.SelectedItem.DidReset == nil then
+                properties.Children[3].ResetFont() 
+                properties.SelectedItem.DidReset = true
+            end
 
             local a = centerTextOnRectangle({properties.Children[2].X, properties.Children[2].Y}, {properties.Children[2].Width, properties.Height}, properties.SelectedItem.Name)
             
@@ -1612,6 +1616,13 @@ function CreateLabel(properties)
     local Font = draw.CreateFont(Control.FontFamily, Control.FontHeight, Control.FontWeight)
 
     Control.CreatedFont = Font
+    Control.DefaultFont = Font
+
+    Control.ResetFont = function()
+        if Control.CreatedFont ~= Control.DefaultFont then
+            Control.CreatedFont = Control.DefaultFont
+        end
+    end
 
     Control.Render = function(properties, form)
         if not properties.Visible or not form.Visible then
@@ -1637,9 +1648,9 @@ function CreateLabel(properties)
 
             if tonumber(Tw) >= tonumber(properties.Width) then
                 if properties.Multipler == nil then
-                    properties.Multipler = 1
+                    properties.Multipler = .5
                 else
-                    properties.Multipler = properties.Multipler + 1
+                    properties.Multipler = properties.Multipler + .5
                 end
                 local Font = draw.CreateFont(properties.FontFamily, properties.FontHeight - properties.Multipler, properties.FontWeight)
 
