@@ -1518,6 +1518,14 @@ function CreateLabel(properties)
             .case("fontheight", function() Control.FontHeight = value end)
             .case("fontweight", function() Control.FontWeight = value end)
             .case("mouseclick", function() Control.MouseClick = value end)
+            .case("alignment", function() Control.Alignment = value:lower() end)
+            .case("showsquare", function() 
+                if value == "true" then
+                    Control.ShowSquare = true
+                elseif value == "false" then
+                    Control.ShowSquare = false
+                end
+            end)
             .case("color", function()
                 if string.find(value, "theme") then
                     --print("-" .. enc(tostring(value)) .. "-")
@@ -1556,7 +1564,18 @@ function CreateLabel(properties)
         end
 
         draw.SetFont(properties.CreatedFont);
-        Renderer:Text({properties.X + form.X, properties.Y + form.Y}, properties.Color, properties.Text)
+        if properties.Alignment == nil then
+            Renderer:Text({properties.X + form.X, properties.Y + form.Y}, properties.Color, properties.Text) 
+        end
+
+        if properties.Alignment == "right" then
+            local Tw, Th = draw.GetTextSize(properties.Text)
+            Renderer:Text({properties.X + form.X - Tw, properties.Y + form.Y}, properties.Color, properties.Text) 
+        end
+
+        if properties.ShowSquare then
+            Renderer:FilledRectangle({properties.X + form.X, properties.Y + form.Y}, {5,5}, {255,0,0,255})
+        end
 
         if properties.MouseClick ~= nil then
             --print(control.MouseDown) 

@@ -140,12 +140,13 @@
             "group": "Navigation_Tab2"
 		},
 		"dimensions": {
-			"x": 650,
-			"y": 16,
+* 735
+			"x": 735,
+			"y": 8,
 		},
 		"optional": {
 			"style": {
-				"textalign": "right",
+				"alignment": "right",
 				"color": "255,255,255,255",
                 "fontheight": 15,
 				"fontweight": 1000,
