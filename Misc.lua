@@ -375,10 +375,10 @@ RunScript("WinForm/json.lua")
 jsonkeycodes = json.decode(http.Get("https://raw.githubusercontent.com/G-A-Development-Team/libs/main/keycodes.json"))
 
 function TranslateKeyCode(int)
-    local json = jsonkeycodes
-    for i = 1, #json, 1 do
-        if json[i]["Key Code"] == tostring(int) then
-            return json[i]["Key"]
+    local key_json = jsonkeycodes
+    for i = 1, #key_json, 1 do
+        if key_json[i]["Key Code"] == tostring(int) then
+            return key_json[i]["Key"]
         end
     end
 end
