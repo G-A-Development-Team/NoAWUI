@@ -49,6 +49,17 @@ function CreatePanel(properties)
                     local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
                     Control.BackgroundImage = texture
                 end)
+                .case("svgdata", function() 
+                    local imgRGBA, imgWidth, imgHeight = common.RasterizeSVG(value);
+                    local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
+                    Control.BackgroundImage = texture
+                end)
+                .case("base64png", function()
+                    value = dec(value)
+                    local imgRGBA, imgWidth, imgHeight = common.DecodePNG(value);
+                    local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
+                    Control.BackgroundImage = texture
+                end)
                 .default(function() print("Image Type not found. key=" .. key) end)
                 .process() 
             end)

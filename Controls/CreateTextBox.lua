@@ -117,7 +117,7 @@ function CreateTextBox(properties)
             width = Control.Width - 2,
             height =  Control.Height,
             background = "0,0,0,0",
-            scrollheight = 1,
+            scrollheight = 0,
             orientation = "horizontal",
         }),
     }
@@ -196,7 +196,7 @@ function CreateTextBox(properties)
                     local panel = CreatePanel({
                         type = "panel",
                         name = tostring(math.random(1, 342)).."apanel",
-                        parent = Control.Children[1].Name,
+                        parent = properties.Children[1].Name,
                         x = 0,
                         y = 0,
                         width = Tw,
@@ -215,7 +215,12 @@ function CreateTextBox(properties)
                         text = TranslateKeyCode(i)
                     })
 
-                    Control.Children[1].AddItem(panel)
+                    properties.Children[1].AddItem(panel)
+                    if Tw ~= nil then
+                        print("TW", Tw)
+                        properties.Children[1].ScrollLength = properties.Children[1].ScrollLength + Tw
+                    end
+                    
                     --Control.Children[1].ScrollLength = Control.Children[1].ScrollLength + 1                
                 end
             end

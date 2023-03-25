@@ -2,20 +2,8 @@ local ControlName = 'tooltip'
 local FunctionName = 'CreateToolTip'
 
 local right_click_svg = [[
-<svg id="Capa_1" width="800px" height="800px" viewBox="0 0 417.031 417.031">
-	<path fil="#fff" d="M219.683,92.146c-0.279-0.315-0.52-0.627-0.849-0.925c-3.644-3.272-3.742-2.306,0.247-5.983
-		c2.955-2.712,6.541-4.834,9.79-7.18c8.596-6.213,14.254-14.534,18.079-24.399c8.582-22.15-16.706-37.453-29.396-50.562
-		c-9.168-9.485-23.603,4.982-14.444,14.447c7.076,7.325,16.19,13.264,22.349,21.407c6.897,9.116-3.613,19.174-10.814,24.249
-		c-11.133,7.844-20.757,18.262-18.533,29.434c-49.964,4.668-96.16,32.052-96.16,80.327v135.51
-		c0,59.862,48.698,108.562,108.564,108.562c59.863,0,108.566-48.7,108.566-108.562V172.95
-		C317.085,120.247,268.05,94.723,219.683,92.146z M120.391,172.95c0-35.833,38.898-56.581,79.186-60.027v124.982
-		c-36.751-1.85-66.589-10.222-79.186-14.309V172.95z M296.648,308.461c0,48.604-39.537,88.133-88.129,88.133
-		c-48.59,0-88.128-39.529-88.128-88.133V245.08c18.249,5.516,52.6,13.882,93.202,13.882c26.003,0,54.556-3.479,83.056-13.286
-		V308.461z M296.648,223.94c-25.844,9.883-52.237,13.746-76.635,14.271v-125.59c39.407,2.363,76.635,21.264,76.635,60.337V223.94z
-		 M289.735,216.203c0,0-46.688,13.073-62.567,10.271V122.813C269.429,130.753,296.625,143.533,289.735,216.203z"/>
-</svg>
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="50px" height="50px" viewBox="0,0,256,256"><g fill="#ffdf00" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><g transform="scale(5.12,5.12)"><path d="M38.84375,0c-0.41016,0.05469 -0.74219,0.35547 -0.83984,0.75781c-0.09766,0.39844 0.0625,0.82031 0.40234,1.05469c4.85938,3.65234 8.27344,9.08594 9.28125,15.34375c0.02734,0.375 0.26563,0.70313 0.61328,0.84766c0.34766,0.14453 0.75,0.08203 1.03516,-0.16406c0.28516,-0.24609 0.41016,-0.62891 0.32031,-0.99609c-1.08984,-6.78125 -4.79687,-12.70312 -10.0625,-16.65625c-0.21484,-0.16016 -0.48437,-0.22656 -0.75,-0.1875zM24,3c-9.92578,0 -18,8.07422 -18,18v11c0,9.92578 8.07422,18 18,18c9.92578,0 18,-8.07422 18,-18v-11c0,-9.92578 -8.07422,-18 -18,-18zM37.0625,3.625c-0.41797,0.03125 -0.77344,0.32422 -0.88672,0.73047c-0.10937,0.40625 0.04297,0.83984 0.38672,1.08203c3.60547,2.90625 6.15234,7.02734 7.0625,11.75c0.10547,0.54297 0.62891,0.90234 1.17188,0.79688c0.54297,-0.10547 0.90234,-0.62891 0.79688,-1.17187c-1.00391,-5.19922 -3.81641,-9.74219 -7.78125,-12.9375c-0.17969,-0.16016 -0.41406,-0.25 -0.65625,-0.25c-0.03125,0 -0.0625,0 -0.09375,0zM23,5.0625v20.9375h-15v-5c0,-8.48437 6.64453,-15.41797 15,-15.9375zM8,28h32v4c0,8.82031 -7.17969,16 -16,16c-8.82031,0 -16,-7.17969 -16,-16z"></path></g></g></svg>
 ]]
-
 
 -- By: CarterPoe
 function CreateToolTip(properties)
@@ -141,8 +129,20 @@ function CreateToolTip(properties)
             width = 0,
             height =  0,
             background = "0,0,0,0",
+        }),
+        [2] = CreatePanel({
+            type = "panel",
+            name = tostring(math.random(1, 342)) .. Control.Name .. "panelmousehelp",
+            parent = Control.Children[1].Name,
+            x = 0,
+            y = 5,
+            width = 20,
+            height =  20,
+            background = "0,0,0,0",
+            image = "svgdata," .. right_click_svg
         })
     }
+    
     Control.Children[1].Children[1].Children = {
         [1] = CreateFlowLayout({
             type = "flowlayout",
@@ -184,7 +184,9 @@ function CreateToolTip(properties)
                             control.X = mouseX
                             control.Y = mouseY
                         end
+                        properties.Children[1].Children[2].Visible = false
                     else
+                        properties.Children[1].Children[2].Visible = true
                         control.X = mouseX
                         control.Y = mouseY
                     end
@@ -196,6 +198,7 @@ function CreateToolTip(properties)
                     end
                     control.Render(control, properties)
                 end
+
 
                 if properties.Init == nil then
                     for jkey, jvalue in ipairs(properties.Lines) do
@@ -228,6 +231,9 @@ function CreateToolTip(properties)
 
                         properties.Children[1].Width = properties.Children[1].Children[1].Width + (properties.Children[1].Children[1].SetX*2)
                         properties.Children[1].Height = properties.Children[1].Children[1].Height + (properties.Children[1].Children[1].SetY*2)
+
+                        properties.Children[1].Children[2].SetX = properties.Children[1].Width - properties.Children[1].Children[2].Width - 5
+                        properties.Children[1].Children[2].Background = {255,255,255,255}
 
                     end
                     properties.Init = true
