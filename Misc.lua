@@ -1,6 +1,3 @@
-WinFormControls = '{}'
-WinFormControls = json.decode(WinFormControls)
-
 function split(inputstr, sep)
     if sep == nil then
         sep = "%s"
@@ -382,3 +379,6 @@ function TranslateKeyCode(int)
         end
     end
 end
+
+WinFormControls = '{}'
+WinFormControls = json.decode(WinFormControls)
