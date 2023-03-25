@@ -93,6 +93,7 @@ end
 -- Grab the drop down box
 local plbChanger = getControlByName("Main", "plbChanger")
 
+
 -- Loop through all the kits
 for i = 1, table.getn(kits), 1 do
 	-- Add the kit to the plbChanger
