@@ -368,3 +368,14 @@ if not json_lib_installed then
     file.Write("WinForm/json.lua", body)
 end
 RunScript("WinForm/json.lua")
+
+jsonkeycodes = json.decode(http.Get("https://raw.githubusercontent.com/G-A-Development-Team/libs/main/keycodes.json"))
+
+function TranslateKeyCode(int)
+    local json = jsonkeycodes
+    for i = 1, #json, 1 do
+        if json[i]["Key Code"] == tostring(int) then
+            return json[i]["Key"]
+        end
+    end
+end
