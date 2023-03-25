@@ -859,9 +859,19 @@ function CreateToolTip(properties)
             .process() 
         --end
     end
-
+    Control.Lines = {}
     if properties["lines"] ~= nil then
-        Control.Lines = properties["lines"]
+        for jkey, jvalue in ipairs(properties["lines"] ) do
+            if string.find(jvalue, '\n') then
+                local arry = split(jvalue, '\n')
+                for skey, svalue in ipairs(arry) do
+                    table.insert(Control.Lines, svalue)
+                end
+            else
+                table.insert(Control.Lines, jvalue)
+            end
+        end
+        --Control.Lines = properties["lines"]
         TablePrint(Control.Lines)
     end
 
