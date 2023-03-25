@@ -10,95 +10,35 @@ local focuslist = {}
 
 -- Grab an element from the json
 local function LoadJsonElements(jElements)
-    for _, jElement in ipairs(jElements) do
+    
+	for _, jElement in ipairs(jElements) do
 	
         -- Get the attributes from the element
         local attributes = getDefaultAtts(jElement)
-        
-        print (jElement['details']['type'])
-        
-        -- Get the type and add the component
-        switch(jElement['details']['type']:lower())
-            .case("panel", function() 
-                local made = CreatePanel(attributes)
-                    for _, control in ipairs(controls) do
-                        if made.Parent ~= "" then
-                            addComponent(made, control)
-                        end
-                    end
-            end)
-            .case("picturelistbox", function() 
-                local made = CreatePictureListBox(attributes)
-                    for _, control in ipairs(controls) do
-                        if made.Parent ~= "" then
-                            addComponent(made, control)
-                        end
-                    end
-            end)
-            .case("flowlayout", function() 
-                local made = CreateFlowLayout(attributes)
-                for _, control in ipairs(controls) do
-                    if made.Parent ~= "" then
-                        addComponent(made, control)
-                    end
-                end
-            end)
-            .case("tooltip", function() 
-                local made = CreateToolTip(attributes)
-                for _, control in ipairs(controls) do
-                    if made.Parent ~= "" then
-                        addComponent(made, control)
-                    end
-                end
-            end)
-            .case("picturebox", function() 
-                local made = CreatePictureBox(attributes)
-                for _, control in ipairs(controls) do
-                    if made.Parent ~= "" then
-                        addComponent(made, control)
-                    end
-                end
-            end)
-            .case("mlbutton", function() 
-                local made = CreateMusicLinkButton(attributes)
-                for _, control in ipairs(controls) do
-                    if made.Parent ~= "" then
-                        addComponent(made, control)
-                    end
-                end
-            end)
-            .case("checkbox", function() 
-                local made = CreateCheckbox(attributes)
-                for _, control in ipairs(controls) do
-                    if made.Parent ~= "" then
-                        addComponent(made, control)
-                    end
-                end
-            end)						
-            .case("button", function() 
-                local made = CreateButton(attributes)
-                for _, control in ipairs(controls) do
-                    if made.Parent ~= "" then
-                        addComponent(made, control)
-                    end
-                end
-            end)
-            .case("label", function() 
-                local made = CreateLabel(attributes)
-                for _, control in ipairs(controls) do
-                    if made.Parent ~= "" then
-                        addComponent(made, control)
-                    end
-                end
-            end)
-            .case("form", function() 
-                controls[#controls +1] = CreateForm(attributes)
-            end)
-            .case("awtab", function() 
-                controls[#controls +1] = CreateAWTab(attributes)
-            end)
-            .default(function() print("Type not found.") end)
-        .process()
+		
+		-- Cycle through all the possible winform controls
+		for _, wfControl in pairs(WinFormControls) do
+		
+			-- See if the control is the right one
+			if jElement['details']['type']:lower() == wfControl['name'] then
+			
+				-- Getting the create function to made
+				local made = assert(loadstring('return ' .. wfControl['function']..'(...)'))(attributes)
+				
+				-- Check if the special category is set
+				if wfControl['special']=="container" then
+					
+					controls[#controls +1] = made
+				else
+					-- if not then just add the component
+					for _, control in ipairs(controls) do
+						if made.Parent ~= "" then
+							addComponent(made, control)
+						end
+					end
+				end
+			end
+		end
     end
 end
 

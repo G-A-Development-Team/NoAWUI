@@ -1,20 +1,20 @@
 {
     {
-        "Json": "WinForm/Controls/form1.design.txt",
+        "Json": "WinForm/Design/form1.design.txt",
 * Lua will be found in "form1.code.lua"	
     },
     {
-        "Json": "WinForm/Controls/tChanger.design.txt",
+        "Json": "WinForm/Design/tChanger.design.txt",
 * Lua will be found in "form1.code.lua"	
     },
     {
-        "Json": "WinForm/Controls/tManager.design.txt",
-		"Lua": "WinForm/Controls/form1.code.lua",
+        "Json": "WinForm/Design/tManager.design.txt",
+		"Lua": "WinForm/Design/form1.code.lua",
 		"LuaInit": "Form:Initialize()"
     },
     {
-        "Json": "WinForm/Controls/inspect.design.txt",
-        "Lua": "WinForm/Controls/inspect.code.lua",
+        "Json": "WinForm/Design/inspect.design.txt",
+        "Lua": "WinForm/Design/inspect.code.lua",
         "LuaInit": "Inspect:Initialize()"
     },
 }

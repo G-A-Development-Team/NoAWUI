@@ -26,7 +26,28 @@
 			
 		}
 	},
-    
+* Tab1 -> Textvox
+	{
+		"details": {
+			"type": "textbox",
+			"name": "textb",
+			"parent": "Main",
+            "group": "tChanger"
+		},
+		"dimensions": {
+			"x": 15,
+			"y": 400,
+		},
+		"optional": {
+			"style": {
+			},
+			"function": {
+			},
+			"other": {
+			}
+
+		}
+	},
 * Tab1 -> GroupBox1 -> KitPreview
 	{
 		"details": {

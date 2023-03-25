@@ -110,7 +110,7 @@ end
 local flTogglePlayers = getControlByName("Main", "flTogglePlayers")
 --
 -- Load the attributes to an array
-local jsonatts = GetMultipleAttributesFromFile("WinForm/Controls/tManager.Flowlayout.Child.design.txt")
+local jsonatts = GetMultipleAttributesFromFile("WinForm/Design/tManager.Flowlayout.Child.design.txt")
 	
 -- Split the array into objects
 local dcplPanel = GetAttributesFromArrayByName(jsonatts, "flplManager_")
