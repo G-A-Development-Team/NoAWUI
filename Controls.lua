@@ -865,6 +865,21 @@ function CreateToolTip(properties)
         TablePrint(Control.Lines)
     end
 
+    Control.Children = {
+        [1] = CreateFlowLayout({
+            type = "flowlayout",
+            name = tostring(math.random(1, 342)) .. Control.Name .. "flowlayout",
+            parent = Control.Name,
+            x = 0,
+            y = 0,
+            width = 0,
+            height =  0,
+            background = "50,50,50,200",
+            roundness = "6,6,6,6,6",
+            scrollheight = 15,
+        }),
+    }
+
     Control.Render = function(properties, form)
         if not properties.Visible or not form.Visible then
             return properties
@@ -877,29 +892,46 @@ function CreateToolTip(properties)
 
         if isMouseInRect(form.X + c.X, form.Y + c.Y, form.Width, form.Height) and not getSelected() then
             local mouseX, mouseY = input.GetMousePos()
+            Control.Children[1].X = mouseX
+            Control.Children[1].Y = mouseY
             if properties.Alignment == "dynamic" then
-                mouseX = mouseX + 10
-                local Tw, Th = 0,0
+                for _, control in ipairs(properties.Children) do
+                    control.X = mouseX
+                    control.Y = mouseY
+                    control.Render(control, properties)
+                end
 
-                for jkey, jvalue in ipairs(properties.Lines) do
-                    local w, h = draw.GetTextSize(jvalue)
-                    Th = Th + h + 5
-                    if w > Tw then
-                        Tw = w
+                if properties.Init == nil then
+                    for jkey, jvalue in ipairs(properties.Lines) do
+                        local Tw, Th = draw.GetTextSize(jvalue)
+
+                        if tonumber(Tw) >= tonumber(properties.Children[1].Width) then
+                            properties.Children[1].Width = Tw
+                        end
+
+                        if tonumber(Th) >= tonumber(properties.Children[1].ScrollHeight) then
+                            properties.Children[1].ScrollHeight = Th
+                        end
+
+                        local p = CreateLabel({
+                            type = "panel",
+                            name = enc(jvalue),
+                            parent = properties.Children[1].Name,
+                            x = 0,
+                            y = 0,
+                            width = Control.Children[1].Width,
+                            height = Th + 5,
+                            text = jvalue,
+                            color = "255,255,255,255"
+                        })
+                        properties.Children[1].Height = properties.Children[1].Height + Th + 5
+                        properties.Children[1].AddItem(p)
                     end
+                    properties.Init = true
                 end
-                print(Th)
 
-                local cords = centerRectAbovePoint(mouseX, mouseY, Tw + 10, Th)
-                Renderer:FilledRoundedRectangle({cords.X, cords.Y}, {Tw + 10, Th}, {60,60,60,220}, {3,3,3,3,3})
-    
-                for jkey, jvalue in ipairs(properties.Lines) do
-                    local w, h = draw.GetTextSize(jvalue)
-                    local cords2 = centerRectAbovePoint(mouseX, mouseY, w + 10, h)
-                    Renderer:Text({cords2.X + 5, cords2.Y}, {255,255,255,255}, jvalue)
-                end
-                mouseX = mouseX - 10
-                --Renderer:Triangle({mouseX + 9 , mouseY - 11}, {mouseX - 9, mouseY - 11}, {mouseX, mouseY + 0}, {60,60,60,220}) 
+                --local cords = centerRectAbovePoint(mouseX, mouseY, Tw + 10, Th)
+                --Renderer:FilledRoundedRectangle({cords.X, cords.Y}, {Tw + 10, Th}, {60,60,60,220}, {3,3,3,3,3})
             end
             if properties.Alignment == "static" then
                 local Tw, Th = draw.GetTextSize(properties.Text)
