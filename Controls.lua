@@ -933,12 +933,6 @@ function CreateToolTip(properties)
             --properties.Children[1].Y = mouseY
             if properties.Alignment == "dynamic" then
                 for _, control in ipairs(properties.Children) do
-                    if input.IsButtonPressed(2) then
-                        properties.Toggled = not properties.Toggled
-                    end
-                    if input.IsButtonDown(1) then
-                        properties.Toggled = false
-                    end
                     if properties.Toggled then
                         if control.X ~= 0 and control.Y ~= 0 and properties.Toggled then
                             control.X = control.X
@@ -950,6 +944,12 @@ function CreateToolTip(properties)
                     else
                         control.X = mouseX
                         control.Y = mouseY
+                    end
+                    if input.IsButtonPressed(2) then
+                        properties.Toggled = not properties.Toggled
+                    end
+                    if input.IsButtonDown(1) then
+                        properties.Toggled = false
                     end
                     control.Render(control, properties)
                 end
