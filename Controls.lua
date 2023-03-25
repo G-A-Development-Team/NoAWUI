@@ -866,15 +866,40 @@ function CreateToolTip(properties)
     end
 
     Control.Children = {
-        [1] = CreateFlowLayout({
-            type = "flowlayout",
-            name = tostring(math.random(1, 342)) .. Control.Name .. "flowlayout",
+        [1] = CreatePanel({
+            type = "panel",
+            name = tostring(math.random(1, 342)) .. Control.Name .. "panel",
             parent = Control.Name,
             x = 0,
             y = 0,
             width = 0,
             height =  0,
             background = "50,50,50,200",
+            roundness = "6,6,6,6,6",
+        })
+    }
+    Control.Children[1].Children = {
+        [1] = CreatePanel({
+            type = "panel",
+            name = tostring(math.random(1, 342)) .. Control.Name .. "panel2",
+            parent = Control.Children[1].Name,
+            x = 5,
+            y = 5,
+            width = 0,
+            height =  0,
+            background = "0,0,0,0",
+        })
+    }
+    Control.Children[1].Children[1].Children = {
+        [1] = CreateFlowLayout({
+            type = "flowlayout",
+            name = tostring(math.random(1, 342)) .. Control.Children[1].Name .. "flowlayout",
+            parent = Control.Children[1].Children[1].Name,
+            x = 0,
+            y = 0,
+            width = 0,
+            height =  0,
+            background = "0,0,0,0",
             roundness = "6,6,6,6,6",
             scrollheight = 15,
         }),
@@ -892,8 +917,8 @@ function CreateToolTip(properties)
 
         if isMouseInRect(form.X + c.X, form.Y + c.Y, form.Width, form.Height) and not getSelected() then
             local mouseX, mouseY = input.GetMousePos()
-            Control.Children[1].X = mouseX
-            Control.Children[1].Y = mouseY
+            --properties.Children[1].X = mouseX
+            --properties.Children[1].Y = mouseY
             if properties.Alignment == "dynamic" then
                 for _, control in ipairs(properties.Children) do
                     control.X = mouseX
@@ -905,29 +930,37 @@ function CreateToolTip(properties)
                     for jkey, jvalue in ipairs(properties.Lines) do
                         local Tw, Th = draw.GetTextSize(jvalue)
 
-                        if tonumber(Tw) >= tonumber(properties.Children[1].Width) then
-                            properties.Children[1].Width = Tw
+                        if tonumber(Tw) >= tonumber(properties.Children[1].Children[1].Children[1].Width) then
+                            properties.Children[1].Children[1].Width = Tw
+                            properties.Children[1].Children[1].Children[1].Width = Tw
                         end
 
-                        if tonumber(Th) >= tonumber(properties.Children[1].ScrollHeight) then
-                            properties.Children[1].ScrollHeight = Th
+                        if tonumber(Th) >= tonumber(properties.Children[1].Children[1].Children[1].ScrollHeight) then
+                            properties.Children[1].Children[1].ScrollHeight = Th
+                            properties.Children[1].Children[1].Children[1].ScrollHeight = Th
                         end
 
                         local p = CreateLabel({
                             type = "panel",
                             name = enc(jvalue),
-                            parent = properties.Children[1].Name,
+                            parent = properties.Children[1].Children[1].Children[1].Name,
                             x = 0,
                             y = 0,
-                            width = Control.Children[1].Width,
+                            width = properties.Children[1].Children[1].Children[1].Width,
                             height = Th + 5,
                             text = jvalue,
                             color = "255,255,255,255"
                         })
-                        properties.Children[1].Height = properties.Children[1].Height + Th + 5
-                        properties.Children[1].AddItem(p)
+                        properties.Children[1].Children[1].Height = properties.Children[1].Children[1].Height + Th + 5
+                        properties.Children[1].Children[1].Children[1].Height = properties.Children[1].Children[1].Children[1].Height + Th + 5
+                        properties.Children[1].Children[1].Children[1].AddItem(p)
+
+                        properties.Children[1].Width = properties.Children[1].Children[1].Width + (properties.Children[1].Children[1].SetX*2)
+                        properties.Children[1].Height = properties.Children[1].Children[1].Height + (properties.Children[1].Children[1].SetY*2)
+
                     end
                     properties.Init = true
+                    
                 end
 
                 --local cords = centerRectAbovePoint(mouseX, mouseY, Tw + 10, Th)
