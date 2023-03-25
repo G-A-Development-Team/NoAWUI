@@ -59,14 +59,6 @@ local function LoadJsonElements(jElements)
                     end
                 end
             end)
-            .case("textbox", function() 
-                local made = CreateTextBox(attributes)
-                for _, control in ipairs(controls) do
-                    if made.Parent ~= "" then
-                        addComponent(made, control)
-                    end
-                end
-            end)
             .case("mlbutton", function() 
                 local made = CreateMusicLinkButton(attributes)
                 for _, control in ipairs(controls) do
