@@ -915,6 +915,8 @@ function CreateToolTip(properties)
         }),
     }
 
+    Control.Toggled = false
+
     Control.Render = function(properties, form)
         if not properties.Visible or not form.Visible then
             return properties
@@ -925,14 +927,30 @@ function CreateToolTip(properties)
 
         local c = getParentControl(form)
 
-        if isMouseInRect(form.X + c.X, form.Y + c.Y, form.Width, form.Height) and not getSelected() then
+        if isMouseInRect(form.X + c.X, form.Y + c.Y, form.Width, form.Height) and not getSelected() or properties.Toggled then
             local mouseX, mouseY = input.GetMousePos()
             --properties.Children[1].X = mouseX
             --properties.Children[1].Y = mouseY
             if properties.Alignment == "dynamic" then
                 for _, control in ipairs(properties.Children) do
-                    control.X = mouseX
-                    control.Y = mouseY
+                    if input.IsButtonPressed(2) then
+                        properties.Toggled = not properties.Toggled
+                    end
+                    if input.IsButtonDown(1) then
+                        properties.Toggled = false
+                    end
+                    if properties.Toggled then
+                        if control.X ~= 0 and control.Y ~= 0 and properties.Toggled then
+                            control.X = control.X
+                            control.Y = control.Y
+                        else
+                            control.X = mouseX
+                            control.Y = mouseY
+                        end
+                    else
+                        control.X = mouseX
+                        control.Y = mouseY
+                    end
                     control.Render(control, properties)
                 end
 
