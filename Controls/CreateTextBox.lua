@@ -303,6 +303,16 @@ function CreateTextBox(properties)
         if properties.Selected then
             for i = 3, 255, 1 do
                 if input.IsButtonDown(i) then
+                    if TranslateKeyCode(i) == nil then
+                        break
+                    else
+                        if TranslateKeyCode(i):lower():len() > 1 then 
+                            local text = TranslateKeyCode(i):lower()
+                            if text ~= "backspace" then
+                                break
+                            end
+                        end
+                    end
                     local maxlength = #properties.Lines
                     
                     if maxlength == 0 then
@@ -325,6 +335,17 @@ function CreateTextBox(properties)
                         local Twlc, Thlc = draw.GetTextSize(properties.Lines[maxlength - 1]:gsub("*", "") .. TranslateKeyCode(i)) 
                         Twl = Twlc
                         Thl = Thlc
+                    end
+
+                    if i == 32 then
+                        --Space
+                        if properties.Lines[maxlength]:gsub("*", "") == "" then
+                            properties.Lines[maxlength - 1] = properties.Lines[maxlength - 1]:gsub("*", "") .. " "
+                            properties.Lines[maxlength] = nil
+                        else
+                            properties.Lines[maxlength] = properties.Lines[maxlength]:gsub("*", "") .. " "
+                        end
+                        break
                     end
 
                     if TranslateKeyCode(i):lower() == "backspace" then
