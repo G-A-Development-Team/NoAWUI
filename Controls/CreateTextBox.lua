@@ -301,13 +301,38 @@ function CreateTextBox(properties)
 
                     local Tw, Th = draw.GetTextSize(properties.Lines[maxlength]:gsub("*", "") .. TranslateKeyCode(i))
 
-                    if Tw > (properties.Width-9) then
+                    local Twl, Thl = nil, nil
+                    if properties.Lines[maxlength - 1] ~= nil then
+                        local Twlc, Thlc = draw.GetTextSize(properties.Lines[maxlength - 1]:gsub("*", "") .. TranslateKeyCode(i)) 
+                        Twl = Twlc
+                        Thl = Thlc
+                    end
+
+                    if TranslateKeyCode(i):lower() == "backspace" then
+                        if properties.Lines[maxlength]:gsub("*", "") == "" then
+                            properties.Lines[maxlength - 1] = properties.Lines[maxlength - 1]:gsub("*", ""):sub(1, -2)
+                            properties.Lines[maxlength] = nil
+                        else
+                            properties.Lines[maxlength] = properties.Lines[maxlength]:gsub("*", ""):sub(1, -2)
+                        end
+                        break
+                    end
+                    if Tw >= (properties.Width-9) then
                         if properties.Lines[maxlength + 1] == nil then
                             properties.Lines[maxlength + 1] = ""
                         end
                         properties.Lines[maxlength + 1] = properties.Lines[maxlength + 1]:gsub("*", "") .. TranslateKeyCode(i)
                     else
-                        properties.Lines[maxlength] = properties.Lines[maxlength]:gsub("*", "") .. TranslateKeyCode(i)
+                        if Twl ~= nil then
+                            if Twl <= (properties.Width-9) then
+                                properties.Lines[maxlength - 1] = properties.Lines[maxlength - 1]:gsub("*", "") .. TranslateKeyCode(i)
+                                --properties.Lines[maxlength] = nil
+                            else
+                                properties.Lines[maxlength] = properties.Lines[maxlength]:gsub("*", "") .. TranslateKeyCode(i)
+                            end
+                        else
+                            properties.Lines[maxlength] = properties.Lines[maxlength]:gsub("*", "") .. TranslateKeyCode(i)
+                        end
                     end
                     --table.insert(properties.Lines, TranslateKeyCode(i))
                     --[[print(TranslateKeyCode(i))
