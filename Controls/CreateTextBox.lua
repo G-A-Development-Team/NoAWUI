@@ -108,17 +108,43 @@ function CreateTextBox(properties)
     Control.DefaultFont = Font
 
     Control.Children = {
+        [1] = CreatePanel({
+            type = "panel",
+            name = tostring(math.random(1, 342)) .. Control.Name .. "panel",
+            parent = Control.Name,
+            x = 0,
+            y = 0,
+            width = 0,
+            height =  0,
+            background = "50,50,50,200",
+            roundness = "6,6,6,6,6",
+        })
+    }
+    Control.Children[1].Children = {
+        [1] = CreatePanel({
+            type = "panel",
+            name = tostring(math.random(1, 342)) .. Control.Name .. "panel2",
+            parent = Control.Children[1].Name,
+            x = 5,
+            y = 5,
+            width = 0,
+            height =  0,
+            background = "0,0,0,0",
+        }),
+    }
+    
+    Control.Children[1].Children[1].Children = {
         [1] = CreateFlowLayout({
             type = "flowlayout",
-            name = tostring(math.random(1, 342)) .. Control.Name .. "flowlayout",
-            parent = Control.Name,
-            x = 1,
+            name = tostring(math.random(1, 342)) .. Control.Children[1].Name .. "flowlayout",
+            parent = Control.Children[1].Children[1].Name,
+            x = 0,
             y = 0,
-            width = Control.Width - 2,
-            height =  Control.Height,
+            width = 0,
+            height =  0,
             background = "0,0,0,0",
-            scrollheight = 0,
-            orientation = "horizontal",
+            roundness = "6,6,6,6,6",
+            scrollheight = 15,
         }),
     }
 
@@ -134,7 +160,10 @@ function CreateTextBox(properties)
     })]]--
 
     --local a = centerTextOnRectangle({Control.Children[2].X, Control.Children[2].Y}, {Control.Children[2].Width, Control.Height}, "")
-
+    Control.Lines = {
+        [1] = "hello wlrd",
+        [2] = "jueice"
+    }
     Control.Render = function(properties, form)
         if not properties.Visible or not form.Visible then
             return properties
@@ -187,11 +216,53 @@ function CreateTextBox(properties)
 
         end
 
+        if true then
+            for jkey, jvalue in ipairs(properties.Lines) do
+                local Tw, Th = draw.GetTextSize(jvalue)
+
+                if tonumber(Tw) >= tonumber(properties.Children[1].Children[1].Children[1].Width) then
+                    properties.Children[1].Children[1].Width = Tw
+                    properties.Children[1].Children[1].Children[1].Width = Tw
+                end
+
+                if tonumber(Th) >= tonumber(properties.Children[1].Children[1].Children[1].ScrollHeight) then
+                    properties.Children[1].Children[1].ScrollHeight = Th
+                    properties.Children[1].Children[1].Children[1].ScrollHeight = Th
+                end
+
+                local p = CreateLabel({
+                    type = "panel",
+                    name = enc(jvalue),
+                    parent = properties.Children[1].Children[1].Children[1].Name,
+                    x = 0,
+                    y = 0,
+                    width = properties.Children[1].Children[1].Children[1].Width,
+                    height = Th + 5,
+                    text = jvalue,
+                    color = "255,255,255,255"
+                })
+                properties.Children[1].Children[1].Height = properties.Children[1].Children[1].Height + Th + 5
+                properties.Children[1].Children[1].Children[1].Height = properties.Children[1].Children[1].Children[1].Height + Th + 5
+                properties.Children[1].Children[1].Children[1].AddItem(p)
+
+                properties.Children[1].Width = properties.Children[1].Children[1].Width + (properties.Children[1].Children[1].SetX*2)
+                properties.Children[1].Height = properties.Children[1].Children[1].Height + (properties.Children[1].Children[1].SetY*2)
+
+                table.remove(properties.Lines, jkey)
+                --properties.Children[1].Children[2].SetX = properties.Children[1].Width - properties.Children[1].Children[2].Width - 5
+                --properties.Children[1].Children[2].Background = {255,255,255,255}
+
+            end
+            --properties.Init = true
+            
+        end
+
         if properties.Selected then
             for i = 3, 255, 1 do
-                if input.IsButtonPressed(i) then
-                    print(TranslateKeyCode(i))
-
+                if input.IsButtonReleased(i) then
+                    table.insert(properties.Lines, TranslateKeyCode(i))
+                    --[[print(TranslateKeyCode(i))
+                    
                     local Tw, Th = draw.GetTextSize(TranslateKeyCode(i))
                     local panel = CreatePanel({
                         type = "panel",
@@ -219,7 +290,7 @@ function CreateTextBox(properties)
                     if Tw ~= nil then
                         print("TW", Tw)
                         properties.Children[1].ScrollLength = properties.Children[1].ScrollLength + Tw
-                    end
+                    end--]]
                     
                     --Control.Children[1].ScrollLength = Control.Children[1].ScrollLength + 1                
                 end
