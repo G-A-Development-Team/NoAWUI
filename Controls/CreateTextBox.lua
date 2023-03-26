@@ -309,7 +309,9 @@ function CreateTextBox(properties)
                         if TranslateKeyCode(i):lower():len() > 1 then 
                             local text = TranslateKeyCode(i):lower()
                             if text ~= "backspace" then
-                                break
+                                if text ~= "enter" then
+                                    break
+                                end
                             end
                         end
                     end
@@ -339,11 +341,17 @@ function CreateTextBox(properties)
 
                     if i == 32 then
                         --Space
-                        if properties.Lines[maxlength]:gsub("*", "") == "" then
-                            properties.Lines[maxlength - 1] = properties.Lines[maxlength - 1]:gsub("*", "") .. " "
-                            properties.Lines[maxlength] = nil
+                        properties.Lines[maxlength] = properties.Lines[maxlength]:gsub("*", "") .. " "
+                        break
+                    end
+
+                    
+                    if TranslateKeyCode(i):lower() == "enter" then
+                        print("enter")
+                        if properties.DisplayLines then
+                            properties.Lines[maxlength + 1] = "[" .. tostring(maxlength + 1) .. "] "
                         else
-                            properties.Lines[maxlength] = properties.Lines[maxlength]:gsub("*", "") .. " "
+                            properties.Lines[maxlength + 1] = ""
                         end
                         break
                     end
@@ -357,6 +365,7 @@ function CreateTextBox(properties)
                         end
                         break
                     end
+
                     if Tw >= (properties.Width-9) then
                         if properties.Lines[maxlength + 1] == nil then
                             if properties.DisplayLines then
