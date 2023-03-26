@@ -127,6 +127,10 @@ function CreateFlowLayout(properties)
         Control.MaxScrollLength = 0
     end
 
+    Control.ScrollToEnd = function()
+        Control.ScrollLength = Control.MaxScrollLength
+    end
+
     Control.Clear = function(item)
         Control.Children = {}
         Control.ScrollLength = 0

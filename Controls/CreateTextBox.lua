@@ -294,7 +294,7 @@ function CreateTextBox(properties)
 
         if properties.Selected then
             for i = 3, 255, 1 do
-                if input.IsButtonReleased(i) then
+                if input.IsButtonDown(i) then
                     local maxlength = #properties.Lines
                     
                     if maxlength == 0 then

@@ -17,4 +17,7 @@
         "Lua": "WinForm/Design/inspect.code.lua",
         "LuaInit": "Inspect:Initialize()"
     },
+    {
+        "Json": "WinForm/Design/test.design.txt",
+    },
 }

@@ -1,0 +1,52 @@
+{ 
+* Form
+	{
+		"details": {
+			"type": "form",
+			"name": "TestMain"
+		},
+		"dimensions": {
+			"x": 200,
+			"y": 200,
+			"width": 800,
+			"height": 600,
+		},
+		"optional": {
+			"style": {
+				"background": "theme.ui2.lowpoly1",
+				"border": "theme.ui2.border",
+                "visible": false
+			},
+			"function": {
+                "toggle": 113
+			},
+			"other": {
+
+			}
+			
+		}
+	},
+* Tab1 -> Textvox
+	{
+		"details": {
+			"type": "textbox",
+			"name": "textb",
+			"parent": "TestMain",
+		},
+		"dimensions": {
+			"x": 10,
+			"y": 10,
+            "width": 780,
+			"height": 580,
+		},
+		"optional": {
+			"style": {
+			},
+			"function": {
+			},
+			"other": {
+			}
+
+		}
+	},
+}
