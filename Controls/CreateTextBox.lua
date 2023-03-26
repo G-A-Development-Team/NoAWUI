@@ -302,7 +302,7 @@ function CreateTextBox(properties)
 
         if properties.Selected then
             for i = 3, 255, 1 do
-                if input.IsButtonDown(i) then
+                if input.IsButtonPressed(i) then
                     if TranslateKeyCode(i) == nil then
                         break
                     else
