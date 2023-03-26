@@ -288,11 +288,27 @@ function CreateTextBox(properties)
         if properties.Selected then
             for i = 3, 255, 1 do
                 if input.IsButtonReleased(i) then
-                    if properties.Lines[1] == nil then
+                    local maxlength = #properties.Lines
+                    
+                    if maxlength == 0 then
                         properties.Lines[1] = ""
+                        maxlength = 1
+                    end
+                    
+                    if properties.Lines[maxlength] == nil then
+                        properties.Lines[maxlength] = ""
                     end
 
-                    properties.Lines[1] = properties.Lines[1]:gsub("*", "") .. TranslateKeyCode(i)
+                    local Tw, Th = draw.GetTextSize(properties.Lines[maxlength]:gsub("*", "") .. TranslateKeyCode(i))
+
+                    if Tw > (properties.Width-9) then
+                        if properties.Lines[maxlength + 1] == nil then
+                            properties.Lines[maxlength + 1] = ""
+                        end
+                        properties.Lines[maxlength + 1] = properties.Lines[maxlength + 1]:gsub("*", "") .. TranslateKeyCode(i)
+                    else
+                        properties.Lines[maxlength] = properties.Lines[maxlength]:gsub("*", "") .. TranslateKeyCode(i)
+                    end
                     --table.insert(properties.Lines, TranslateKeyCode(i))
                     --[[print(TranslateKeyCode(i))
                     
