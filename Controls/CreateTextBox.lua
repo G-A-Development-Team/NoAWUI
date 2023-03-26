@@ -11,6 +11,7 @@ function CreateTextBox(properties)
     Control.Width = 350
     Control.Height = 180
     Control.BorderColor = {50,50,50,120}
+    Control.DisplayLines = false
     for key, value in pairs(properties) do
 		value = tostring(value)
             switch(key:lower())
@@ -29,6 +30,13 @@ function CreateTextBox(properties)
                     Control.DragParent = false
                 else
                     Control.DragParent = true
+                end
+            end)
+            .case("displaylines", function() 
+                if value == "false" then
+                    Control.DisplayLines = false
+                else
+                    Control.DisplayLines = true
                 end
             end)
             .case("mouseclick", function() Control.MouseClick = value end)
@@ -269,7 +277,7 @@ function CreateTextBox(properties)
                         
                     end
                     if not string.find(jvalue, "*") then
-                        properties.Children[1].Children[1].Children[1].Children[foundIndex].Text = jvalue
+                        properties.Children[1].Children[1].Children[1].Children[foundIndex].Text = jvalue 
                         properties.Children[1].Children[1].Children[1].Children[foundIndex].Width = properties.Children[1].Children[1].Children[1].Width
                         --properties.Children[1].Children[1].Children[1].Children[foundIndex].Height = Th + 5
     
@@ -298,7 +306,11 @@ function CreateTextBox(properties)
                     local maxlength = #properties.Lines
                     
                     if maxlength == 0 then
-                        properties.Lines[1] = ""
+                        if properties.DisplayLines then
+                            properties.Lines[1] = "[" .. tostring(maxlength + 1) .. "] "
+                        else
+                            properties.Lines[1] = ""
+                        end
                         maxlength = 1
                     end
                     
@@ -326,7 +338,11 @@ function CreateTextBox(properties)
                     end
                     if Tw >= (properties.Width-9) then
                         if properties.Lines[maxlength + 1] == nil then
-                            properties.Lines[maxlength + 1] = ""
+                            if properties.DisplayLines then
+                                properties.Lines[maxlength + 1] = "[" .. tostring(maxlength + 1) .. "] "
+                            else
+                                properties.Lines[maxlength + 1] = ""
+                            end
                         end
                         properties.Lines[maxlength + 1] = properties.Lines[maxlength + 1]:gsub("*", "") .. TranslateKeyCode(i)
                     else

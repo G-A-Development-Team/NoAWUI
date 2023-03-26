@@ -41,6 +41,7 @@
 		},
 		"optional": {
 			"style": {
+                "displaylines": true
 			},
 			"function": {
 			},
