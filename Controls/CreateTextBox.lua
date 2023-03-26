@@ -118,6 +118,8 @@ function CreateTextBox(properties)
             height =  0,
             background = "0,0,0,0",
             roundness = "6,6,6,6,6",
+            shadow = "0,0,0,0,0"
+
         })
     }
     Control.Children[1].Children = {
@@ -130,6 +132,7 @@ function CreateTextBox(properties)
             width = 0,
             height =  0,
             background = "0,0,0,0",
+            shadow = "0,0,0,0,0"
         }),
     }
     
@@ -145,6 +148,7 @@ function CreateTextBox(properties)
             background = "0,0,0,0",
             roundness = "6,6,6,6,6",
             scrollheight = 2,
+            shadow = "0,0,0,0,0"
         }),
     }
 
@@ -251,6 +255,8 @@ function CreateTextBox(properties)
                         text = jvalue,
                         color = "0,0,0,255",
                         background = "0,0,0,0",
+                        shadow = "0,0,0,0,0"
+
                     })
                     properties.Children[1].Children[1].Height = properties.Children[1].Children[1].Height + Th + 5
                     --properties.Children[1].Children[1].Children[1].Height = properties.Children[1].Children[1].Children[1].Height + Th + 5

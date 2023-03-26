@@ -5,6 +5,7 @@ local FunctionName = 'CreatePanel'
 -- By: CarterPoe
 function CreatePanel(properties)
     local Control = CreateControl()
+    Control.Shadow = {0,0,0,40,25}
     for key, value in pairs(properties) do
 		value = tostring(value)
             switch(key:lower())
@@ -78,6 +79,22 @@ function CreatePanel(properties)
                     Control.Background[4] = args[4]
                 end
             end)
+            .case("shadow", function() 
+                if string.find(value, "theme") then
+                    local r,g,b,a = gui.GetValue(value)
+                    Control.Shadow[1] = r
+                    Control.Shadow[2] = g
+                    Control.Shadow[3] = b
+                    Control.Shadow[4] = a
+                else
+                    local args = split(value, ",")
+                    Control.Shadow[1] = args[1]
+                    Control.Shadow[2] = args[2]
+                    Control.Shadow[3] = args[3]
+                    Control.Shadow[4] = args[4]
+                    Control.Shadow[5] = args[5]
+                end
+            end)
             .case("border", function() 
                 if string.find(value, "theme") then
                     local r,g,b,a = gui.GetValue(value)
@@ -117,7 +134,7 @@ function CreatePanel(properties)
             
         end
 
-        Renderer:ShadowRectangle({properties.X + form.X, properties.Y + form.Y}, {properties.Width, properties.Height}, {0,0,0,40}, 25)
+        Renderer:ShadowRectangle({properties.X + form.X, properties.Y + form.Y}, {properties.Width, properties.Height}, {properties.Shadow[1], properties.Shadow[2], properties.Shadow[3], properties.Shadow[4]}, properties.Shadow[5])
         if properties.Rounded then
             Renderer:FilledRoundedRectangle({properties.X + form.X, properties.Y + form.Y}, {properties.Width, properties.Height}, properties.Background, properties.Roundness)
             Renderer:OutlinedRoundedRectangle({properties.X + form.X, properties.Y + form.Y}, {properties.Width, properties.Height}, properties.BorderColor, properties.Roundness)

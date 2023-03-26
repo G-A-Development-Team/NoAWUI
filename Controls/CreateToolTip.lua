@@ -155,6 +155,7 @@ function CreateToolTip(properties)
             background = "0,0,0,0",
             roundness = "6,6,6,6,6",
             scrollheight = 15,
+            shadow = "0,0,0,0,0"
         }),
     }
 
