@@ -9,7 +9,7 @@ function CreateTextBox(properties)
     Control.Roundness = {6, 6, 6, 6, 6}
     Control.Rounded = true
     Control.Width = 350
-    Control.Height = 45
+    Control.Height = 180
     Control.BorderColor = {50,50,50,120}
     for key, value in pairs(properties) do
 		value = tostring(value)
@@ -116,7 +116,7 @@ function CreateTextBox(properties)
             y = 0,
             width = 0,
             height =  0,
-            background = "50,50,50,200",
+            background = "0,0,0,0",
             roundness = "6,6,6,6,6",
         })
     }
@@ -141,7 +141,7 @@ function CreateTextBox(properties)
             x = 0,
             y = 0,
             width = 0,
-            height =  0,
+            height =  Control.Height,
             background = "0,0,0,0",
             roundness = "6,6,6,6,6",
             scrollheight = 2,
@@ -226,8 +226,8 @@ function CreateTextBox(properties)
                 end
 
                 if tonumber(Th) >= tonumber(properties.Children[1].Children[1].Children[1].ScrollHeight) then
-                    --properties.Children[1].Children[1].ScrollHeight = Th
-                    --properties.Children[1].Children[1].Children[1].ScrollHeight = Th
+                    properties.Children[1].Children[1].ScrollHeight = Th
+                    properties.Children[1].Children[1].Children[1].ScrollHeight = Th
                 end
 
                 local foundLine = false
@@ -249,14 +249,15 @@ function CreateTextBox(properties)
                         width = properties.Children[1].Children[1].Children[1].Width,
                         height = Th + 5,
                         text = jvalue,
-                        color = "255,255,255,255"
+                        color = "0,0,0,255",
+                        background = "0,0,0,0",
                     })
                     properties.Children[1].Children[1].Height = properties.Children[1].Children[1].Height + Th + 5
-                    properties.Children[1].Children[1].Children[1].Height = properties.Children[1].Children[1].Children[1].Height + Th + 5
+                    --properties.Children[1].Children[1].Children[1].Height = properties.Children[1].Children[1].Children[1].Height + Th + 5
                     properties.Children[1].Children[1].Children[1].AddItem(p)
     
                     properties.Children[1].Width = properties.Children[1].Children[1].Width + (properties.Children[1].Children[1].SetX*2)
-                    properties.Children[1].Height = properties.Children[1].Children[1].Height + (properties.Children[1].Children[1].SetY*2)
+                    --properties.Children[1].Height = properties.Children[1].Children[1].Height + (properties.Children[1].Children[1].SetY*2)
                 else
                     if properties.Children[1].Children[1].Children[1].Children[foundIndex].Text ~= jvalue then
                         
