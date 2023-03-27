@@ -137,6 +137,12 @@ function CreateFlowLayout(properties)
         Control.MaxScrollLength = 0
     end
 
+    Control.RemoveItem = function(key)
+        Control.Children[key] = nil
+        Control.ScrollLength = 0
+        Control.MaxScrollLength = 0
+    end
+
     Control.Render = function(properties, form)
         if not properties.Visible or not form.Visible then
             return properties
