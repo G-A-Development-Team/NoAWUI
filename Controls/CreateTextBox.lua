@@ -277,7 +277,7 @@ function CreateTextBox(properties)
                         
                     end
                     if not string.find(jvalue, "*") then
-                        properties.Children[1].Children[1].Children[1].Children[foundIndex].Text = jvalue 
+                        properties.Children[1].Children[1].Children[1].Children[foundIndex].Text = jvalue
                         properties.Children[1].Children[1].Children[1].Children[foundIndex].Width = properties.Children[1].Children[1].Children[1].Width
                         --properties.Children[1].Children[1].Children[1].Children[foundIndex].Height = Th + 5
     
@@ -349,9 +349,9 @@ function CreateTextBox(properties)
                     if TranslateKeyCode(i):lower() == "enter" then
                         print("enter")
                         if properties.DisplayLines then
-                            properties.Lines[maxlength + 1] = "[" .. tostring(maxlength + 1) .. "] "
+                            --properties.Lines[maxlength + 1] = "[" .. tostring(maxlength + 1) .. "] "
                         else
-                            properties.Lines[maxlength + 1] = ""
+                            --properties.Lines[maxlength + 1] = ""
                         end
                         break
                     end

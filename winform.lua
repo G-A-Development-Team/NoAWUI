@@ -1,5 +1,6 @@
 globaldragging = false
 
+RunScript("WinForm/libs/Timer.lua")
 RunScript("WinForm/Misc.lua")
 RunScript("WinForm/Renderer.lua")
 RunScript("WinForm/Controls.lua")

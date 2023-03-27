@@ -20,6 +20,9 @@ function CreatePictureListBox(properties)
 	Control.PreviousIndex = 0
 	Control.SelectedIndex = 0
 	Control.ChangedStatus = false
+    Control.Animations = {
+        Selection = 0
+    }
     for key, value in pairs(properties) do
             switch(key:lower())
             .case("name", function() Control.Name = value end)
@@ -340,8 +343,20 @@ function CreatePictureListBox(properties)
         Renderer:ShadowRectangle({properties.X + form.X, properties.Y + form.Y}, {properties.Width, properties.Height}, {0,0,0,40}, 25)
         if properties.Rounded then            
             if properties.Selected or isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height) or properties.Active then
-                Renderer:FilledRoundedRectangle({properties.X + form.X, properties.Y + form.Y}, {properties.Width, properties.Height}, properties.ActiveBackground, properties.Roundness)
+                if properties.Selected then
+                    Renderer:FilledRoundedRectangle({properties.X + form.X, properties.Y + form.Y}, {properties.Width, properties.Height}, properties.ActiveBackground, properties.Roundness)
+                else
+                    if properties.Animations.Selection < 255 then
+                        if  (properties.Animations.Selection + 12) > 255 then
+                        else
+                            properties.Animations.Selection = properties.Animations.Selection + 12
+                        end
+                    end
+                    Renderer:FilledRoundedRectangle({properties.X + form.X, properties.Y + form.Y}, {properties.Width, properties.Height}, {properties.ActiveBackground[1], properties.ActiveBackground[2], properties.ActiveBackground[3], properties.Animations.Selection}, properties.Roundness)
+                end
             else
+                
+                properties.Animations.Selection = 90
                 Renderer:FilledRoundedRectangle({properties.X + form.X, properties.Y + form.Y}, {properties.Width, properties.Height}, properties.Background, properties.Roundness)
             end
             Renderer:OutlinedRoundedRectangle({properties.X + form.X, properties.Y + form.Y}, {properties.Width, properties.Height}, properties.BorderColor, properties.Roundness)
