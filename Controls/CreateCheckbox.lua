@@ -110,6 +110,7 @@ function CreateCheckbox(properties)
 					else
 						properties.CheckState = true
 					end
+					gui.Command('lua.run "' .. properties.MouseClick .. '" ') 
                 end
             end
         end

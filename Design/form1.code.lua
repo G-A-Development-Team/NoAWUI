@@ -45,6 +45,14 @@ function Form:Exit()
     getFormByName("Main").Visible = false
 end
 
+function Form:Load()
+	setManagerData()
+end
+
+function Form:Unload()
+	setManagerData()
+end
+
 -- By: CarterPoe
 function Form:Tab1()
     local sender = getControlByName("Main", "tManager")
@@ -122,6 +130,7 @@ end
 function Form:mlDeathTheme_Clicked()
 	print("mlDeathTheme_Clicked")
 end
+
 
 
 --local listbox = getControlByName("Test_Tab", "guns")
