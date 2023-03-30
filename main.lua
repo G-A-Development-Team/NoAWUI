@@ -4,6 +4,7 @@ options = {
     panorama = true,
     logger = {
         info = true,
+        debug = true,
     }
 }
 
