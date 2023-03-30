@@ -19,10 +19,10 @@ end
 function TablePrint(t)
     for k, v in pairs(t) do
         if type(v) == "table" then
-            print(k)
+            LogInfo("TablePrint", k)
             TablePrint(v)
         else
-            print("\t", k, v)
+            LogInfo("TablePrint", "\t   " .. k .. "    " .. v)
         end
     end
 end

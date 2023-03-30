@@ -124,7 +124,7 @@ function CreateControl()
                                     value = dec(value)
                                     imgRGBA, imgWidth, imgHeight = common.DecodePNG(value);
                                 end)
-                                .default(function() print("Image Type not found. type=" .. type) end)
+                                .default(function() LogWarn("ATTRIBUTES", "Image Type not found. type=" .. type) end)
                             .process() 
                             local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
                             Control.BackgroundImage = texture
@@ -247,7 +247,7 @@ function CreateControl()
                         .case("varname",    function() Control.VarName  = value end)
                         .case("category",   function() Control.Category = value end)
 
-                        .default(function() print("Attribute not found. key=" .. key) end)
+                        .default(function() LogWarn("ATTRIBUTES", "Attribute not found. key=" .. key) end)
                     .process() 
                 end
             end
@@ -263,7 +263,7 @@ function CreateControl()
             end
 
             if Control.Name == nil or Control.Type == nil then
-                print("Missing Required Attributes For Control")
+                LogFatal("ATTRIBUTES", "Missing Required Attributes For Control")
                 return nil
             end
 

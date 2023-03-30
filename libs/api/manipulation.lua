@@ -2,6 +2,7 @@ function getTotalX(control)
     local parent = getParentControl(control)
     
     if parent == nil then
+        LogError("getTotalX", "Parent not found.")
         print("Parent not found.")
         return
     end
@@ -13,7 +14,7 @@ function getTotalY(control)
     local parent = getParentControl(control)
     
     if parent == nil then
-        print("Parent not found.")
+        LogError("getTotalY", "Parent not found.")
         return
     end
 
