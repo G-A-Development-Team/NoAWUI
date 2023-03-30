@@ -1,5 +1,11 @@
 gui.Command("clear");
 
+options = {
+    logger = {
+        info = false,
+    }
+}
+
 controls = {}
 tempDraw = {}
 focuslist = {}

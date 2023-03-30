@@ -240,6 +240,7 @@ end
 function addComponent(component, parent)
     -- Check if the parent is the correct one
     if parent.Name == component.Parent then
+        LogInfo("component", "Name=" .. component.Name .. " Type=" .. component.Type)
         table.insert(parent.Children, component)
         return
     end

@@ -1,3 +1,5 @@
 function LogInfo(type, text)
-    print("[NoAWUI - INFO]", "[" .. type:upper() .. "] - " .. text)
+    if options.logger.info ~= nil and options.logger.info then
+        print("[NoAWUI - INFO]", "[" .. type:upper() .. "] - " .. text) 
+    end
 end
