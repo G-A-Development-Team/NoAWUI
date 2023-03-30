@@ -1,7 +1,6 @@
 local ControlName = 'form'
 local FunctionName = 'CreateForm'
 
-
 -- By: CarterPoe
 function CreateForm(properties)
     local Control = CreateControl()
@@ -10,56 +9,46 @@ function CreateForm(properties)
 
     Control.AllowedCases = {
         --Positioning and Dimensions:
-        "x",
-        "y",
-        "width",
-        "height",
-
+        "x", "y", "width", "height",
         --Listeners:
-        "drag",
-        "toggle",
-
+        "drag", "toggle",
         --State:
         "visible",
-
         --Events:
-        "ontoggle",
-        "unload",
-
+        "ontoggle", "unload",
         --Visuals:
-        "image",
-        "background",
-        "border",
-        "roundness",
+        "image", "background", "border", "roundness",
     }
 
     Control = Control.DefaultCase(Control, properties)
 
-    Control.Render = function(properties)
-        properties = HandleEvent("toggle", properties)
-
-        if not properties.Visible then return properties end
-        
+    Control.Base = function(properties)
         Renderer:ShadowRectangle({properties.X, properties.Y}, {properties.Width, properties.Height}, {0,0,0,70}, 25)
 
         if properties.Rounded then
             Renderer:FilledRoundedRectangle({properties.X, properties.Y}, {properties.Width, properties.Height}, properties.Background, properties.Roundness)
             Renderer:OutlinedRoundedRectangle({properties.X, properties.Y}, {properties.Width, properties.Height}, properties.BorderColor, properties.Roundness)
-        else
-            if properties.BackgroundImage ~= nil then
-                draw.SetTexture(properties.BackgroundImage)
-            end
+        end
+
+        if not properties.Rounded then
+            if properties.BackgroundImage ~= nil then draw.SetTexture(properties.BackgroundImage) end
             Renderer:FilledRectangle({properties.X, properties.Y}, {properties.Width, properties.Height}, properties.Background)
             draw.SetTexture(nil)
             Renderer:OutlinedRectangle({properties.X, properties.Y}, {properties.Width, properties.Height}, properties.BorderColor)
         end
-        
+        return properties
+    end
+
+    Control.Render = function(properties)
+        properties = HandleEvent("toggle", properties)
+        if not properties.Visible then return properties end
+
+        properties = properties.Base(properties)
         properties = HandleEvent("focus", properties)
         properties = HandleEvent("drag", properties)
 
         return properties
     end
-	
     return Control
 end
 
