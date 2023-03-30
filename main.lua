@@ -1,7 +1,10 @@
+gui.Command("clear");
+
 controls = {}
 tempDraw = {}
 focuslist = {}
 
+RunScript("WinForm/libs/api/Logger.lua")
 RunScript("WinForm/libs/api/Misc.lua")
 RunScript("WinForm/libs/api/Renderer.lua")
 RunScript("WinForm/Controls.lua")
@@ -62,14 +65,18 @@ for _, element in ipairs(json_files) do
         
         -- Load the json data into script
         LoadJsonElements(jElement)
+        LogInfo("DesignJson", element.Json)
     end
     if element.Lua ~= nil then
         RunScript(element.Lua)
+        LogInfo("DesignLua", element.Lua)
         if element.LuaInit ~= nil then
             gui.Command('lua.run "' .. element.LuaInit .. '" ') 
+            LogInfo("DesignInit", element.LuaInit)
         end
     elseif element.LuaInit ~= nil then
 		gui.Command('lua.run "' .. element.LuaInit .. '" ') 
+        LogInfo("DesignInit", element.LuaInit)
 	end
 end
 
