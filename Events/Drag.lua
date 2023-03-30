@@ -1,4 +1,8 @@
 function Event_Drag(properties)
+    if properties.ForceDrag ~= nil then
+        properties.DragNow = properties.ForceDrag
+    end
+    
     if properties.Drag or properties.DragNow then
         --print(globaldragging)
         if isMouseInRect(properties.X, properties.Y, properties.Width, properties.Height) or properties.DragNow then

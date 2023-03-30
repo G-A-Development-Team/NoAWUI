@@ -279,6 +279,9 @@ function HandleEvent(event, properties)
     if event == "focus" then
         return Event_Focus(properties)
     end
+    if event == "toggle" then
+        return Event_Toggle(properties)
+    end
 end
 
 file.Enumerate(function(filepath)

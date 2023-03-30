@@ -36,25 +36,9 @@ function CreateForm(properties)
     Control = Control.DefaultCase(Control, properties)
 	
     Control.Render = function(properties)
-        if properties.Toggle ~= nil then
-            
-            if input.IsButtonPressed(properties.Toggle) then
-                properties.Visible = not properties.Visible
-                if properties.OnToggle ~= nil and properties.Visible then
-                    gui.Command('lua.run "' .. properties.OnToggle .. '" ')
-                end
-                if not properties.Visible then
-                    if properties.Unload ~= nil then
-                        gui.Command('lua.run "' .. properties.Unload .. '" ')
-                    end
-                end
-            end
-            properties.dummywindow:SetActive(properties.Visible)
-        end
+        properties = HandleEvent("toggle", properties)
 
-        if not properties.Visible then
-            return properties
-        end
+        if not properties.Visible then return properties end
         
         Renderer:ShadowRectangle({properties.X, properties.Y}, {properties.Width, properties.Height}, {0,0,0,70}, 25)
 
@@ -69,10 +53,6 @@ function CreateForm(properties)
             Renderer:FilledRectangle({properties.X, properties.Y}, {properties.Width, properties.Height}, properties.Background)
             draw.SetTexture(nil)
             Renderer:OutlinedRectangle({properties.X, properties.Y}, {properties.Width, properties.Height}, properties.BorderColor)
-        end
-
-        if properties.ForceDrag ~= nil then
-            properties.DragNow = properties.ForceDrag
         end
         
         properties = HandleEvent("focus", properties)
