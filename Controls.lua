@@ -272,7 +272,7 @@ function CreateControl()
     }
 end
 
-function HandleEvent(event, properties)
+function HandleEvent(event, properties, parent)
     if event == "drag" then
         return Event_Drag(properties)
     end
@@ -281,6 +281,9 @@ function HandleEvent(event, properties)
     end
     if event == "toggle" then
         return Event_Toggle(properties)
+    end
+    if event == "mouseclick" then
+        return Event_MouseClick(properties, parent)
     end
 end
 

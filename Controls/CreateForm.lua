@@ -22,7 +22,7 @@ function CreateForm(properties)
 
     Control = Control.DefaultCase(Control, properties)
 
-    Control.Base = function(properties)
+    Control.RenderBase = function(properties)
         Renderer:ShadowRectangle({properties.X, properties.Y}, {properties.Width, properties.Height}, {0,0,0,70}, 25)
 
         if properties.Rounded then
@@ -43,7 +43,7 @@ function CreateForm(properties)
         properties = HandleEvent("toggle", properties)
         if not properties.Visible then return properties end
 
-        properties = properties.Base(properties)
+        properties = properties.RenderBase(properties)
         properties = HandleEvent("focus", properties)
         properties = HandleEvent("drag", properties)
 
