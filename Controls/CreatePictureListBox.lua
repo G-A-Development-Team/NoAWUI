@@ -191,7 +191,7 @@ function CreatePictureListBox(properties)
             y = 5,
             width = 60,
             height = 60,
-            image = picture
+            imageurl = picture
         })
         
 

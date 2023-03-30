@@ -44,7 +44,7 @@ function CreatePictureBox(properties)
         "mouseclick",
 
         --Visuals:
-        "image",
+        "imageurl",
         "background",
         "roundness",
     }

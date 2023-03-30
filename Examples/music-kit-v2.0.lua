@@ -237,13 +237,13 @@ function setManagerData()
 								-- add the id to the name and parent of the object and create the Picture Box
 								pbAvatar['name'] = pbAvatar['name'] .. chkManager['count']
 								pbAvatar['parent'] = pbAvatar['parent'] .. chkManager['count']
-								pbAvatar['image'] = 'jpg,' .. chkManager[steamid32]['avatar']
+								pbAvatar['imageurl'] = 'jpg,' .. chkManager[steamid32]['avatar']
 								panel.Children[#panel.Children+1] = CreatePictureBox(pbAvatar)
 								
 								-- add the id to the name and parent of the object and create the Picture Box
 								pbKit['name'] = pbKit['name'] .. chkManager['count']
 								pbKit['parent'] = pbKit['parent'] .. chkManager['count']
-								pbKit['image'] = 'png,' .. kits_details[kits_unsorted[entities.GetPlayerResources():GetPropInt("m_nMusicID", player:GetIndex())]]['img']
+								pbKit['imageurl'] = 'png,' .. kits_details[kits_unsorted[entities.GetPlayerResources():GetPropInt("m_nMusicID", player:GetIndex())]]['img']
 								panel.Children[#panel.Children+1] = CreatePictureBox(pbKit)
 								
 								-- add the id to the name and parent of the object and create the Checkbox

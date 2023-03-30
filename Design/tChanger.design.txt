@@ -70,7 +70,7 @@
 			"function": {
 			},
 			"other": {
-                "image": "jpg,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/1326583.jpg"
+                "imageurl": "jpg,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/1326583.jpg"
 			}
 			
 		}

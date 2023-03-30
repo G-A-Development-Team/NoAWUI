@@ -75,7 +75,7 @@
 			"function": {
 			},
 			"other": {
-                "image": "png,https://static.wikia.nocookie.net/cswikia/images/7/7b/Csgo-musickit-matt_lange_01.png/revision/latest?cb=20150213193222",
+                "imageurl": "png,https://static.wikia.nocookie.net/cswikia/images/7/7b/Csgo-musickit-matt_lange_01.png/revision/latest?cb=20150213193222",
 			}
 			
 		}
@@ -101,7 +101,7 @@
 			"function": {
 			},
 			"other": {
-                "image": "png,https://static.wikia.nocookie.net/cswikia/images/7/7b/Csgo-musickit-matt_lange_01.png/revision/latest?cb=20150213193222",
+                "imageurl": "png,https://static.wikia.nocookie.net/cswikia/images/7/7b/Csgo-musickit-matt_lange_01.png/revision/latest?cb=20150213193222",
 			}
 			
 		}

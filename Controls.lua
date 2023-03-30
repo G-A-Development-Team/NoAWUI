@@ -100,38 +100,34 @@ function CreateControl()
 
                         --Visuals:
                         .case("image",        function()
-                            if not string.find(value, ",") then
-                                Control.Image = value
-                            else
-                                local args = split(value, ",")
-                                local type = args[1]
-                                local src = args[2]
-                                local imgRGBA, imgWidth, imgHeight = nil, nil, nil
-                                switch(type:lower())
-                                    .case("jpg", function() 
-                                        local jpgData = http.Get(src);
-                                        imgRGBA, imgWidth, imgHeight = common.DecodeJPEG(jpgData);
-                                    end)
-                                    .case("png", function() 
-                                        local pngData = http.Get(src);
-                                        imgRGBA, imgWidth, imgHeight = common.DecodePNG(pngData);
-                                    end)
-                                    .case("svg", function() 
-                                        local svgData = http.Get(src);
-                                        imgRGBA, imgWidth, imgHeight = common.RasterizeSVG(svgData);
-                                    end)
-                                    .case("svgdata", function() 
-                                        imgRGBA, imgWidth, imgHeight = common.RasterizeSVG(value);
-                                    end)
-                                    .case("base64png", function()
-                                        value = dec(value)
-                                        imgRGBA, imgWidth, imgHeight = common.DecodePNG(value);
-                                    end)
-                                    .default(function() print("Image Type not found. type=" .. type) end)
-                                .process() 
-                                local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
-                                Control.BackgroundImage = texture
-                            end
+                            local args = split(value, ",")
+                            local type = args[1]
+                            local src = args[2]
+                            local imgRGBA, imgWidth, imgHeight = nil, nil, nil
+                            switch(type:lower())
+                                .case("jpg", function() 
+                                    local jpgData = http.Get(src);
+                                    imgRGBA, imgWidth, imgHeight = common.DecodeJPEG(jpgData);
+                                end)
+                                .case("png", function() 
+                                    local pngData = http.Get(src);
+                                    imgRGBA, imgWidth, imgHeight = common.DecodePNG(pngData);
+                                end)
+                                .case("svg", function() 
+                                    local svgData = http.Get(src);
+                                    imgRGBA, imgWidth, imgHeight = common.RasterizeSVG(svgData);
+                                end)
+                                .case("svgdata", function() 
+                                    imgRGBA, imgWidth, imgHeight = common.RasterizeSVG(value);
+                                end)
+                                .case("base64png", function()
+                                    value = dec(value)
+                                    imgRGBA, imgWidth, imgHeight = common.DecodePNG(value);
+                                end)
+                                .default(function() print("Image Type not found. type=" .. type) end)
+                            .process() 
+                            local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
+                            Control.BackgroundImage = texture
                         end)
                         .case("background",   function()
                             if type(value) ~= "table" and string.find(value, "theme") then
@@ -245,6 +241,7 @@ function CreateControl()
 
                         --Values:
                         .case("url",        function() Control.URL   = value end)
+                        .case("imageurl",   function() Control.Image = value end)
 
                         --Aimware GUI Compatibility:
                         .case("varname",    function() Control.VarName  = value end)
