@@ -387,7 +387,7 @@ end
 
 local json_lib_installed = false
 file.Enumerate(function(filename)
-    if filename == "WinForm/json.lua" then
+    if filename == "WinForm/libs/json.lua" then
         json_lib_installed = true
     end
 end)
