@@ -17,7 +17,9 @@
 				"border": "theme.ui2.border"
 			},
 			"function": {
-                "toggle": 46
+                "toggle": 46,
+				"ontoggle": "Form:Load()",
+				"unload": "Form:Unload()"
 			},
 			"other": {
 				"image": "jpg,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/1326583.jpg"

@@ -12,6 +12,10 @@ function split(inputstr, sep)
     return t
 end
 
+function str_replace(subject, search, replace)
+	return subject:gsub(search, replace)
+end
+
 function TablePrint(t)
     for k, v in pairs(t) do
         if type(v) == "table" then

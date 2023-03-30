@@ -29,6 +29,8 @@ kits = json.decode(kits_sorted)['kits']['kits']
 kit_details = http.Get('https://raw.githubusercontent.com/G-A-Development-Team/SharedMusicKitChanger/main/kit_details.json')
 kits_details = json.decode(kit_details)['details']
 
+kits_unsorted_get = http.Get('https://raw.githubusercontent.com/G-A-Development-Team/SharedMusicKitChanger/main/kits_unsorted.json')
+kits_unsorted = json.decode(kits_unsorted_get)['kits']
 
 -----------
 -- Users --
@@ -120,110 +122,192 @@ local dcpbKit = GetAttributesFromArrayByName(jsonatts, "flpbmKit_")
 local dctxtName = GetAttributesFromArrayByName(jsonatts, "fltxtmName_")
 local dctxtKit = GetAttributesFromArrayByName(jsonatts, "fltxtmKit_")
 
+local chkManager = json.decode('{}')
+chkManager['count'] = 0
+
+function Form:chkToggle_Changed(box)
+	local toggle = getControlByName("Main", "flchkmToggle_" .. box)
+	print(tostring(toggle.CheckState) .. box)
+end
+
 function setManagerData()
-	flTogglePlayers.Clear()
-	
+	local chkManager_temp = json.decode('{}')
+	local steamidslist = {}
+	--flTogglePlayers.Clear()
 	local lp_event = entities.GetLocalPlayer()
-	-- This is to create 20 entries
+	
+	-- checks if the lp is not nil
 	if lp_event ~= nil then
-		local steamidar = {}
+		lp_data = client.GetPlayerInfo(lp_event:GetIndex())
+		-- Create an empty array we will use to get players avatars
+		local avatar_array = {}
+		
+		-- Gets the full list of players in the game
 		local players = entities.FindByClass("CCSPlayer")
-		local detailed_players = '{}'
-		detailed_players = json.decode(detailed_players)
-		local loop_i = 1
+		
+		-- Cycles through the entire list of players in the server
 		for i = 1, #players do
 		
+			-- Sets the variable player to the player
 			player = players[i]
-			if player:GetName() ~= "GOTV" then
 			
-				data = client.GetPlayerInfo(player:GetIndex())
-				
-				if data['SteamID'] >= 5000 then
-					local steamid32 = tostring(data['SteamID'])
-					detailed_players[steamid32] = {}
-					detailed_players[steamid32]['steamid32'] = data['SteamID']
-					detailed_players[steamid32]['steamid64'] = ""
-					detailed_players[steamid32]['avatar'] = ""
-					table.insert(steamidar, data['SteamID'])
+			-- Gets the player info of the current player
+			data = client.GetPlayerInfo(player:GetIndex())
+			
+			-- Ensures we arent gonna be including the lp in this array
+			if data['SteamID'] ~= lp_data['SteamID'] then
+				-- Ensures we aren't grabbing GOTV
+				if player:GetName() ~= "GOTV" then
+					
+					-- This makes sure we aren't selecting any of the bots
+					if data['SteamID'] >= 5000 then
+						-- Setting the value steamid32 to the value of the players steamid
+						local steamid32 = tostring(data['SteamID'])
+						
+						table.insert(steamidslist, steamid32)
+						
+						-- Checks if we have added this user in the past
+						if chkManager[steamid32] == nil then
+							-- We are adding to the array the information for the steamid32 and kitid
+							chkManager[steamid32] = {}
+							chkManager[steamid32]['steamid32'] = steamid32
+							chkManager[steamid32]['kitid'] = entities.GetPlayerResources():GetPropInt("m_nMusicID", players[i]:GetIndex())
+							TablePrint(chkManager[steamid32])
+							-- We are adding the players steamid32 to an array for grabbing their avatar
+							table.insert(avatar_array, steamid32)
+						end
+					end
 				end
-				
 			end
-			
 		end
-		local url = domain .. 'getavatar.php?id=' .. id .. '&json=' .. json.encode(steamidar)
-		http.Get(url, function (httpreturn)
+		
+		-- We are setting the url for grabbing the avatar
+		local url = domain .. 'getavatar.php?id=' .. id .. '&json=' .. json.encode(avatar_array)
+		-- We are taking the url and getting the information back to process it
+		local httpreturn = http.Get(url)
+			-- Taking the returned  text value from the website and adding it to a json
 			httpreturn = json.decode(httpreturn)
-			for _, v in pairs(steamidar) do
+			
+			-- With the avatar data we are going to update the players chkManager data
+			for _, v in pairs(avatar_array) do
+				-- v = the players steamid32
 				v = tostring(v)
-				detailed_players[v]['avatar'] = httpreturn[v]['avatar']
-				detailed_players[v]['steamid64'] = httpreturn[v]['steamid64']
+				-- Adding avatar and steamid64 to the chkmanager json
+				chkManager[v]['avatar'] = httpreturn[v]['avatar']
+				chkManager[v]['steamid64'] = httpreturn[v]['steamid64']
 			end	
 			
-			local temp_players = {}
-		
+			-- Cycles through the entire list of players in the server
 			for i = 1, #players do
 			
+				-- Sets the variable player to the player
 				player = players[i]
-				if player:GetName() ~= "GOTV" then
 				
-					data = client.GetPlayerInfo(player:GetIndex())
-					
-					if data['SteamID'] >= 5000 then
-						local steamid32 = tostring(data['SteamID'])
-					
-						-- Set the panels to the default save value
-						plPanel = deepcopy(dcplPanel)
-						chkToggle = deepcopy(dcchkToggle)
-						pbAvatar = deepcopy(dcpbAvatar)
-						pbKit = deepcopy(dcpbKit)
-						txtName = deepcopy(dctxtName)
-						txtKit = deepcopy(dctxtKit)
+				-- Gets the player info of the current player
+				data = client.GetPlayerInfo(player:GetIndex())
+				
+				-- Ensures we arent gonna be including the lp in this array
+				if data['SteamID'] ~= lp_data['SteamID'] then
+				
+					-- Ensures we aren't grabbing GOTV
+					if player:GetName() ~= "GOTV" then
 						
-						-- Add the id to the name of the object and create the panel
-						plPanel['name'] = plPanel['name'] .. i
-						local panel = CreatePanel(plPanel)
-						
-						-- add the id to the name and parent of the object and create the Picture Box
-						pbAvatar['name'] = pbAvatar['name'] .. i
-						pbAvatar['parent'] = pbAvatar['parent'] .. i
-						pbAvatar['image'] = 'jpg,' .. detailed_players[steamid32]['avatar']
-						panel.Children[#panel.Children+1] = CreatePictureBox(pbAvatar)
-						
-						-- add the id to the name and parent of the object and create the Picture Box
-						pbKit['name'] = pbKit['name'] .. i
-						pbKit['parent'] = pbKit['parent'] .. i
-						panel.Children[#panel.Children+1] = CreatePictureBox(pbKit)
-						
-						-- add the id to the name and parent of the object and create the Checkbox
-						chkToggle['name'] = chkToggle['name'] .. i
-						chkToggle['parent'] = chkToggle['parent'] .. i
-						panel.Children[#panel.Children+1] = CreateCheckbox(chkToggle)
-						
-						-- add the id to the name and parent of the object and create the Label
-						txtKit['name'] = txtKit['name'] .. i
-						txtKit['parent'] = txtKit['parent'] .. i
-						txtKit['text'] = kits[entities.GetPlayerResources():GetPropInt("m_nMusicID", player:GetIndex())]
-						panel.Children[#panel.Children+1] = CreateLabel(txtKit)
-						
-						-- add the id to the name and parent of the object and create the Label
-						txtName['name'] = txtName['name'] .. i
-						txtName['parent'] = txtName['parent'] .. i
-						txtName['text'] = player:GetName()
-						panel.Children[#panel.Children+1] = CreateLabel(txtName)
-						
-						-- add all the objects to the panels and complete the process
-						flTogglePlayers.AddItem(panel)
-						--flTogglePlayers.Children[#flTogglePlayers.Children+1] = panel
-					
+						-- This makes sure we aren't selecting any of the bots
+						if data['SteamID'] >= 5000 then
+							
+							-- Setting the value steamid32 to the value of the players steamid
+							local steamid32 = tostring(data['SteamID'])
+							
+							if chkManager[steamid32]['plPanel'] == nil then
+								print(steamid32)
+								chkManager['count'] = chkManager['count'] + 1
+								
+								-- Set the panels to the default save value
+								plPanel = deepcopy(dcplPanel)
+								chkToggle = deepcopy(dcchkToggle)
+								pbAvatar = deepcopy(dcpbAvatar)
+								pbKit = deepcopy(dcpbKit)
+								txtName = deepcopy(dctxtName)
+								txtKit = deepcopy(dctxtKit)
+								
+								-- Add the id to the name of the object and create the panel
+								plPanel['name'] = plPanel['name'] .. chkManager['count']
+								local panel = CreatePanel(plPanel)
+								
+								-- add the id to the name and parent of the object and create the Picture Box
+								pbAvatar['name'] = pbAvatar['name'] .. chkManager['count']
+								pbAvatar['parent'] = pbAvatar['parent'] .. chkManager['count']
+								pbAvatar['image'] = 'jpg,' .. chkManager[steamid32]['avatar']
+								panel.Children[#panel.Children+1] = CreatePictureBox(pbAvatar)
+								
+								-- add the id to the name and parent of the object and create the Picture Box
+								pbKit['name'] = pbKit['name'] .. chkManager['count']
+								pbKit['parent'] = pbKit['parent'] .. chkManager['count']
+								pbKit['image'] = 'png,' .. kits_details[kits_unsorted[entities.GetPlayerResources():GetPropInt("m_nMusicID", player:GetIndex())]]['img']
+								panel.Children[#panel.Children+1] = CreatePictureBox(pbKit)
+								
+								-- add the id to the name and parent of the object and create the Checkbox
+								chkToggle['name'] = chkToggle['name'] .. chkManager['count']
+								chkToggle['parent'] = chkToggle['parent'] .. chkManager['count']
+								chkToggle['mouseclick'] = str_replace(chkToggle['mouseclick'], "_id_", chkManager['count'])
+								panel.Children[#panel.Children+1] = CreateCheckbox(chkToggle)
+								
+								-- add the id to the name and parent of the object and create the Label
+								txtKit['name'] = txtKit['name'] .. chkManager['count']
+								txtKit['parent'] = txtKit['parent'] .. chkManager['count']
+								txtKit['text'] = kits_unsorted[entities.GetPlayerResources():GetPropInt("m_nMusicID", player:GetIndex())]
+								panel.Children[#panel.Children+1] = CreateLabel(txtKit)
+								
+								-- add the id to the name and parent of the object and create the Label
+								txtName['name'] = txtName['name'] .. chkManager['count']
+								txtName['parent'] = txtName['parent'] .. chkManager['count']
+								txtName['text'] = player:GetName()
+								panel.Children[#panel.Children+1] = CreateLabel(txtName)
+								
+								-- add all the objects to the panels and complete the process
+								flTogglePlayers.AddItem(panel)
+
+								-- Set the gui objects to the json
+								chkManager[steamid32]['plPanel'] = getControlByName('Main', 'flplManager_' .. chkManager['count'])
+								chkManager[steamid32]['chkToggle'] = getControlByName('Main', 'flchkmToggle_' .. chkManager['count'])
+								chkManager[steamid32]['pbAvatar'] = getControlByName('Main', 'flpbmAvatar_' .. chkManager['count'])
+								chkManager[steamid32]['pbKit'] = getControlByName('Main', 'flpbmKit_' .. chkManager['count'])
+								chkManager[steamid32]['txtName'] = getControlByName('Main', 'fltxtmName_' .. chkManager['count'])
+								chkManager[steamid32]['txtKit'] = getControlByName('Main', 'fltxtmKit_' .. chkManager['count'])
+								
+							end
+						end
 					end
 				end
 			end	
-		end)
+		
+		local chopping_block = json.decode('{}')
+		for index, obj in ipairs(flTogglePlayers.Children) do
+			if obj.Type == 'panel' then
+				chopping_block[obj.Name] = {}
+				chopping_block[obj.Name]['name'] = obj.Name
+				chopping_block[obj.Name]['index'] = index
+			end
+		end
+		for _, steamid_temp in ipairs(steamidslist) do
+			for index, chop_item in pairs(chopping_block) do
+				if chkManager[steamid_temp]['plPanel'].Name == chop_item['name'] then
+					chopping_block[chop_item['name']] = {}
+				end
+			end
+		end
+
+		for name, obj in pairs(chopping_block) do
+			if obj['index'] ~= nil then
+				flTogglePlayers.RemoveItem(obj['index'])
+			end
+		end
+		
+		--  cycle through steamid list. add the chkmanager objects to temp. set checkmanager to temp
 	end
 end
 
-
-
+setManagerData()
 
 
 local setkits = true
@@ -283,8 +367,8 @@ function getPlayerBySteamID(steamid)
 	end
 end
 
-local objPlayers = '{}' -- Json Object
-objPlayers = json.decode(objPlayers)
+local objPlayers = json.decode('{}') -- Json Object
+
 -- objPlayers[SteamID32]['name'] --> String --> client.GetPlayerInfo(index)['Name']
 -- objPlayers[SteamID32]['aw'] --> Boolean
 -- objPlayers[SteamID32]['kit'] --> Integer
@@ -365,44 +449,13 @@ callbacks.Register("FireGameEvent", function(e)
 		if e:GetName() ~= "round_start" then
 			return
 		end
-		setkits = true
+		--setkits = true
 	--end
 end)
 
-local cur_players = {}
 callbacks.Register("Draw", function()
 	
-	local lp_event = entities.GetLocalPlayer()
 	
-	if lp_event ~= nil then
-	
-		local players = entities.FindByClass("CCSPlayer")
-		local temp_players = {}
-		
-		for i = 1, #players do
-		
-			player = players[i]
-			if player:GetName() ~= "GOTV" then
-			
-				data = client.GetPlayerInfo(player:GetIndex())
-				
-				if data['SteamID'] >= 5000 then
-				
-					steamid = tostring(data['SteamID'])
-					table.insert(temp_players, steamid)
-				
-				end
-			end
-		end
-		comp_cur = json.encode(cur_players)
-		comp_temp = json.encode(temp_players)
-		if comp_temp ~= comp_cur then
-			cur_players = temp_players
-			
-			setManagerData()
-		end
-		
-	end
 end)
 
 
