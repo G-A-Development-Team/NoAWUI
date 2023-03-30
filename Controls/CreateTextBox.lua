@@ -12,103 +12,28 @@ function CreateTextBox(properties)
     Control.Height = 180
     Control.BorderColor = {50,50,50,120}
     Control.DisplayLines = false
-    for key, value in pairs(properties) do
-		value = tostring(value)
-            switch(key:lower())
-            .case("name", function() Control.Name = value end)
-            .case("group", function() Control.Group = value end)
-            .case("parent", function() Control.Parent = value end)
-            .case("type", function() Control.Type = value end)
-            .case("x", function() Control.X = value Control.SetX = value end)
-            .case("y", function() Control.Y = value Control.SetY = value end)
-            .case("mousehover", function() Control.MouseHover = value end)
-            .case("mouseoutside", function() Control.MouseOutside = value end)
-            .case("width", function() Control.Width = value end)
-            .case("height", function() Control.Height = value end)
-            .case("dragparent", function() 
-                if value == "false" then
-                    Control.DragParent = false
-                else
-                    Control.DragParent = true
-                end
-            end)
-            .case("displaylines", function() 
-                if value == "false" then
-                    Control.DisplayLines = false
-                else
-                    Control.DisplayLines = true
-                end
-            end)
-            .case("mouseclick", function() Control.MouseClick = value end)
-            .case("image", function() 
-                local args = split(value, ",")
-                local type = args[1]
-                local src = args[2]
-                switch(type:lower())
-                .case("jpg", function() 
-                    local jpgData = http.Get(src);
-                    local imgRGBA, imgWidth, imgHeight = common.DecodeJPEG(jpgData);
-                    local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
-                    Control.BackgroundImage = texture
-                end)
-                .case("png", function() 
-                    local pngData = http.Get(src);
-                    local imgRGBA, imgWidth, imgHeight = common.DecodePNG(pngData);
-                    local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
-                    Control.BackgroundImage = texture
-                end)
-                .case("svg", function() 
-                    local svgData = http.Get(src);
-                    local imgRGBA, imgWidth, imgHeight = common.RasterizeSVG(svgData);
-                    local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
-                    Control.BackgroundImage = texture
-                end)
-                .default(function() print("Image Type not found. key=" .. key) end)
-                .process() 
-            end)
-            .case("background", function() 
-                if string.find(value, "theme") then
-                    local r,g,b,a = gui.GetValue(value)
-                    Control.Background[1] = r
-                    Control.Background[2] = g
-                    Control.Background[3] = b
-                    Control.Background[4] = a
-                else
-                    local args = split(value, ",")
-                    Control.Background[1] = args[1]
-                    Control.Background[2] = args[2]
-                    Control.Background[3] = args[3]
-                    Control.Background[4] = args[4]
-                end
-            end)
-            .case("border", function() 
-                if string.find(value, "theme") then
-                    local r,g,b,a = gui.GetValue(value)
-                    Control.BorderColor[1] = r
-                    Control.BorderColor[2] = g
-                    Control.BorderColor[3] = b
-                    Control.BorderColor[4] = a
-                else
-                    local args = split(value, ",")
-                    Control.BorderColor[1] = args[1]
-                    Control.BorderColor[2] = args[2]
-                    Control.BorderColor[3] = args[3]
-                    Control.BorderColor[4] = args[4]
-                end
-            end)
-            .case("roundness", function() 
-                local args = split(value, ",")
-                Control.Roundness[1] = args[1]
-                Control.Roundness[2] = args[2]
-                Control.Roundness[3] = args[3]
-                Control.Roundness[4] = args[4]
-                Control.Roundness[5] = args[5]
-                Control.Rounded = true
-            end)
-            .default(function() print("Attribute not found. key=" .. key) end)
-            .process() 
-        --end
-    end
+
+    Control.AllowedCases = {
+        --Positioning and Dimensions:
+        "x",
+        "y",
+        "width",
+        "height",
+
+        --Events:
+        "mousehover",
+        "mouseoutside",
+        "mouseclick",
+
+        --Visuals:
+        "displaylines",
+        "image",
+        "background",
+        "border",
+        "roundness",
+    }
+
+    Control = Control.DefaultCase(Control, properties)
 
     local Font = draw.CreateFont(Control.FontFamily, Control.FontHeight, Control.FontWeight)
 

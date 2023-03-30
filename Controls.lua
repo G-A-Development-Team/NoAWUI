@@ -87,6 +87,7 @@ function CreateControl()
                         .case("mousescroll",    function() Control.MouseScroll  = value end)
                         .case("mousehover",     function() Control.MouseHover   = value end)
                         .case("mouseoutside",   function() Control.MouseOutside = value end)
+                        .case("changeevent",    function() Control.ChangeEvent  = value end)
                         .case("dragparent",     function()
                             if value == "false" then
                                 Control.DragParent = false
@@ -98,7 +99,7 @@ function CreateControl()
                         .case("unload",         function() Control.Unload       = value end)
 
                         --Visuals:
-                        .case("image",      function()
+                        .case("image",        function()
                             if not string.find(value, ",") then
                                 Control.Image = value
                             else
@@ -132,7 +133,7 @@ function CreateControl()
                                 Control.BackgroundImage = texture
                             end
                         end)
-                        .case("background", function()
+                        .case("background",   function()
                             if type(value) ~= "table" and string.find(value, "theme") then
                                 Control.Background = getThemeColor(value)
                             else
@@ -141,7 +142,7 @@ function CreateControl()
                                 Control.Background = textToTable(args)
                             end
                         end)
-                        .case("shadow",     function()
+                        .case("shadow",       function()
                             if string.find(value, "theme") then
                                 Control.Shadow = getThemeColor(value)
                             else
@@ -149,7 +150,7 @@ function CreateControl()
                                 Control.Shadow = textToTable(args)
                             end
                         end)
-                        .case("border",     function()
+                        .case("border",       function()
                             if string.find(value, "theme") then
                                 Control.BorderColor = getThemeColor(value)
                             else
@@ -157,12 +158,12 @@ function CreateControl()
                                 Control.BorderColor = textToTable(args)
                             end
                         end)
-                        .case("roundness",  function()
+                        .case("roundness",    function()
                             local args = split(value, ",")
                             Control.Roundness = textToTable(args)
                             Control.Rounded = true
                         end)
-                        .case("color",      function()
+                        .case("color",        function()
                             if string.find(value, "theme") then
                                 Control.Color = getThemeColor(value)
                             else
@@ -170,12 +171,19 @@ function CreateControl()
                                 Control.Color = textToTable(args)
                             end
                         end)
-                        .case("active",     function()
+                        .case("active",       function()
                             if string.find(value, "theme") then
                                 Control.ActiveBackground = getThemeColor(value)
                             else
                                 local args = split(value, ",")
                                 Control.ActiveBackground = textToTable(args)
+                            end
+                        end)
+                        .case("displaylines", function() 
+                            if value == "false" then
+                                Control.DisplayLines = false
+                            else
+                                Control.DisplayLines = true
                             end
                         end)
 
