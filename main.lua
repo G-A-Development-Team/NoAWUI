@@ -1,6 +1,7 @@
 gui.Command("clear");
 
 options = {
+    panorama = true,
     logger = {
         info = true,
     }
@@ -150,7 +151,10 @@ callbacks.Register("Draw", "Render", function()
 end)
 
 callbacks.Register("Unload", function()
-    UnloadScript("WinForm/Misc.lua")
-    UnloadScript("WinForm/Renderer.lua")
+    UnloadScript("WinForm/libs/api/Misc.lua")
+    UnloadScript("WinForm/libs/api/manipulation.lua")
+    UnloadScript("WinForm/libs/api/Logger.lua")
+    UnloadScript("WinForm/libs/api/Theme.lua")
+    UnloadScript("WinForm/libs/api/Renderer.lua")
     UnloadScript("WinForm/Controls.lua")
 end)
