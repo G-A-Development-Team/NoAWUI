@@ -2,7 +2,7 @@ gui.Command("clear");
 
 options = {
     logger = {
-        info = false,
+        info = true,
     }
 }
 
