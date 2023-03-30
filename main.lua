@@ -9,24 +9,19 @@ RunScript("WinForm/libs/api/manipulation.lua")
 
 -- Grab an element from the json
 local function LoadJsonElements(jElements)
-    
 	for _, jElement in ipairs(jElements) do
-	
         -- Get the attributes from the element
         local attributes = getDefaultAtts(jElement)
 		
 		-- Cycle through all the possible winform controls
 		for _, wfControl in pairs(WinFormControls) do
-		
 			-- See if the control is the right one
 			if jElement['details']['type']:lower() == wfControl['name'] then
-			
 				-- Getting the create function to made
 				local made = assert(loadstring('return ' .. wfControl['function']..'(...)'))(attributes)
 				
 				-- Check if the special category is set
 				if wfControl['special']=="container" then
-					
 					controls[#controls +1] = made
 				else
 					-- if not then just add the component
@@ -135,8 +130,6 @@ callbacks.Register("Draw", "Render", function()
 
     end
 
-    --local sender = getControlByName("Main", "plbChanger")
-    --print(sender.GetSelectedItem().Name)
     for _m, main in ipairs(tempDraw) do
         main.Render()
     end
