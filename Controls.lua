@@ -275,6 +275,5 @@ end
 file.Enumerate(function(filepath)
     if string.starts(filepath, "WinForm/Controls/") then
         RunScript(filepath)
-        print(filepath)
     end
 end)

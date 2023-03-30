@@ -42,7 +42,6 @@ function CreateToolTip(properties)
             end
         end
         --Control.Lines = properties["lines"]
-        TablePrint(Control.Lines)
     end
 
     Control.Children = {
