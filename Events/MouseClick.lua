@@ -3,7 +3,7 @@ function Event_MouseClick(properties, parent)
         if input.IsButtonReleased(1) then
             if isMouseInRect(properties.X + parent.X, properties.Y + parent.Y, properties.Width, properties.Height) then
                 if not getSelected() then
-                    gui.Command('lua.run "' .. properties.MouseClick .. '" ') 
+                    ExecuteLuaString(properties.MouseClick)
                 end
             end
         end
