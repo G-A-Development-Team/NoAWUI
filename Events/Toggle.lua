@@ -3,11 +3,11 @@ function Event_Toggle(properties)
         if input.IsButtonPressed(properties.Toggle) then
             properties.Visible = not properties.Visible
             if properties.OnToggle ~= nil and properties.Visible then
-                gui.Command('lua.run "' .. properties.OnToggle .. '" ')
+                ExecuteLuaString(properties.OnToggle)
             end
             if not properties.Visible then
                 if properties.Unload ~= nil then
-                    gui.Command('lua.run "' .. properties.Unload .. '" ')
+                    ExecuteLuaString(properties.Unload)
                 end
             end
         end

@@ -380,6 +380,10 @@ function getThemeColor(value)
     return {r,g,b,a}
 end
 
+function ExecuteLuaString(text)
+    gui.Command('lua.run "' .. text .. '" ')
+end
+
 --------------------------------------------
 --          READ JSON EXECUTION           --
 -- Credit To: Chicken4676                 --
