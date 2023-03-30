@@ -64,6 +64,7 @@ function CreatePictureBox(properties)
 
         if properties.BackgroundImage == nil then
             local args = split(properties.Image, ",")
+            if args == nil then return end
             local src = args[2]
             local imgtype = args[1]
             switch(imgtype:lower())

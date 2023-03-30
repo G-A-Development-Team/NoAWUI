@@ -99,7 +99,6 @@ function CreateControl()
 
                         --Visuals:
                         .case("image",      function()
-                            Control.Image = value
                             if not string.find(value, ",") then
                                 Control.Image = value
                             else
