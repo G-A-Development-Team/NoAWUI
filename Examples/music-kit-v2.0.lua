@@ -9,7 +9,7 @@ file.Write("\\Cache/Renderer.lua", http.Get("https://raw.githubusercontent.com/G
 LoadScript("\\Cache/Renderer.lua")
 
 -- Create the visuals for the script
-RunScript("WinForm/winform.lua")
+RunScript("WinForm/main.lua")
 
 Form:ChangePictureBox("Main", "pbKitPreview","", "png")
 

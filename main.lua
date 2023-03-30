@@ -2,10 +2,10 @@ controls = {}
 tempDraw = {}
 focuslist = {}
 
-RunScript("WinForm/Misc.lua")
-RunScript("WinForm/Renderer.lua")
+RunScript("WinForm/libs/api/Misc.lua")
+RunScript("WinForm/libs/api/Renderer.lua")
 RunScript("WinForm/Controls.lua")
-RunScript("WinForm/libs/manipulation.lua")
+RunScript("WinForm/libs/api/manipulation.lua")
 
 -- Grab an element from the json
 local function LoadJsonElements(jElements)
