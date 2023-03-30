@@ -46,7 +46,6 @@ function CreateForm(properties)
         properties = properties.RenderBase(properties)
         properties = HandleEvent("focus", properties)
         properties = HandleEvent("drag", properties)
-
         return properties
     end
     return Control
