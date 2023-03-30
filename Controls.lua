@@ -175,7 +175,7 @@ function CreateControl()
                                 Control.ActiveBackground = textToTable(args)
                             end
                         end)
-                        .case("displaylines", function() 
+                        .case("displaylines", function()
                             if value == "false" then
                                 Control.DisplayLines = false
                             else
@@ -270,6 +270,12 @@ function CreateControl()
             return Control
         end,
     }
+end
+
+function HandleEvent(event, properties)
+    if event == "drag" then
+        return Event_Drag(properties)
+    end
 end
 
 file.Enumerate(function(filepath)

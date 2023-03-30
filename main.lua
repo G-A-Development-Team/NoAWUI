@@ -15,8 +15,9 @@ focuslist = {}
 RunScript("WinForm/libs/api/Logger.lua")
 RunScript("WinForm/libs/api/Misc.lua")
 RunScript("WinForm/libs/api/Renderer.lua")
-RunScript("WinForm/Controls.lua")
 RunScript("WinForm/libs/api/manipulation.lua")
+RunScript("WinForm/Events/Drag.lua")
+RunScript("WinForm/Controls.lua")
 
 -- Grab an element from the json
 local function LoadJsonElements(jElements)
@@ -158,4 +159,5 @@ callbacks.Register("Unload", function()
     UnloadScript("WinForm/libs/api/Theme.lua")
     UnloadScript("WinForm/libs/api/Renderer.lua")
     UnloadScript("WinForm/Controls.lua")
+    UnloadScript("WinForm/Events/Drag.lua")
 end)
