@@ -34,7 +34,7 @@ function CreateForm(properties)
     }
 
     Control = Control.DefaultCase(Control, properties)
-	
+
     Control.Render = function(properties)
         properties = HandleEvent("toggle", properties)
 
@@ -43,7 +43,6 @@ function CreateForm(properties)
         Renderer:ShadowRectangle({properties.X, properties.Y}, {properties.Width, properties.Height}, {0,0,0,70}, 25)
 
         if properties.Rounded then
-            
             Renderer:FilledRoundedRectangle({properties.X, properties.Y}, {properties.Width, properties.Height}, properties.Background, properties.Roundness)
             Renderer:OutlinedRoundedRectangle({properties.X, properties.Y}, {properties.Width, properties.Height}, properties.BorderColor, properties.Roundness)
         else
