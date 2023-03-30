@@ -32,37 +32,25 @@ function CreateCheckbox(properties)
 	Control.HoverColor = {255,0,0,255}
 	Control.TextWidth = 0
 	Control.Text = ""
-	
-    -- Loading setting from design to Control
-	for key, value in pairs(properties) do
-		value = tostring(value)
-            switch(key:lower())
-            .case("name", function() Control.Name = value end)
-            .case("group", function() Control.Group = value end)
-            .case("parent", function() Control.Parent = value end)
-            .case("type", function() Control.Type = value end)
-            .case("x", function() Control.X = value Control.SetX = value end)
-            .case("y", function() Control.Y = value Control.SetY = value end)
-            .case("width", function() Control.Width = value end)
-            .case("height", function() Control.Height = value end)
-            .case("drag", function() Control.Drag = value end)
-            .case("mouseclick", function() Control.MouseClick = value end)
-            .case("text", function() 
-				value = value:gsub("_", " ")
-				Control.Text = value 
-			end)
-			.case("checkstate", function() 
-				if value == "true" then
-					value = true
-				elseif value == "false" then
-					value = false
-				end
-				Control.CheckState = value
-			end)
-			-- Processes the switch bs above
-            .default(function() print("Attribute not found. key=" .. key) end)
-            .process() 
-    end
+
+    Control.AllowedCases = {
+        --Positioning and Dimensions:
+        "x",
+        "y",
+        "width",
+        "height",
+
+        --Text:
+        "text",
+
+        --Events:
+        "mouseclick",
+
+        --State:
+        "checkstate",
+    }
+
+    Control = Control.DefaultCase(Control, properties)
 
 	Control.Font = draw.CreateFont("Bahnschrift", 20, 100)
 	-- This is used to create the actual gui object

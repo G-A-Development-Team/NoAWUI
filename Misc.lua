@@ -1,4 +1,7 @@
 function split(inputstr, sep)
+    if inputstr == nil or sep == nil then
+        return
+    end
     if sep == nil then
         sep = "%s"
     end
@@ -348,6 +351,28 @@ function dec(data)
         for i=1,8 do c=c+(x:sub(i,i)=='1' and 2^(8-i) or 0) end
             return string.char(c)
     end))
+end
+
+function tableContainsValue(table, value)
+    for _, v in ipairs(table) do
+      if v == value then
+        return true
+      end
+    end
+    return false
+end
+
+function textToTable(value)
+    local tbl = {}
+    for key, value in ipairs(value) do
+        tbl[key] = value
+    end
+    return tbl
+end
+
+function getThemeColor(value)
+    local r,g,b,a = gui.GetValue(value)
+    return {r,g,b,a}
 end
 
 --------------------------------------------

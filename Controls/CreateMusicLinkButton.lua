@@ -20,83 +20,30 @@ function CreateMusicLinkButton(properties)
         local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
 	-- Setting the PlayIconTexture to the control
 	Control.PlayIconTexture = texture
-	
-    -- Loading setting from design to Control
-	for key, value in pairs(properties) do
-		value = tostring(value)
-            switch(key:lower())
-            .case("name", function() Control.Name = value end)
-            .case("group", function() Control.Group = value end)
-            .case("parent", function() Control.Parent = value end)
-            .case("type", function() Control.Type = value end)
-            .case("x", function() Control.X = value Control.SetX = value end)
-            .case("y", function() Control.Y = value Control.SetY = value end)
-            .case("width", function() Control.Width = value end)
-            .case("height", function() Control.Height = value end)
-            .case("drag", function() Control.Drag = value end)
-            .case("mouseclick", function() Control.MouseClick = value end)
-            .case("url", function() Control.URL = value end)
-            .case("text", function() 
-				value = value:gsub("_", " ")
-				Control.Text = value 
-			end)
-            .case("image", function()
-				-- Loads the image url from design and loads it to BackgroundImage
-                local args = split(value, ",")
-                local type = args[1]
-                local src = args[2]
-                switch(type:lower())
-                .case("jpg", function() 
-                    local jpgData = http.Get(src);
-                    local imgRGBA, imgWidth, imgHeight = common.DecodeJPEG(jpgData);
-                    local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
-                    Control.BackgroundImage = texture
-                end)
-                .case("png", function() 
-                    local pngData = http.Get(src);
-                    local imgRGBA, imgWidth, imgHeight = common.DecodePNG(pngData);
-                    local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
-                    Control.BackgroundImage = texture
-                end)
-                .case("svg", function() 
-                    local svgData = http.Get(src);
-                    local imgRGBA, imgWidth, imgHeight = common.RasterizeSVG(svgData);
-                    local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
-                    Control.BackgroundImage = texture
-                end)
-                .default(function() print("Image Type not found. key=" .. key) end)
-                .process() 
-            end)
-            .case("background", function() 
-				-- Sets the Control Background color
-                if string.find(value, "theme") then
-                    local r,g,b,a = gui.GetValue(value)
-                    Control.Background[1] = r
-                    Control.Background[2] = g
-                    Control.Background[3] = b
-                    Control.Background[4] = a
-                else
-                    local args = split(value, ",")
-                    Control.Background[1] = args[1]
-                    Control.Background[2] = args[2]
-                    Control.Background[3] = args[3]
-                    Control.Background[4] = args[4]
-                end
-            end)
-            .case("roundness", function() 
-				-- This is used to define the roundness of a rect
-                local args = split(value, ",")
-                Control.Roundness[1] = args[1]
-                Control.Roundness[2] = args[2]
-                Control.Roundness[3] = args[3]
-                Control.Roundness[4] = args[4]
-                Control.Roundness[5] = args[5]
-                Control.Rounded = true
-            end)
-			-- Processes the switch bs above
-            .default(function() print("Attribute not found. key=" .. key) end)
-            .process() 
-    end
+
+    Control.AllowedCases = {
+        --Positioning and Dimensions:
+        "x",
+        "y",
+        "width",
+        "height",
+
+        --Events:
+        "mouseclick",
+
+        --Values:
+        "url",
+
+        --Text:
+        "text",
+
+        --Visuals:
+        "image",
+        "background",
+        "roundness",
+    }
+
+    Control = Control.DefaultCase(Control, properties)
 
 	Control.Font = draw.CreateFont("Bahnschrift", 20, 100)
 	-- This is used to create the actual gui object

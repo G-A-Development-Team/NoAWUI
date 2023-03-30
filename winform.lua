@@ -1,5 +1,3 @@
-globaldragging = false
-
 RunScript("WinForm/libs/Timer.lua")
 RunScript("WinForm/Misc.lua")
 RunScript("WinForm/Renderer.lua")
@@ -46,12 +44,22 @@ end
 function getTotalX(control)
     local parent = getParentControl(control)
     
+    if parent == nil then
+        print("Parent not found.")
+        return
+    end
+
     return parent.X + control.X
 end
 
 function getTotalY(control)
     local parent = getParentControl(control)
     
+    if parent == nil then
+        print("Parent not found.")
+        return
+    end
+
     return parent.Y + control.Y
 end
 
@@ -255,13 +263,6 @@ for _, element in ipairs(json_files) do
 end
 
 callbacks.Register("Draw", "Render", function()
-    if input.IsButtonDown(1) then
-        globaldragging = true
-    end
-    if input.IsButtonReleased(1) then
-        globaldragging = false
-    end
-    --TablePrint(focuslist)
     for _m, main in ipairs(controls) do
         if getCurrentFocus() ~= main.Name then
             if main.Type == "form" and not string.starts(main.Type, "aw") then

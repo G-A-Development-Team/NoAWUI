@@ -32,50 +32,25 @@ function CreatePictureBox(properties)
             .process()
 			
 	end
-    
-	for key, value in pairs(properties) do
-		value = tostring(value)
-            switch(key:lower())
-            .case("name", function() Control.Name = value end)
-            .case("group", function() Control.Group = value end)
-            .case("parent", function() Control.Parent = value end)
-            .case("type", function() Control.Type = value end)
-            .case("x", function() Control.X = value Control.SetX = value end)
-            .case("y", function() Control.Y = value Control.SetY = value end)
-            .case("width", function() Control.Width = value end)
-            .case("height", function() Control.Height = value end)
-            .case("drag", function() Control.Drag = value end)
-            .case("mouseclick", function() Control.MouseClick = value end)
-            .case("image", function() 
-                Control.Image = value
-            end)
-            .case("background", function() 
-                if string.find(value, "theme") then
-                    local r,g,b,a = gui.GetValue(value)
-                    Control.Background[1] = r
-                    Control.Background[2] = g
-                    Control.Background[3] = b
-                    Control.Background[4] = a
-                else
-                    local args = split(value, ",")
-                    Control.Background[1] = args[1]
-                    Control.Background[2] = args[2]
-                    Control.Background[3] = args[3]
-                    Control.Background[4] = args[4]
-                end
-            end)
-            .case("roundness", function() 
-                local args = split(value, ",")
-                Control.Roundness[1] = args[1]
-                Control.Roundness[2] = args[2]
-                Control.Roundness[3] = args[3]
-                Control.Roundness[4] = args[4]
-                Control.Roundness[5] = args[5]
-                Control.Rounded = true
-            end)
-            .default(function() print("Attribute not found. key=" .. key) end)
-            .process() 
-    end
+
+    Control.AllowedCases = {
+        --Positioning and Dimensions:
+        "x",
+        "y",
+        "width",
+        "height",
+
+        --Events:
+        "mouseclick",
+
+        --Visuals:
+        "image",
+        "background",
+        "roundness",
+    }
+
+    Control = Control.DefaultCase(Control, properties)
+
 
     Control.Render = function(properties, form)
         if not properties.Visible or not form.Visible then
