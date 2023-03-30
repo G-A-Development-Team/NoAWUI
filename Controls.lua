@@ -276,6 +276,9 @@ function HandleEvent(event, properties)
     if event == "drag" then
         return Event_Drag(properties)
     end
+    if event == "focus" then
+        return Event_Focus(properties)
+    end
 end
 
 file.Enumerate(function(filepath)

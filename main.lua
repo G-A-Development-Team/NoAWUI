@@ -17,6 +17,7 @@ RunScript("WinForm/libs/api/Misc.lua")
 RunScript("WinForm/libs/api/Renderer.lua")
 RunScript("WinForm/libs/api/manipulation.lua")
 RunScript("WinForm/Events/Drag.lua")
+RunScript("WinForm/Events/Focus.lua")
 RunScript("WinForm/Controls.lua")
 
 -- Grab an element from the json
@@ -160,4 +161,5 @@ callbacks.Register("Unload", function()
     UnloadScript("WinForm/libs/api/Renderer.lua")
     UnloadScript("WinForm/Controls.lua")
     UnloadScript("WinForm/Events/Drag.lua")
+    UnloadScript("WinForm/Events/Focus.lua")
 end)

@@ -74,15 +74,8 @@ function CreateForm(properties)
         if properties.ForceDrag ~= nil then
             properties.DragNow = properties.ForceDrag
         end
-
-        if isMouseInRect(properties.X, properties.Y, properties.Width, properties.Height) then
-            if input.IsButtonDown(1) or input.IsButtonPressed(1) or input.IsButtonReleased(1) then
-                if not getSelected() then
-                    FocusForm(properties.Name)
-                end
-            end
-        end
         
+        properties = HandleEvent("focus", properties)
         properties = HandleEvent("drag", properties)
 
         return properties
