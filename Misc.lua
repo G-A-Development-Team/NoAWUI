@@ -394,9 +394,9 @@ end)
 
 if not json_lib_installed then
     local body = http.Get("https://raw.githubusercontent.com/G-A-Development-Team/libs/main/json.lua")
-    file.Write("WinForm/json.lua", body)
+    file.Write("WinForm/libs/json.lua", body)
 end
-RunScript("WinForm/json.lua")
+RunScript("WinForm/libs/json.lua")
 
 jsonkeycodes = json.decode(http.Get("https://raw.githubusercontent.com/G-A-Development-Team/libs/main/keycodes.json"))
 
