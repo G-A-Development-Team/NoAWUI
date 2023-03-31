@@ -1,7 +1,6 @@
 local ControlName = 'mlbutton'
 local FunctionName = 'CreateMusicLinkButton'
 
-
 -- By: Agentsix1
 function CreateMusicLinkButton(properties)
 	-- Creates the control
@@ -23,94 +22,56 @@ function CreateMusicLinkButton(properties)
 
     Control.AllowedCases = {
         --Positioning and Dimensions:
-        "x",
-        "y",
-        "width",
-        "height",
-
+        "x", "y", "width", "height",
         --Events:
         "mouseclick",
-
         --Values:
         "url",
-
         --Text:
         "text",
-
         --Visuals:
-        "image",
-        "background",
-        "roundness",
+        "image", "background", "roundness",
     }
 
     Control = Control.DefaultCase(Control, properties)
 
 	Control.Font = draw.CreateFont("Bahnschrift", 20, 100)
-	-- This is used to create the actual gui object
-    Control.Render = function(properties, form)
-		-- Checks if the object should be visual
-        if not properties.Visible or not form.Visible then
-            return properties
-        end
-		
-		-- Drag function
-        if string.find(properties.Name, "example_paneldrag3") then
-            --print(properties.X + form.X)
-            
-        end
-		
-		-- Start drawing the gui object
-		
-		draw.SetFont(Control.Font)
-		
-		-- Draw the outline of the box
-		--(cord, size, outer_color, inner_color, roundness, thickness)
-		Renderer:RoundedRectangleBorder({properties.X + form.X, properties.Y + form.Y}, {properties.Width, properties.Height}, Control.ForeColor, {0,0,0,255}, 6, 2)
-		-- Set the texture for the image
-		draw.SetTexture(Control.PlayIconTexture)
-		-- Draw the image
-		Renderer:FilledRectangle({properties.X + form.X+(properties.Width)*0.04, properties.Y + form.Y+(properties.Height)*0.12}, {properties.Width*0.24, properties.Height*0.75}, {255,255,255,255})
-		-- Remove the texture for future draws
+
+    Control.RenderBase = function(properties, parent)
+        Renderer:RoundedRectangleBorder({properties.X + parent.X, properties.Y + parent.Y}, {properties.Width, properties.Height}, properties.ForeColor, {0,0,0,255}, 6, 2)
+        draw.SetTexture(properties.PlayIconTexture)
+		Renderer:FilledRectangle({properties.X + parent.X+(properties.Width)*0.04, properties.Y + parent.Y+(properties.Height)*0.12}, {properties.Width*0.24, properties.Height*0.75}, {255,255,255,255})
         draw.SetTexture(nil)
-		-- Draw the text values
-		Renderer:TextP({properties.X + form.X+(properties.Width)*0.31, properties.Y + form.Y+(properties.Height)*0.36}, Control.ForeColor, Control.Text)
-		
-		-- Is used to check if the gui object has been clicked
-        if properties.MouseClick ~= nil then
-            --print(control.MouseDown) 
-            if input.IsButtonReleased(1) then
-                if isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height) then
-                    if not getSelected() then
-                        panorama.RunScript([[
-                            SteamOverlayAPI.OpenURL("]] .. properties.URL .. [[")
-                       ]])
-						
-						gui.Command('lua.run "' .. properties.MouseClick .. '" ') 
-						
-                    end
-                end
-            end
-        end
-		
-		-- Renders the children of the current gui object
-        for _, control in ipairs(properties.Children) do
-            control.Render(control, properties)
-        end
-		
-		if isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height) and not getSelected() then
-            local r,g,b,a = gui.GetValue("theme.nav.active")
-			Control.ForeColor = { r, g, b, a }
-        else
-			Control.ForeColor = {255,255,255,255}
-		end
-		
         return properties
     end
 
+    Control.RenderText = function(properties, parent)
+        draw.SetFont(properties.Font)
+        Renderer:TextP({properties.X + parent.X+(properties.Width)*0.31, properties.Y + parent.Y+(properties.Height)*0.36}, properties.ForeColor, properties.Text)
+        return properties
+    end
+
+    Control.Render = function(properties, parent)
+        if not properties.Visible or not parent.Visible then return properties end
+		
+        properties = properties.RenderBase(properties, parent)
+        properties = properties.RenderText(properties, parent)
+
+        properties = HandleEvent("mouseclick", properties, parent)
+
+		if isMouseInRect(properties.X + parent.X, properties.Y + parent.Y, properties.Width, properties.Height) and not getSelected() then
+            if input.IsButtonReleased(1) then
+                panorama.RunScript([[
+                    SteamOverlayAPI.OpenURL("]] .. properties.URL .. [[")
+                ]])
+            end
+            local r,g,b,a = gui.GetValue("theme.nav.active")
+			Control.ForeColor = { r, g, b, a }
+        else Control.ForeColor = {255,255,255,255} end
+        return properties
+    end
     return Control
 end
-
-
 
 --- Dont change the below code
 --- This required for it to function

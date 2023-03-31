@@ -57,7 +57,6 @@ function CreatePanel(properties)
         properties = HandleEvent("mousehover", properties, parent)
         properties = HandleEvent("mouseoutside", properties, parent)
         properties = HandleEvent("mouseclick", properties, parent)
-
         return properties
     end
     return Control
