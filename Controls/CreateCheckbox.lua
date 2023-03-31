@@ -1,7 +1,6 @@
 local ControlName = 'checkbox'
 local FunctionName = 'CreateCheckbox'
 
-
 -- By: Agentsix1
 function CreateCheckbox(properties)
 	-- Creates the control
@@ -86,7 +85,6 @@ function CreateCheckbox(properties)
 
     return Control
 end
-
 
 --- Dont change the below code
 --- This required for it to function
