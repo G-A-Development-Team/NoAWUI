@@ -35,17 +35,11 @@ function CreateCheckbox(properties)
 
     Control.AllowedCases = {
         --Positioning and Dimensions:
-        "x",
-        "y",
-        "width",
-        "height",
-
+        "x", "y", "width", "height",
         --Text:
         "text",
-
         --Events:
         "mouseclick",
-
         --State:
         "checkstate",
     }
@@ -53,46 +47,41 @@ function CreateCheckbox(properties)
     Control = Control.DefaultCase(Control, properties)
 
 	Control.Font = draw.CreateFont("Bahnschrift", 20, 100)
-	-- This is used to create the actual gui object
-    Control.Render = function(properties, form)
-		-- Checks if the object should be visual
-        if not properties.Visible or not form.Visible then
-            return properties
-        end
-		
-		-- Drag function
-        if string.find(properties.Name, "example_paneldrag3") then
-            --print(properties.X + form.X)
-            
-        end
-		
-		-- Start drawing the gui object
-		
-		-- Sets the font used by draw_TextP
-		draw.SetFont(properties.Font)
-		
-		-- Draw the outline of the box
-		Renderer:RoundedRectangleBorder({properties.X + form.X, properties.Y + form.Y}, {properties.Width, properties.Height}, properties.OutlineColor, properties.BackgroundColor, 6, 2)
-		
-		if properties.CheckState then
+
+    Control.RenderBase = function(properties, parent)
+		Renderer:RoundedRectangleBorder({properties.X + parent.X, properties.Y + parent.Y}, {properties.Width, properties.Height}, properties.OutlineColor, properties.BackgroundColor, 6, 2)
+    
+        if properties.CheckState then
 			local gap = 0.15
 			draw.SetTexture(properties.CheckTexture)
-			Renderer:FilledRectangle({properties.X + form.X + (properties.Width*gap) , properties.Y + form.Y + (properties.Width*gap)},
-											{properties.Width - (properties.Width*gap*2), properties.Height - (properties.Width*gap*2)}, properties.CheckColor)
+			Renderer:FilledRectangle({properties.X + parent.X + (properties.Width*gap) , properties.Y + parent.Y + (properties.Width*gap)},
+			                         {properties.Width - (properties.Width*gap*2), properties.Height - (properties.Width*gap*2)}, properties.CheckColor)
 			draw.SetTexture(nil)
 		end
-		
-		-- Renders the text values next to the checkbox
-		Renderer:TextP({properties.X + form.X+(properties.Width)*1.3, properties.Y + form.Y+(properties.Height)*0.28}, properties.TextColor, properties.Text)
-		
-		-- Sets the textwidth for mouse click and mouse hover
-		properties.TextWidth, _xx = draw.GetTextSize(properties.Text)
+        return properties
+    end
+
+    Control.RenderText = function(properties, parent)
+		draw.SetFont(properties.Font)
+
+		Renderer:TextP({properties.X + parent.X+(properties.Width)*1.3, properties.Y + parent.Y+(properties.Height)*0.28}, properties.TextColor, properties.Text)
+        properties.TextWidth, _xx = draw.GetTextSize(properties.Text)
+        return properties
+    end
+
+    Control.Render = function(properties, parent)
+        if not properties.Visible or not parent.Visible then return properties end
+
+        properties = properties.RenderBase(properties, parent)
+
+        properties = properties.RenderText(properties, parent)
+
 		
 		-- Is used to check if the gui object has been clicked
         if properties.MouseClick ~= nil then
             --print(control.MouseDown) 
             if input.IsButtonReleased(1) then
-                if isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width+properties.TextWidth, properties.Height) and not getSelected() then
+                if isMouseInRect(properties.X + parent.X, properties.Y + parent.Y, properties.Width+properties.TextWidth, properties.Height) and not getSelected() then
 					if properties.CheckState then
 						properties.CheckState = false
 					else
@@ -103,12 +92,7 @@ function CreateCheckbox(properties)
             end
         end
 		
-		-- Renders the children of the current gui object
-        for _, control in ipairs(properties.Children) do
-            control.Render(control, properties)
-        end
-		
-		if isMouseInRect(properties.X + form.X, properties.Y + form.Y, properties.Width+properties.TextWidth, properties.Height) and not getSelected() then
+		if isMouseInRect(properties.X + parent.X, properties.Y + parent.Y, properties.Width+properties.TextWidth, properties.Height) and not getSelected() then
             local r,g,b,a = gui.GetValue("theme.nav.active")
 			properties.TextColor = { r, g, b, a }
         else
