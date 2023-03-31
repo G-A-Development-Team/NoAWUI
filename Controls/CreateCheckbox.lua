@@ -73,32 +73,14 @@ function CreateCheckbox(properties)
         if not properties.Visible or not parent.Visible then return properties end
 
         properties = properties.RenderBase(properties, parent)
-
         properties = properties.RenderText(properties, parent)
-
-		
-		-- Is used to check if the gui object has been clicked
-        if properties.MouseClick ~= nil then
-            --print(control.MouseDown) 
-            if input.IsButtonReleased(1) then
-                if isMouseInRect(properties.X + parent.X, properties.Y + parent.Y, properties.Width+properties.TextWidth, properties.Height) and not getSelected() then
-					if properties.CheckState then
-						properties.CheckState = false
-					else
-						properties.CheckState = true
-					end
-					gui.Command('lua.run "' .. properties.MouseClick .. '" ') 
-                end
-            end
-        end
+        properties = HandleEvent("mouseclick", properties, parent)
 		
 		if isMouseInRect(properties.X + parent.X, properties.Y + parent.Y, properties.Width+properties.TextWidth, properties.Height) and not getSelected() then
+            if input.IsButtonReleased(1) then properties.CheckState = not properties.CheckState end
             local r,g,b,a = gui.GetValue("theme.nav.active")
 			properties.TextColor = { r, g, b, a }
-        else
-			properties.TextColor = {255,255,255,255}
-		end
-		
+        else properties.TextColor = {255,255,255,255} end
 		return properties
     end
 
