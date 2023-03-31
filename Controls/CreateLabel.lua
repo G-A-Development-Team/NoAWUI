@@ -77,7 +77,6 @@ function CreateLabel(properties)
         if properties.Alignment == "right" then properties = properties.RenderRightAlignment(properties, parent) end
 
         if properties.Alignment == "autosize" then properties = properties.RenderAutoSize(properties, parent) end
-
         return properties
     end
 

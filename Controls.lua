@@ -273,6 +273,7 @@ function CreateControl()
 end
 
 function HandleEvent(event, properties, parent)
+    event = event:lower()
     if event == "drag" then
         return Event_Drag(properties)
     end
@@ -284,6 +285,15 @@ function HandleEvent(event, properties, parent)
     end
     if event == "mouseclick" then
         return Event_MouseClick(properties, parent)
+    end
+    if event == "mouseoutside" then
+        return Event_MouseOutside(properties, parent)
+    end
+    if event == "mousehover" then
+        return Event_MouseHover(properties, parent)
+    end
+    if event == "dragparent" then
+        return Event_DragParent(properties, parent)
     end
 end
 
