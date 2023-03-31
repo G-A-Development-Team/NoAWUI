@@ -1,3 +1,6 @@
+local Event_Name = "toggle"
+local Event_Function = "Event_Toggle"
+
 function Event_Toggle(properties)
     if properties.Toggle ~= nil then
         if input.IsButtonPressed(properties.Toggle) then
@@ -15,3 +18,8 @@ function Event_Toggle(properties)
     end
     return properties
 end
+
+Events_Details[Event_Name] = {}
+Events_Details[Event_Name]['parms'] = 1
+Events_Details[Event_Name]['function'] = Event_Function
+table.insert(Events_Objects, Event_Name)

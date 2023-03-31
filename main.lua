@@ -16,14 +16,13 @@ RunScript("WinForm/libs/api/Logger.lua")
 RunScript("WinForm/libs/api/Misc.lua")
 RunScript("WinForm/libs/api/Renderer.lua")
 RunScript("WinForm/libs/api/manipulation.lua")
-RunScript("WinForm/Events/Drag.lua")
-RunScript("WinForm/Events/Focus.lua")
-RunScript("WinForm/Events/Toggle.lua")
-RunScript("WinForm/Events/MouseClick.lua")
-RunScript("WinForm/Events/MouseOutside.lua")
-RunScript("WinForm/Events/MouseHover.lua")
-RunScript("WinForm/Events/DragParent.lua")
+
 RunScript("WinForm/Controls.lua")
+
+-- Load in all event files
+loadFiles("WinForm/Events/", "Events")
+
+
 
 -- Grab an element from the json
 local function LoadJsonElements(jElements)

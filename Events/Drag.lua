@@ -1,3 +1,6 @@
+local Event_Name = "drag"
+local Event_Function = "Event_Drag"
+
 function Event_Drag(properties)
     if properties.ForceDrag ~= nil then
         properties.DragNow = properties.ForceDrag
@@ -45,3 +48,8 @@ function Event_Drag(properties)
     end
     return properties
 end
+
+Events_Details[Event_Name] = {}
+Events_Details[Event_Name]['parms'] = 1
+Events_Details[Event_Name]['function'] = Event_Function
+table.insert(Events_Objects, Event_Name)

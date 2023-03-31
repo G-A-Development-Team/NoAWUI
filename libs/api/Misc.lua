@@ -19,10 +19,10 @@ end
 function TablePrint(t)
     for k, v in pairs(t) do
         if type(v) == "table" then
-            LogInfo("TablePrint", k)
+            LogInfo("TablePrint", tostring(k))
             TablePrint(v)
         else
-            LogInfo("TablePrint", "\t   " .. k .. "    " .. v)
+            LogInfo("TablePrint", "\t   " .. tostring(k) .. "    " .. tostring(v))
         end
     end
 end
@@ -236,6 +236,14 @@ function centerRectAbovePoint(x, y, width, height)
     return {X = rectX, Y = rectY}
 end
 
+function loadFiles(path, logname)
+	file.Enumerate(function(filepath)
+		if string.starts(filepath, path) then
+			RunScript(filepath)
+			LogInfo(logname, filepath)
+		end
+	end)
+end
 
 function addComponent(component, parent)
     -- Check if the parent is the correct one

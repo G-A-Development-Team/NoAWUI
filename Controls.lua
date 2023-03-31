@@ -272,34 +272,31 @@ function CreateControl()
     }
 end
 
+-- Grab some info from the Events
+Events_Objects = json.decode("{}")
+Events_Details = json.decode("{}")
+
+-- Process the events
 function HandleEvent(event, properties, parent)
-    event = event:lower()
-    if event == "drag" then
-        return Event_Drag(properties)
-    end
-    if event == "focus" then
-        return Event_Focus(properties)
-    end
-    if event == "toggle" then
-        return Event_Toggle(properties)
-    end
-    if event == "mouseclick" then
-        return Event_MouseClick(properties, parent)
-    end
-    if event == "mouseoutside" then
-        return Event_MouseOutside(properties, parent)
-    end
-    if event == "mousehover" then
-        return Event_MouseHover(properties, parent)
-    end
-    if event == "dragparent" then
-        return Event_DragParent(properties, parent)
-    end
+	-- Set event name to lowercase
+	event = event:lower()
+	-- Loop through the possible objects (array of object names)
+	for _, value in ipairs(Events_Objects) do
+		-- check if its the right object name
+		if event == value then
+			-- see if it has 1 parm or 2
+			if Events_Details[event]['parms'] == 1 then
+				-- Run the event function asscotiated with the event
+				local temp = assert(loadstring('return ' .. Events_Details[event]['function']..'(...)'))(properties)
+				return temp
+			-- see if it has 2 parms
+			elseif Events_Details[event]['parms'] == 2 then
+				-- Run the event function asscotiated with the event
+				local temp = assert(loadstring('return ' .. Events_Details[event]['function']..'(...)'))(properties, parent)
+				return temp
+			end
+		end
+	end
 end
 
-file.Enumerate(function(filepath)
-    if string.starts(filepath, "WinForm/Controls/") then
-        RunScript(filepath)
-        LogInfo("Controls", filepath)
-    end
-end)
+loadFiles('WinForm/Controls/', 'Controls')
