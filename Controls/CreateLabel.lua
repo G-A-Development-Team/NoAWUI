@@ -1,7 +1,6 @@
 local ControlName = 'label'
 local FunctionName = 'CreateLabel'
 
-
 -- By: CarterPoe
 function CreateLabel(properties)
     local Control = CreateControl()
