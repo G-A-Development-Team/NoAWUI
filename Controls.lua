@@ -67,6 +67,10 @@ function CreateControl()
             properties.AWInitV = true
             return properties
         end,
+        AddChild = function(Control, child)
+            table.insert(Control.Children, child)
+            return Control
+        end,
         DefaultCase = function(Control, properties)
             for key, value in pairs(properties) do
                 key = key:lower()

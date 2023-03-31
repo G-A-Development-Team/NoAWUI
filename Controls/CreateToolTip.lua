@@ -6,106 +6,127 @@ local right_click_svg = [[
 ]]
 
 -- By: CarterPoe
-function CreateToolTip(properties)
+function CreateToolTip(attributes)
     local Control = CreateControl()
+    Control.Lines = {}
+    Control.Toggled = false
 
     Control.AllowedCases = {
         --Positioning and Dimensions:
-        "x",
-        "y",
-        "width",
-        "height",
-        "alignment",
-
+        "x", "y", "width", "height", "alignment",
         --Text:
         "text",
-
         --Visuals:
-        "image",
-        "background",
-        "border",
-        "roundness",
+        "image", "background", "border", "roundness",
     }
 
-    Control = Control.DefaultCase(Control, properties)
+    Control = Control.DefaultCase(Control, attributes)
 
-    Control.Lines = {}
-    if properties["lines"] ~= nil then
-        for jkey, jvalue in ipairs(properties["lines"] ) do
-            if string.find(jvalue, '\n') then
-                local arry = split(jvalue, '\n')
-                for skey, svalue in ipairs(arry) do
-                    table.insert(Control.Lines, svalue)
-                end
-            else
-                table.insert(Control.Lines, jvalue)
+    Control.LoadLines = function(properties, attributes)
+        if attributes["lines"] ~= nil then
+            for jkey, jvalue in ipairs(attributes["lines"]) do
+                if string.find(jvalue, '\n') then
+                    local arry = split(jvalue, '\n')
+                    for skey, svalue in ipairs(arry) do
+                        table.insert(properties.Lines, svalue)
+                    end
+                else table.insert(properties.Lines, jvalue) end
             end
         end
-        --Control.Lines = properties["lines"]
+        return properties
     end
 
-    Control.Children = {
-        [1] = CreatePanel({
+    Control = Control.LoadLines(Control, attributes)
+
+    Control.CreateComponentBase = function(properties)
+        local uid = math.random(1, 342)
+        local BaseFrame = CreatePanel({
             type = "panel",
-            name = tostring(math.random(1, 342)) .. Control.Name .. "panel",
-            parent = Control.Name,
-            x = 0,
-            y = 0,
-            width = 0,
-            height =  0,
+            name = uid .. "BaseFrame",
+            parent = properties.Name,
             background = "50,50,50,200",
             roundness = "6,6,6,6,6",
         })
-    }
-    Control.Children[1].Children = {
-        [1] = CreatePanel({
+
+        local InnerFrame = CreatePanel({
             type = "panel",
-            name = tostring(math.random(1, 342)) .. Control.Name .. "panel2",
-            parent = Control.Children[1].Name,
-            x = 5,
-            y = 5,
-            width = 0,
-            height =  0,
+            name = uid .. "InnerFrame",
+            parent = BaseFrame.Name,
+            x = 5, y = 5,
             background = "0,0,0,0",
-        }),
-        [2] = CreatePanel({
+        })
+
+        local HelpFrame = CreatePanel({
             type = "panel",
-            name = tostring(math.random(1, 342)) .. Control.Name .. "panelmousehelp",
-            parent = Control.Children[1].Name,
-            x = 0,
-            y = 5,
-            width = 20,
-            height =  20,
+            name = uid .. "HelpFrame",
+            parent = BaseFrame.Name,
+            y = 5, width = 20, height =  20,
             background = "0,0,0,0",
             image = "svgdata," .. right_click_svg
         })
-    }
-    
-    Control.Children[1].Children[1].Children = {
-        [1] = CreateFlowLayout({
+
+        local TextLayout = CreateFlowLayout({
             type = "flowlayout",
-            name = tostring(math.random(1, 342)) .. Control.Children[1].Name .. "flowlayout",
-            parent = Control.Children[1].Children[1].Name,
-            x = 0,
-            y = 0,
-            width = 0,
-            height =  0,
+            name = uid .. "TextLayout",
+            parent = InnerFrame.Name,
             background = "0,0,0,0",
             roundness = "6,6,6,6,6",
             scrollheight = 15,
             shadow = "0,0,0,0,0"
-        }),
-    }
+        })
 
-    Control.Toggled = false
+        InnerFrame = InnerFrame.AddChild(InnerFrame, TextLayout)
+        BaseFrame = BaseFrame.AddChild(BaseFrame, InnerFrame)
+        BaseFrame = BaseFrame.AddChild(BaseFrame, HelpFrame)
+        properties = properties.AddChild(properties, BaseFrame)
+        return properties
+    end
+
+    Control = Control.CreateComponentBase(Control)
+
+    Control.Initialize = function(properties)
+        for jkey, jvalue in ipairs(properties.Lines) do
+            local Tw, Th = draw.GetTextSize(jvalue)
+            if tonumber(Tw) >= tonumber(properties.Children[1].Children[1].Children[1].Width) then
+                properties.Children[1].Children[1].Width = Tw
+                properties.Children[1].Children[1].Children[1].Width = Tw
+            end
+
+            if tonumber(Th) >= tonumber(properties.Children[1].Children[1].Children[1].ScrollHeight) then
+                properties.Children[1].Children[1].ScrollHeight = Th
+                properties.Children[1].Children[1].Children[1].ScrollHeight = Th
+            end
+
+            local TextComponent = CreateLabel({
+                type = "panel",
+                name = enc(jvalue),
+                parent = properties.Children[1].Children[1].Children[1].Name,
+                x = 0,
+                y = 0,
+                width = properties.Children[1].Children[1].Children[1].Width,
+                height = Th + 5,
+                text = jvalue,
+                color = "255,255,255,255"
+            })
+
+            properties.Children[1].Children[1].Height = properties.Children[1].Children[1].Height + Th + 5
+            properties.Children[1].Children[1].Children[1].Height = properties.Children[1].Children[1].Children[1].Height + Th + 5
+            properties.Children[1].Children[1].Children[1].AddItem(TextComponent)
+
+            properties.Children[1].Width = properties.Children[1].Children[1].Width + (properties.Children[1].Children[1].SetX*2)
+            properties.Children[1].Height = properties.Children[1].Children[1].Height + (properties.Children[1].Children[1].SetY*2)
+
+            properties.Children[1].Children[2].SetX = properties.Children[1].Width - properties.Children[1].Children[2].Width - 5
+            properties.Children[1].Children[2].Background = {255,255,255,255}
+        end
+        return properties
+    end
 
     Control.Render = function(properties, form)
-        if not properties.Visible or not form.Visible then
-            return properties
-        end
+        if not properties.Visible or not form.Visible then return properties end
 
         local w, h = draw.GetScreenSize()
-        Renderer:Scissor({0, 0}, {w, h});
+        Renderer:Scissor({0, 0}, {w, h})
 
         local c = getParentControl(form)
 
@@ -138,75 +159,12 @@ function CreateToolTip(properties)
                     control.Render(control, properties)
                 end
 
-
-                if properties.Init == nil then
-                    for jkey, jvalue in ipairs(properties.Lines) do
-                        local Tw, Th = draw.GetTextSize(jvalue)
-
-                        if tonumber(Tw) >= tonumber(properties.Children[1].Children[1].Children[1].Width) then
-                            properties.Children[1].Children[1].Width = Tw
-                            properties.Children[1].Children[1].Children[1].Width = Tw
-                        end
-
-                        if tonumber(Th) >= tonumber(properties.Children[1].Children[1].Children[1].ScrollHeight) then
-                            properties.Children[1].Children[1].ScrollHeight = Th
-                            properties.Children[1].Children[1].Children[1].ScrollHeight = Th
-                        end
-
-                        local p = CreateLabel({
-                            type = "panel",
-                            name = enc(jvalue),
-                            parent = properties.Children[1].Children[1].Children[1].Name,
-                            x = 0,
-                            y = 0,
-                            width = properties.Children[1].Children[1].Children[1].Width,
-                            height = Th + 5,
-                            text = jvalue,
-                            color = "255,255,255,255"
-                        })
-                        properties.Children[1].Children[1].Height = properties.Children[1].Children[1].Height + Th + 5
-                        properties.Children[1].Children[1].Children[1].Height = properties.Children[1].Children[1].Children[1].Height + Th + 5
-                        properties.Children[1].Children[1].Children[1].AddItem(p)
-
-                        properties.Children[1].Width = properties.Children[1].Children[1].Width + (properties.Children[1].Children[1].SetX*2)
-                        properties.Children[1].Height = properties.Children[1].Children[1].Height + (properties.Children[1].Children[1].SetY*2)
-
-                        properties.Children[1].Children[2].SetX = properties.Children[1].Width - properties.Children[1].Children[2].Width - 5
-                        properties.Children[1].Children[2].Background = {255,255,255,255}
-
-                    end
-                    properties.Init = true
-                    
-                end
-
-                --local cords = centerRectAbovePoint(mouseX, mouseY, Tw + 10, Th)
-                --Renderer:FilledRoundedRectangle({cords.X, cords.Y}, {Tw + 10, Th}, {60,60,60,220}, {3,3,3,3,3})
-            end
-            if properties.Alignment == "static" then
-                local Tw, Th = draw.GetTextSize(properties.Text)
-
-                local cords = centerRect(Tw + 10, Th + 10, form.X + c.X, form.Y + c.Y, form.Width, form.Height)
-                --local cordsT = centerTriangleInRect(cords.X + 9, cords.Y - 5, cords.X - 9, cords.Y - 5, cords.X, cords.Y + 5, cords.X, (cords.Y - cords.Height) - 25, cords.Width, cords.Height)
-
-                Renderer:FilledRoundedRectangle({cords.X, (cords.Y - cords.Height) - 25}, {cords.Width, cords.Height}, {60,60,60,220}, {3,3,3,3,3})
-                --Renderer:Triangle({cords.X + 9 , cords.Y - 5}, {cords.X - 9, cords.Y - 5}, {cords.X, cords.Y + 5}, {60,60,60,220})
-                --Renderer:Triangle({cordsT.X1, cordsT.Y1}, {cordsT.X2, cordsT.Y2}, {cordsT.X3, cordsT.Y3}, {60,60,60,220})
-
-                --Renderer:FilledRoundedRectangle({form.X + c.X, form.Y + c.Y - 35}, {Tw + 10, Th + 10}, {60,60,60,220}, {3,3,3,3,3})
-                Renderer:Text({cords.X + 5, (cords.Y - cords.Height) - 22}, {255,255,255,255}, properties.Text)
             end
         end
-        
-
         return properties
-
     end
-
     return Control
-
 end
-
-
 
 --- Dont change the below code
 --- This required for it to function
