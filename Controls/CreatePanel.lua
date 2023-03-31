@@ -37,11 +37,14 @@ function CreatePanel(properties)
     end
 
     Control.RenderChildren = function(properties, parent)
+        Renderer:Scissor({properties.X + parent.X, properties.Y + parent.Y}, {properties.Width, properties.Height})
         for _, control in ipairs(properties.Children) do
             control.X = parent.X + control.SetX
             control.Y = parent.Y + control.SetY
             control.Render(control, properties)
         end
+        local w, h = draw.GetScreenSize()
+        Renderer:Scissor({0, 0}, {w, h})
         return properties
     end
 
@@ -49,16 +52,12 @@ function CreatePanel(properties)
         if not properties.Visible or not parent.Visible then return properties end
         properties = properties.RenderBase(properties, parent)
 
-        Renderer:Scissor({properties.X + parent.X, properties.Y + parent.Y}, {properties.Width, properties.Height});
         properties = properties.RenderChildren(properties, parent)
-
         properties = HandleEvent("dragparent", properties, parent)
         properties = HandleEvent("mousehover", properties, parent)
         properties = HandleEvent("mouseoutside", properties, parent)
         properties = HandleEvent("mouseclick", properties, parent)
 
-        local w, h = draw.GetScreenSize()
-        Renderer:Scissor({0, 0}, {w, h});
         return properties
     end
     return Control
