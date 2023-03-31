@@ -73,6 +73,31 @@ function getControl(name)
     return nil
 end
 
+function findControlByParent(parent, name, contains)
+    for _, main in ipairs(parent.Children) do
+        local function findControl(control)
+            if control.Name == name then
+                return control
+            elseif contains ~= nil then
+                if contains then
+                    if string.find(control.Name, name) then
+                        return control
+                    end 
+                end
+            else
+                for _, child in ipairs(control.Children or {}) do
+                    local result = findControl(child)
+                    if result then
+                        return result
+                    end
+                end
+            end
+        end
+        return findControl(main)
+    end
+    return nil
+end
+
 function getSelected()
     for _, main in ipairs(controls) do
         local function findControl(control)

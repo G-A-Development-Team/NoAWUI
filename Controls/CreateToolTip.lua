@@ -10,6 +10,13 @@ function CreateToolTip(attributes)
     local Control = CreateControl()
     Control.Lines = {}
     Control.Toggled = false
+    Control.Initialized = false
+    Control.CreatedComponentNames = {
+        BaseFrame = "",
+        InnerFrame = "",
+        HelpFrame = "",
+        TextLayout = "",
+    }
 
     Control.AllowedCases = {
         --Positioning and Dimensions:
@@ -48,6 +55,8 @@ function CreateToolTip(attributes)
             roundness = "6,6,6,6,6",
         })
 
+        if BaseFrame == nil then return end
+
         local InnerFrame = CreatePanel({
             type = "panel",
             name = uid .. "InnerFrame",
@@ -65,6 +74,8 @@ function CreateToolTip(attributes)
             image = "svgdata," .. right_click_svg
         })
 
+        if InnerFrame == nil then return end
+
         local TextLayout = CreateFlowLayout({
             type = "flowlayout",
             name = uid .. "TextLayout",
@@ -75,6 +86,11 @@ function CreateToolTip(attributes)
             shadow = "0,0,0,0,0"
         })
 
+        properties.CreatedComponentNames.BaseFrame = uid .. "BaseFrame"
+        properties.CreatedComponentNames.InnerFrame = uid .. "InnerFrame"
+        properties.CreatedComponentNames.HelpFrame = uid .. "HelpFrame"
+        properties.CreatedComponentNames.TextLayout = uid .. "TextLayout"
+
         InnerFrame = InnerFrame.AddChild(InnerFrame, TextLayout)
         BaseFrame = BaseFrame.AddChild(BaseFrame, InnerFrame)
         BaseFrame = BaseFrame.AddChild(BaseFrame, HelpFrame)
@@ -82,83 +98,95 @@ function CreateToolTip(attributes)
         return properties
     end
 
-    Control = Control.CreateComponentBase(Control)
-
     Control.Initialize = function(properties)
+        if properties.Initialized then return end
         for jkey, jvalue in ipairs(properties.Lines) do
             local Tw, Th = draw.GetTextSize(jvalue)
-            if tonumber(Tw) >= tonumber(properties.Children[1].Children[1].Children[1].Width) then
-                properties.Children[1].Children[1].Width = Tw
-                properties.Children[1].Children[1].Children[1].Width = Tw
+            local BaseFrame = findControlByParent(properties, properties.CreatedComponentNames.BaseFrame)
+            local InnerFrame = findControlByParent(properties, properties.CreatedComponentNames.InnerFrame)
+            local HelpFrame = findControlByParent(properties, properties.CreatedComponentNames.HelpFrame)
+            local TextLayout = findControlByParent(properties, properties.CreatedComponentNames.TextLayout)
+
+            if BaseFrame == nil or InnerFrame == nil or HelpFrame == nil or TextLayout == nil then return end
+
+            if tonumber(Tw) >= tonumber(TextLayout.Width) then
+                InnerFrame.Width = Tw
+                TextLayout.Width = Tw
             end
 
-            if tonumber(Th) >= tonumber(properties.Children[1].Children[1].Children[1].ScrollHeight) then
-                properties.Children[1].Children[1].ScrollHeight = Th
-                properties.Children[1].Children[1].Children[1].ScrollHeight = Th
+            if tonumber(Th) >= tonumber(TextLayout.ScrollHeight) then
+                TextLayout.ScrollHeight = Th
             end
 
             local TextComponent = CreateLabel({
                 type = "panel",
                 name = enc(jvalue),
-                parent = properties.Children[1].Children[1].Children[1].Name,
+                parent = properties.CreatedComponentNames.TextLayout,
                 x = 0,
                 y = 0,
-                width = properties.Children[1].Children[1].Children[1].Width,
+                width = TextLayout.Width,
                 height = Th + 5,
                 text = jvalue,
                 color = "255,255,255,255"
             })
 
-            properties.Children[1].Children[1].Height = properties.Children[1].Children[1].Height + Th + 5
-            properties.Children[1].Children[1].Children[1].Height = properties.Children[1].Children[1].Children[1].Height + Th + 5
-            properties.Children[1].Children[1].Children[1].AddItem(TextComponent)
+            InnerFrame.Height = InnerFrame.Height + Th + 5
+            TextLayout.Height = TextLayout.Height + Th + 5
+            TextLayout.AddItem(TextComponent)
 
-            properties.Children[1].Width = properties.Children[1].Children[1].Width + (properties.Children[1].Children[1].SetX*2)
-            properties.Children[1].Height = properties.Children[1].Children[1].Height + (properties.Children[1].Children[1].SetY*2)
+            BaseFrame.Width = InnerFrame.Width + (InnerFrame.SetX*2)
+            BaseFrame.Height = InnerFrame.Height + (InnerFrame.SetY*2)
 
-            properties.Children[1].Children[2].SetX = properties.Children[1].Width - properties.Children[1].Children[2].Width - 5
-            properties.Children[1].Children[2].Background = {255,255,255,255}
+            HelpFrame.SetX = BaseFrame.Width - HelpFrame.Width - 5
+            HelpFrame.Background = {255,255,255,255}
+        end
+        properties.Initialized = true
+        return properties
+    end
+
+    Control = Control.CreateComponentBase(Control)
+
+    Control.RenderDynamicBase = function(properties, parent)
+        local mouseX, mouseY = input.GetMousePos()
+        for _, control in ipairs(properties.Children) do
+            if properties.Toggled then
+                if control.X ~= 0 and control.Y ~= 0 and properties.Toggled then
+                    control.X = control.X
+                    control.Y = control.Y
+                else
+                    control.X = mouseX
+                    control.Y = mouseY
+                end
+                findControlByParent(properties, properties.CreatedComponentNames.HelpFrame).Visible = false
+            else
+                findControlByParent(properties, properties.CreatedComponentNames.HelpFrame).Visible = true
+                control.X = mouseX
+                control.Y = mouseY
+            end
+            if input.IsButtonPressed(2) then
+                properties.Toggled = not properties.Toggled
+            end
+            if input.IsButtonDown(1) then
+                properties.Toggled = false
+            end
+            control.Render(control, properties)
         end
         return properties
     end
 
-    Control.Render = function(properties, form)
-        if not properties.Visible or not form.Visible then return properties end
+    Control.Render = function(properties, parent)
+        if not properties.Visible or not parent.Visible then return properties end
 
         local w, h = draw.GetScreenSize()
         Renderer:Scissor({0, 0}, {w, h})
 
-        local c = getParentControl(form)
+        local grandparent = getParentControl(parent)
+        if grandparent == nil then return end
 
-        if isMouseInRect(form.X + c.X, form.Y + c.Y, form.Width, form.Height) and not getSelected() or properties.Toggled then
-            local mouseX, mouseY = input.GetMousePos()
-            --properties.Children[1].X = mouseX
-            --properties.Children[1].Y = mouseY
+        if isMouseInRect(parent.X + grandparent.X, parent.Y + grandparent.Y, parent.Width, parent.Height) and not getSelected() or properties.Toggled then
             if properties.Alignment == "dynamic" then
-                for _, control in ipairs(properties.Children) do
-                    if properties.Toggled then
-                        if control.X ~= 0 and control.Y ~= 0 and properties.Toggled then
-                            control.X = control.X
-                            control.Y = control.Y
-                        else
-                            control.X = mouseX
-                            control.Y = mouseY
-                        end
-                        properties.Children[1].Children[2].Visible = false
-                    else
-                        properties.Children[1].Children[2].Visible = true
-                        control.X = mouseX
-                        control.Y = mouseY
-                    end
-                    if input.IsButtonPressed(2) then
-                        properties.Toggled = not properties.Toggled
-                    end
-                    if input.IsButtonDown(1) then
-                        properties.Toggled = false
-                    end
-                    control.Render(control, properties)
-                end
-
+                properties = properties.RenderDynamicBase(properties, parent)
+                properties = properties.Initialize(properties)
             end
         end
         return properties
