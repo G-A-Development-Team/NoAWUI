@@ -5,7 +5,8 @@ options = {
     logger = {
         info = true,
         debug = true,
-    }
+    },
+    ScriptLoaded = false,
 }
 
 controls = {}
@@ -179,3 +180,4 @@ end)
 
 ScriptElapsed.Done()
 LongestElapsedTime()
+options.ScriptLoaded = true

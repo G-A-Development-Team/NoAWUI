@@ -1,11 +1,21 @@
 local function outprint(label, type, text)
-    print("[NoAWUI - " .. label .. "]", "[" .. type:upper() .. "] - " .. text)
+    if options.ScriptLoaded then
+        print("[NoAWUI - " .. label .. "][USER]", "[" .. type:upper() .. "] - " .. text)
+    else
+        print("[NoAWUI - " .. label .. "][SCRIPT]", "[" .. type:upper() .. "] - " .. text)
+    end
 end
 
 local function outpanorama(label, type, text)
-    panorama.RunScript([[
-        $.Msg("[NoAWUI - ]] .. label .. [[]", "      []] .. type:upper() .. [[" + "] - " + "]] .. text .. [[");
-    ]]);
+    if options.ScriptLoaded then
+        panorama.RunScript([[
+            $.Msg("[NoAWUI - ]] .. label .. [[][USER]", "      []] .. type:upper() .. [[" + "] - " + "]] .. text .. [[");
+        ]]);
+    else
+        panorama.RunScript([[
+            $.Msg("[NoAWUI - ]] .. label .. [[][SCRIPT]", "      []] .. type:upper() .. [[" + "] - " + "]] .. text .. [[");
+        ]]);
+    end
 end
 
 function LogInfo(type, text)
