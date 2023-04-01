@@ -14,6 +14,7 @@ local function outpanorama(label, type, text)
     else
         panorama.RunScript([[
             $.Msg("[NoAWUI - ]] .. label .. [[][FRAMEWORK]", "      []] .. type:upper() .. [[" + "] - " + "]] .. text .. [[");
+            //$.Msg(new Date().toISOString());
         ]]);
     end
 end
