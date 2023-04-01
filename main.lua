@@ -11,21 +11,22 @@ options = {
 controls = {}
 tempDraw = {}
 focuslist = {}
+elapsedlist = {}
 
 RunScript("WinForm/libs/api/Logger.lua")
 RunScript("WinForm/libs/api/Misc.lua")
+local ScriptElapsed = CreateElapsedTime("Script")
+
 RunScript("WinForm/libs/api/Renderer.lua")
 RunScript("WinForm/libs/api/manipulation.lua")
-
 RunScript("WinForm/Controls.lua")
 
 -- Load in all event files
 loadFiles("WinForm/Events/", "Events")
 
-
-
 -- Grab an element from the json
 local function LoadJsonElements(jElements)
+    local ControlsElapsed = CreateElapsedTime("Controls")
 	for _, jElement in ipairs(jElements) do
         -- Get the attributes from the element
         local attributes = getDefaultAtts(jElement)
@@ -51,6 +52,7 @@ local function LoadJsonElements(jElements)
 			end
 		end
     end
+    ControlsElapsed.Done()
 end
 
 -- Set the json files to an array
@@ -60,6 +62,7 @@ JstartupText = cleanJsonComments(JstartupText)
 local json_files = json.decode(JstartupText)
 
 -- This is used to load all of the control data from json files
+local DesignElapsed = CreateElapsedTime("Design")
 for _, element in ipairs(json_files) do
     if element.Json ~= nil then
             -- Open the file
@@ -93,6 +96,7 @@ for _, element in ipairs(json_files) do
         LogInfo("DesignInit", element.LuaInit)
 	end
 end
+DesignElapsed.Done()
 
 callbacks.Register("Draw", "Render", function()
     for _m, main in ipairs(controls) do
@@ -172,3 +176,6 @@ callbacks.Register("Unload", function()
     UnloadScript("WinForm/Events/MouseHover.lua")
     UnloadScript("WinForm/Events/DragParent.lua")
 end)
+
+ScriptElapsed.Done()
+LongestElapsedTime()

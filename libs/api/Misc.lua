@@ -237,12 +237,14 @@ function centerRectAbovePoint(x, y, width, height)
 end
 
 function loadFiles(path, logname)
+    local Elapsed = CreateElapsedTime(logname)
 	file.Enumerate(function(filepath)
 		if string.starts(filepath, path) then
 			RunScript(filepath)
 			LogInfo(logname, filepath)
 		end
 	end)
+    Elapsed.Done()
 end
 
 function addComponent(component, parent)
@@ -391,6 +393,34 @@ end
 function ExecuteLuaString(text)
     gui.Command('lua.run "' .. text .. '" ')
 end
+
+function CreateElapsedTime(name)
+    return {
+        Current = common.Time(),
+        Done = function()
+            local donetime = common.Time()
+            LogInfo(name, "Finished in " .. donetime .. " seconds")
+            table.insert(elapsedlist, {Name = name, Time = donetime})
+        end,
+    }
+end
+
+function LongestElapsedTime()
+    local longest = 0
+    local longestName = ""
+
+    for i, elapsed in ipairs(elapsedlist) do
+        if elapsed.Name:lower() ~= "script" then
+            if elapsed.Time > longest then
+                longest = elapsed.Time
+                longestName = elapsed.Name
+            end 
+        end
+    end
+
+    LogInfo("Elapsed - " .. longestName, "Longest duration " .. longest .. " seconds")
+end
+
 
 --------------------------------------------
 --          READ JSON EXECUTION           --
