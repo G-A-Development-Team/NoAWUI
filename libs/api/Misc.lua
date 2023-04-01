@@ -408,9 +408,11 @@ end
 function LongestElapsedTime()
     local longest = 0
     local longestName = ""
+    local total = 0
 
     for i, elapsed in ipairs(elapsedlist) do
         if elapsed.Name:lower() ~= "script" then
+            total = total + elapsed.Time
             if elapsed.Time > longest then
                 longest = elapsed.Time
                 longestName = elapsed.Name
@@ -419,6 +421,7 @@ function LongestElapsedTime()
     end
 
     LogInfo("Elapsed - " .. longestName, "Longest duration " .. longest .. " seconds")
+    --LogInfo("Elapsed - total", "Total duration " .. total .. " seconds")
 end
 
 
