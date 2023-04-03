@@ -247,6 +247,17 @@ function loadFiles(path, logname)
     Elapsed.Done()
 end
 
+function unloadFiles(path, logname)
+    local Elapsed = CreateElapsedTime(logname)
+	file.Enumerate(function(filepath)
+		if string.starts(filepath, path) then
+			UnloadScript(filepath)
+			LogInfo(logname, filepath)
+		end
+	end)
+    Elapsed.Done()
+end
+
 function addComponent(component, parent)
     -- Check if the parent is the correct one
     if parent.Name == component.Parent then
