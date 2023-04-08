@@ -175,3 +175,5 @@ end)
 ScriptElapsed.Done()
 LongestElapsedTime()
 options.ScriptLoaded = true
+
+print("oyooyoo", TitleBar.Type)

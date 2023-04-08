@@ -263,6 +263,10 @@ function addComponent(component, parent)
     if parent.Name == component.Parent then
         LogInfo("component", "Name=" .. component.Name .. " Type=" .. component.Type)
         table.insert(parent.Children, component)
+        
+        -- Create a global variable with the same name as the component's name
+        _G[component.Name] = component
+        
         return
     end
     
