@@ -3,7 +3,7 @@ Form = {}
 -- By: CarterPoe
 function Form:Initialize()
 	--print("hello world")
-    Form:Tab1()
+    HandleTabs("tChanger")
 
     --[[local sender = getControlByName("Main", "plbChanger")
     sender.AddItem("jpg,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/1326583.jpg", "niiiiggaaa1")
@@ -53,42 +53,22 @@ function Form:Unload()
 	setManagerData()
 end
 
--- By: CarterPoe
-function Form:Tab1()
-    local sender = getControlByName("Main", "tManager")
-    local controls = getControlsByGroup("Main", "tManager")
-    for _, control in ipairs(controls) do
-        --print(control.Group, control.Name)
-        control.Visible = false
+function HandleTabs(settingtab)
+    for _, tab in ipairs(Navigation_flowlayout.Children) do
+        if tab.Name ~= settingtab then
+            local childs = getControlsByGroup(Navigation.Parent, tab.Name)
+            for _2, child in ipairs(childs) do
+                child.Visible = false
+            end
+            tab.Active = false
+        else
+            local childs = getControlsByGroup(Navigation.Parent, tab.Name)
+            for _2, child in ipairs(childs) do
+                child.Visible = true
+            end
+            tab.Active = true
+        end
     end
-    sender.Active = false
-
-    sender = getControlByName("Main", "tChanger")
-    controls = getControlsByGroup("Main", "tChanger")
-    for _, control in ipairs(controls) do
-        --print(control.Group, control.Name)
-        control.Visible = true
-    end
-    sender.Active = true
-end
-
--- By: CarterPoe
-function Form:Tab2()
-    local sender = getControlByName("Main", "tChanger")
-    local controls = getControlsByGroup("Main", "tChanger")
-    for _, control in ipairs(controls) do
-        --print(control.Group, control.Name)
-        control.Visible = false
-    end
-    sender.Active = false
-
-    sender = getControlByName("Main", "tManager")
-    controls = getControlsByGroup("Main", "tManager")
-    for _, control in ipairs(controls) do
-        --print(control.Group, control.Name)
-        control.Visible = true
-    end
-    sender.Active = true
 end
 
 -- By: Agentsix1

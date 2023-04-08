@@ -207,7 +207,7 @@
                 "fontheight": 18
 			},
 			"function": {
-                "mouseclick": "Form:Tab1()"
+                "mouseclick": "HandleTabs('tChanger')"
 			},
 			"other": {
                 "text": "Changer"
@@ -235,7 +235,7 @@
                 "fontheight": 18
 			},
 			"function": {
-                "mouseclick": "Form:Tab2()"
+                "mouseclick": "HandleTabs('tManager')"
 			},
 			"other": {
                 "text": "Manager"
@@ -263,7 +263,7 @@
                 "fontheight": 18
 			},
 			"function": {
-                "mouseclick": "Form:Tab2()"
+                "mouseclick": "HandleTabs('Navigation_Tab3')"
 			},
 			"other": {
                 "text": "Banner"
@@ -291,7 +291,7 @@
                 "fontheight": 18
 			},
 			"function": {
-                "mouseclick": "Form:Tab2()"
+                "mouseclick": "HandleTabs('Navigation_Tab4')"
 			},
 			"other": {
                 "text": "Remover"
@@ -319,7 +319,7 @@
                 "fontheight": 18
 			},
 			"function": {
-                "mouseclick": "Form:Tab2()"
+                "mouseclick": "HandleTabs('Navigation_Tab5')"
 			},
 			"other": {
                 "text": "Borrower"
@@ -346,7 +346,7 @@
                 "fontheight": 18
 			},
 			"function": {
-                "mouseclick": "Form:Tab2()"
+                "mouseclick": "HandleTabs('tSettings')"
 			},
 			"other": {
                 "text": "Settings"
@@ -374,7 +374,7 @@
                 "fontheight": 18
 			},
 			"function": {
-                "mouseclick": "Form:Tab2()"
+                "mouseclick": "HandleTabs('tAbout')"
 			},
 			"other": {
                 "text": "About"
