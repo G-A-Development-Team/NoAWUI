@@ -330,6 +330,12 @@ function GetAttributesFromFile(jsonfilepath)
 	return getDefaultAtts(jsonobject)
 end
 
+function GetAttributesFromText(jsontext)
+	jsontext = cleanJsonComments(jsontext)
+	jsonobject = json.decode(jsontext)
+	return getDefaultAtts(jsonobject)
+end
+
 function GetAttributesFromArrayByName(json, name)
 	
 	for _, jElement in pairs(json) do
@@ -344,6 +350,16 @@ function GetMultipleAttributesFromFile(jsonfilepath)
 local jsontextobj = file.Open(jsonfilepath, "r");
 	jsontext = jsontextobj:Read();
 	jsontextobj:Close();
+	jsontext = cleanJsonComments(jsontext)
+	jsonobject = json.decode(jsontext)
+	out_array = {}
+	for _, jElement in pairs(jsonobject) do
+		table.insert(out_array, getDefaultAtts(jElement))
+	end
+	return out_array
+end
+
+function GetMultipleAttributesFromText(jsontext)
 	jsontext = cleanJsonComments(jsontext)
 	jsonobject = json.decode(jsontext)
 	out_array = {}

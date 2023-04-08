@@ -26,7 +26,7 @@
 			
 		}
 	},
-* Tab1 -> Textvox
+* Tab1 -> Textbox
 	{
 		"details": {
 			"type": "textbox",
