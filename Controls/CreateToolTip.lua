@@ -91,10 +91,11 @@ function CreateToolTip(attributes)
         properties.CreatedComponentNames.HelpFrame = uid .. "HelpFrame"
         properties.CreatedComponentNames.TextLayout = uid .. "TextLayout"
 
-        InnerFrame = InnerFrame.AddChild(InnerFrame, TextLayout)
-        BaseFrame = BaseFrame.AddChild(BaseFrame, InnerFrame)
-        BaseFrame = BaseFrame.AddChild(BaseFrame, HelpFrame)
-        properties = properties.AddChild(properties, BaseFrame)
+        
+        InnerFrame:AddControl(TextLayout)
+        BaseFrame:AddControl(InnerFrame)
+        BaseFrame:AddControl(HelpFrame)
+        properties:AddControl(BaseFrame)
         return properties
     end
 

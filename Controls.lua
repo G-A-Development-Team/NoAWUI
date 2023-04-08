@@ -71,6 +71,10 @@ function CreateControl()
             table.insert(Control.Children, child)
             return Control
         end,
+        AddControl = function(self, control)
+            table.insert(self.Children, control)
+            return self
+        end,
         DefaultCase = function(Control, properties)
             for key, value in pairs(properties) do
                 key = key:lower()
