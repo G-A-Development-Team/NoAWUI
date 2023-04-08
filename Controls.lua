@@ -271,6 +271,9 @@ function CreateControl()
                 return nil
             end
 
+            -- Create a global variable with the same name as the component's name
+            _G[Control.Name] = Control
+
             return Control
         end,
     }
