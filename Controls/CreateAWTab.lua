@@ -2,7 +2,7 @@ local ControlName = 'awtab'
 local FunctionName = 'CreateAWTab'
 
 -- By: CarterPoe
-function CreateAWTab(properties)
+function CreateAWTab(attributes)
     local Control = CreateControl()
     Control.ReferenceTab = nil
 
@@ -11,7 +11,7 @@ function CreateAWTab(properties)
         "varname",
     }
 
-    Control = Control.DefaultCase(Control, properties)
+    Control.DefaultCase(attributes)
 
     local gui_ref = gui.Reference(Control.Category)
 

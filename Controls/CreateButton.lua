@@ -2,7 +2,7 @@ local ControlName = 'button'
 local FunctionName = 'CreateButton'
 
 -- By: CarterPoe
-function CreateButton(properties)
+function CreateButton(attributes)
     local Control = CreateControl()
     Control.Background = {50, 50, 50, 255}
     Control.ActiveBackground = {65, 65, 65, 255}
@@ -24,56 +24,56 @@ function CreateButton(properties)
         "background", "active", "border", "roundness",
     }
 
-    Control = Control.DefaultCase(Control, properties)
+    Control:DefaultCase(attributes)
 
-    Control.RegisterFont = function(properties)
-        local Font = draw.CreateFont(properties.FontFamily, properties.FontHeight, properties.FontWeight)
+    Control.RegisterFont = function(self)
+        local Font = draw.CreateFont(self.FontFamily, self.FontHeight, self.FontWeight)
         Control.CreatedFont = Font
-        return properties
+        return self
     end
 
-    Control = Control.RegisterFont(Control)
+    Control:RegisterFont()
 
-    Control.RenderBase = function(properties, parent, backgroundColor)
-        Renderer:ShadowRectangle({properties.X + parent.X, properties.Y + parent.Y}, {properties.Width, properties.Height}, {0,0,0,25}, 25)
+    Control.RenderBase = function(self, parent, backgroundColor)
+        Renderer:ShadowRectangle({self.X + parent.X, self.Y + parent.Y}, {self.Width, self.Height}, {0,0,0,25}, 25)
 
-        if properties.Rounded then
-            Renderer:FilledRoundedRectangle({properties.X + parent.X, properties.Y + parent.Y}, {properties.Width, properties.Height}, backgroundColor, properties.Roundness)
-            Renderer:OutlinedRoundedRectangle({properties.X + parent.X, properties.Y + parent.Y}, {properties.Width, properties.Height}, properties.BorderColor, properties.Roundness)
+        if self.Rounded then
+            Renderer:FilledRoundedRectangle({self.X + parent.X, self.Y + parent.Y}, {self.Width, self.Height}, backgroundColor, self.Roundness)
+            Renderer:OutlinedRoundedRectangle({self.X + parent.X, self.Y + parent.Y}, {self.Width, self.Height}, self.BorderColor, self.Roundness)
         end
 
-        if not properties.Rounded then
-            Renderer:FilledRectangle({properties.X + parent.X, properties.Y + parent.Y}, {properties.Width, properties.Height}, backgroundColor)
-            Renderer:OutlinedRectangle({properties.X + parent.X, properties.Y + parent.Y}, {properties.Width, properties.Height}, properties.BorderColor)
+        if not self.Rounded then
+            Renderer:FilledRectangle({self.X + parent.X, self.Y + parent.Y}, {self.Width, self.Height}, backgroundColor)
+            Renderer:OutlinedRectangle({self.X + parent.X, self.Y + parent.Y}, {self.Width, self.Height}, self.BorderColor)
         end
-        return properties
+        return self
     end
 
-    Control.RenderText = function(properties, parent)
-        draw.SetFont(properties.CreatedFont)
+    Control.RenderText = function(self, parent)
+        draw.SetFont(self.CreatedFont)
 
-        local textLocation = centerTextOnRectangle({properties.X + parent.X, properties.Y + parent.Y}, {properties.Width, properties.Height}, properties.Text)
-        Renderer:Text({textLocation.X, textLocation.Y}, properties.Color, properties.Text)
-        return properties
+        local textLocation = centerTextOnRectangle({self.X + parent.X, self.Y + parent.Y}, {self.Width, self.Height}, self.Text)
+        Renderer:Text({textLocation.X, textLocation.Y}, self.Color, self.Text)
+        return self
     end
 
-    Control.Render = function(properties, parent)
-        if not properties.Visible or not parent.Visible then return properties end
+    Control.Render = function(self, parent)
+        if not self.Visible or not parent.Visible then return self end
         
-        properties = HandleEvent("mouseclick", properties, parent)
+        HandleEvent("mouseclick", self, parent)
 
-        if isMouseInRect(properties.X + parent.X, properties.Y + parent.Y, properties.Width, properties.Height) then
+        if isMouseInRect(self.X + parent.X, self.Y + parent.Y, self.Width, self.Height) then
             if input.IsButtonDown(1) and not getSelected() then
-                properties = properties.RenderBase(properties, parent, properties.ActiveBackground)
+                self:RenderBase(parent, self.ActiveBackground)
             else
-                properties = properties.RenderBase(properties, parent, {properties.ActiveBackground[1], properties.ActiveBackground[2], properties.ActiveBackground[3], 100})
+                self:RenderBase(parent, {self.ActiveBackground[1], self.ActiveBackground[2], self.ActiveBackground[3], 100})
             end
-        else properties = properties.RenderBase(properties, parent, properties.Background) end
+        else self:RenderBase(parent, self.Background) end
 
-        if properties.Active then properties = properties.RenderBase(properties, parent, properties.ActiveBackground) end
+        if self.Active then self:RenderBase(parent, self.ActiveBackground) end
 
-        properties = properties.RenderText(properties, parent)
-        return properties
+        self:RenderText(parent)
+        return self
     end
     return Control
 end

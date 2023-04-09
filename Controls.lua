@@ -75,36 +75,36 @@ function CreateControl()
             table.insert(self.Children, control)
             return self
         end,
-        DefaultCase = function(Control, properties)
+        DefaultCase = function(self, properties)
             for key, value in pairs(properties) do
                 key = key:lower()
                 value = tostring(value)
-                if tableContainsValue(Control.AllowedCases, key) then
+                if tableContainsValue(self.AllowedCases, key) then
                     switch(key)
                         --Positioning and Dimensions:
-                        .case("x",            function() Control.X            = value Control.SetX = value end)
-                        .case("y",            function() Control.Y            = value Control.SetY = value end)
-                        .case("width",        function() Control.Width        = value end)
-                        .case("height",       function() Control.Height       = value end)
-                        .case("alignment",    function() Control.Alignment    = value:lower() end)
-                        .case("orientation",  function() Control.Orientation  = value:lower() end)
-                        .case("scrollheight", function() Control.ScrollHeight = value end)
+                        .case("x",            function() self.X            = value self.SetX = value end)
+                        .case("y",            function() self.Y            = value self.SetY = value end)
+                        .case("width",        function() self.Width        = value end)
+                        .case("height",       function() self.Height       = value end)
+                        .case("alignment",    function() self.Alignment    = value:lower() end)
+                        .case("orientation",  function() self.Orientation  = value:lower() end)
+                        .case("scrollheight", function() self.ScrollHeight = value end)
 
                         --Events:
-                        .case("mouseclick",     function() Control.MouseClick   = value end)
-                        .case("mousescroll",    function() Control.MouseScroll  = value end)
-                        .case("mousehover",     function() Control.MouseHover   = value end)
-                        .case("mouseoutside",   function() Control.MouseOutside = value end)
-                        .case("changeevent",    function() Control.ChangeEvent  = value end)
+                        .case("mouseclick",     function() self.MouseClick   = value end)
+                        .case("mousescroll",    function() self.MouseScroll  = value end)
+                        .case("mousehover",     function() self.MouseHover   = value end)
+                        .case("mouseoutside",   function() self.MouseOutside = value end)
+                        .case("changeevent",    function() self.ChangeEvent  = value end)
                         .case("dragparent",     function()
                             if value == "false" then
-                                Control.DragParent = false
+                                self.DragParent = false
                             else
-                                Control.DragParent = true
+                                self.DragParent = true
                             end
                         end)
-                        .case("ontoggle",       function() Control.OnToggle     = value end)
-                        .case("unload",         function() Control.Unload       = value end)
+                        .case("ontoggle",       function() self.OnToggle     = value end)
+                        .case("unload",         function() self.Unload       = value end)
 
                         --Visuals:
                         .case("image",        function()
@@ -135,91 +135,91 @@ function CreateControl()
                                 .default(function() LogWarn("ATTRIBUTES", "Image Type not found. type=" .. type) end)
                             .process() 
                             local texture = draw.CreateTexture(imgRGBA, imgWidth, imgHeight);
-                            Control.BackgroundImage = texture
+                            self.BackgroundImage = texture
                         end)
                         .case("background",   function()
                             if type(value) ~= "table" and string.find(value, "theme") then
-                                Control.Background = getThemeColor(value)
+                                self.Background = getThemeColor(value)
                             else
                                 local args = nil
                                 if type(value) == "table" then args = value else args = split(value, ",") end
-                                Control.Background = textToTable(args)
+                                self.Background = textToTable(args)
                             end
                         end)
                         .case("shadow",       function()
                             if string.find(value, "theme") then
-                                Control.Shadow = getThemeColor(value)
+                                self.Shadow = getThemeColor(value)
                             else
                                 local args = split(value, ",")
-                                Control.Shadow = textToTable(args)
+                                self.Shadow = textToTable(args)
                             end
                         end)
                         .case("border",       function()
                             if string.find(value, "theme") then
-                                Control.BorderColor = getThemeColor(value)
+                                self.BorderColor = getThemeColor(value)
                             else
                                 local args = split(value, ",")
-                                Control.BorderColor = textToTable(args)
+                                self.BorderColor = textToTable(args)
                             end
                         end)
                         .case("roundness",    function()
                             local args = split(value, ",")
-                            Control.Roundness = textToTable(args)
-                            Control.Rounded = true
+                            self.Roundness = textToTable(args)
+                            self.Rounded = true
                         end)
                         .case("color",        function()
                             if string.find(value, "theme") then
-                                Control.Color = getThemeColor(value)
+                                self.Color = getThemeColor(value)
                             else
                                 local args = split(value, ",")
-                                Control.Color = textToTable(args)
+                                self.Color = textToTable(args)
                             end
                         end)
                         .case("active",       function()
                             if string.find(value, "theme") then
-                                Control.ActiveBackground = getThemeColor(value)
+                                self.ActiveBackground = getThemeColor(value)
                             else
                                 local args = split(value, ",")
-                                Control.ActiveBackground = textToTable(args)
+                                self.ActiveBackground = textToTable(args)
                             end
                         end)
                         .case("displaylines", function()
                             if value == "false" then
-                                Control.DisplayLines = false
+                                self.DisplayLines = false
                             else
-                                Control.DisplayLines = true
+                                self.DisplayLines = true
                             end
                         end)
 
                         --Listeners:
                         .case("toggle",     function()
-                            Control.Toggle = tonumber(value) 
-                            Control.dummywindow = gui.Window("dummywindow", "", 0, 0, 0, 0)
-                            Control.dummywindow:SetPosX(-10)
-                            Control.dummywindow:SetPosY(-10)
-                            Control.dummywindow:SetInvisible(true)
-                            Control.dummywindow:SetOpenKey(tonumber(value))
+                            self.Toggle = tonumber(value) 
+                            self.dummywindow = gui.Window("dummywindow", "", 0, 0, 0, 0)
+                            self.dummywindow:SetPosX(-10)
+                            self.dummywindow:SetPosY(-10)
+                            self.dummywindow:SetInvisible(true)
+                            self.dummywindow:SetOpenKey(tonumber(value))
                         end)
                         .case("drag",       function()
                             if value == "false" then
-                                Control.Drag = false
+                                self.Drag = false
                             else
-                                Control.Drag = true
+                                self.Drag = true
                             end
                         end)
 
                         --Text:
-                        .case("fontfamily", function() Control.FontFamily = value end)
-                        .case("fontheight", function() Control.FontHeight = value end)
-                        .case("fontweight", function() Control.FontWeight = value end)
-                        .case("text",       function() Control.Text       = value end)
+                        .case("fontfamily", function() self.FontFamily = value end)
+                        .case("fontheight", function() self.FontHeight = value end)
+                        .case("fontweight", function() self.FontWeight = value end)
+                        .case("text",       function() self.Text       = value end)
 
                         --Debug:
                         .case("showsquare", function()
                             if value == "true" then
-                                Control.ShowSquare = true
+                                self.ShowSquare = true
                             elseif value == "false" then
-                                Control.ShowSquare = false
+                                self.ShowSquare = false
                             end
                         end)
 
@@ -230,30 +230,30 @@ function CreateControl()
                             elseif value == "false" then
                                 value = false
                             end
-                            Control.CheckState = value
+                            self.CheckState = value
                         end)
                         .case("scroll",     function()
                             if value == "false" then
-                                Control.Scroll = false
+                                self.Scroll = false
                             else
-                                Control.Scroll = true
+                                self.Scroll = true
                             end
                         end)
                         .case("visible",    function()
                             if value == "false" then
-                                Control.Visible = false
+                                self.Visible = false
                             else
-                                Control.Visible = true
+                                self.Visible = true
                             end
                         end)
 
                         --Values:
-                        .case("url",        function() Control.URL   = value end)
-                        .case("imageurl",   function() Control.Image = value end)
+                        .case("url",        function() self.URL   = value end)
+                        .case("imageurl",   function() self.Image = value end)
 
                         --Aimware GUI Compatibility:
-                        .case("varname",    function() Control.VarName  = value end)
-                        .case("category",   function() Control.Category = value end)
+                        .case("varname",    function() self.VarName  = value end)
+                        .case("category",   function() self.Category = value end)
 
                         .default(function() LogWarn("ATTRIBUTES", "Attribute not found. key=" .. key) end)
                     .process() 
@@ -263,22 +263,22 @@ function CreateControl()
             for key, value in pairs(properties) do
                 value = tostring(value)
                 switch(key:lower())
-                    .case("name",     function() Control.Name     = value end)
-                    .case("group",    function() Control.Group    = value end)
-                    .case("parent",   function() Control.Parent   = value end)
-                    .case("type",     function() Control.Type     = value end)
+                    .case("name",     function() self.Name     = value end)
+                    .case("group",    function() self.Group    = value end)
+                    .case("parent",   function() self.Parent   = value end)
+                    .case("type",     function() self.Type     = value end)
                 .process()
             end
 
-            if Control.Name == nil or Control.Type == nil then
+            if self.Name == nil or self.Type == nil then
                 LogFatal("ATTRIBUTES", "Missing Required Attributes For Control")
                 return nil
             end
 
             -- Create a global variable with the same name as the component's name
-            _G[Control.Name] = Control
+            _G[self.Name] = self
 
-            return Control
+            return self
         end,
     }
 end
@@ -288,7 +288,7 @@ Events_Objects = json.decode("{}")
 Events_Details = json.decode("{}")
 
 -- Process the events
-function HandleEvent(event, properties, parent)
+function HandleEvent(event, self, parent)
 	-- Set event name to lowercase
 	event = event:lower()
 	-- Loop through the possible objects (array of object names)
@@ -298,12 +298,12 @@ function HandleEvent(event, properties, parent)
 			-- see if it has 1 parm or 2
 			if Events_Details[event]['parms'] == 1 then
 				-- Run the event function asscotiated with the event
-				local temp = assert(loadstring('return ' .. Events_Details[event]['function']..'(...)'))(properties)
+				local temp = assert(loadstring('return ' .. Events_Details[event]['function']..'(...)'))(self)
 				return temp
 			-- see if it has 2 parms
 			elseif Events_Details[event]['parms'] == 2 then
 				-- Run the event function asscotiated with the event
-				local temp = assert(loadstring('return ' .. Events_Details[event]['function']..'(...)'))(properties, parent)
+				local temp = assert(loadstring('return ' .. Events_Details[event]['function']..'(...)'))(self, parent)
 				return temp
 			end
 		end

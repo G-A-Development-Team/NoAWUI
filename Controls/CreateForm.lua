@@ -2,7 +2,7 @@ local ControlName = 'form'
 local FunctionName = 'CreateForm'
 
 -- By: CarterPoe
-function CreateForm(properties)
+function CreateForm(attributes)
     local Control = CreateControl()
     Control.DragNow = false
     Control.Focused = false
@@ -20,33 +20,33 @@ function CreateForm(properties)
         "image", "background", "border", "roundness",
     }
 
-    Control = Control.DefaultCase(Control, properties)
+    Control:DefaultCase(attributes)
 
-    Control.RenderBase = function(properties)
-        Renderer:ShadowRectangle({properties.X, properties.Y}, {properties.Width, properties.Height}, {0,0,0,70}, 25)
+    Control.RenderBase = function(self)
+        Renderer:ShadowRectangle({self.X, self.Y}, {self.Width, self.Height}, {0,0,0,70}, 25)
 
-        if properties.Rounded then
-            Renderer:FilledRoundedRectangle({properties.X, properties.Y}, {properties.Width, properties.Height}, properties.Background, properties.Roundness)
-            Renderer:OutlinedRoundedRectangle({properties.X, properties.Y}, {properties.Width, properties.Height}, properties.BorderColor, properties.Roundness)
+        if self.Rounded then
+            Renderer:FilledRoundedRectangle({self.X, self.Y}, {self.Width, self.Height}, self.Background, self.Roundness)
+            Renderer:OutlinedRoundedRectangle({self.X, self.Y}, {self.Width, self.Height}, self.BorderColor, self.Roundness)
         end
 
-        if not properties.Rounded then
-            if properties.BackgroundImage ~= nil then draw.SetTexture(properties.BackgroundImage) end
-            Renderer:FilledRectangle({properties.X, properties.Y}, {properties.Width, properties.Height}, properties.Background)
+        if not self.Rounded then
+            if self.BackgroundImage ~= nil then draw.SetTexture(self.BackgroundImage) end
+            Renderer:FilledRectangle({self.X, self.Y}, {self.Width, self.Height}, self.Background)
             draw.SetTexture(nil)
-            Renderer:OutlinedRectangle({properties.X, properties.Y}, {properties.Width, properties.Height}, properties.BorderColor)
+            Renderer:OutlinedRectangle({self.X, self.Y}, {self.Width, self.Height}, self.BorderColor)
         end
-        return properties
+        return self
     end
 
-    Control.Render = function(properties)
-        properties = HandleEvent("toggle", properties)
-        if not properties.Visible then return properties end
+    Control.Render = function(self)
+        HandleEvent("toggle", self)
+        if not self.Visible then return self end
 
-        properties = properties.RenderBase(properties)
-        properties = HandleEvent("focus", properties)
-        properties = HandleEvent("drag", properties)
-        return properties
+        self:RenderBase()
+        HandleEvent("focus", self)
+        HandleEvent("drag", self)
+        return self
     end
     return Control
 end

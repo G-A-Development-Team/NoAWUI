@@ -27,30 +27,30 @@ function CreateToolTip(attributes)
         "image", "background", "border", "roundness",
     }
 
-    Control = Control.DefaultCase(Control, attributes)
+    Control:DefaultCase(attributes)
 
-    Control.LoadLines = function(properties, attributes)
+    Control.LoadLines = function(self, attributes)
         if attributes["lines"] ~= nil then
             for jkey, jvalue in ipairs(attributes["lines"]) do
                 if string.find(jvalue, '\n') then
                     local arry = split(jvalue, '\n')
                     for skey, svalue in ipairs(arry) do
-                        table.insert(properties.Lines, svalue)
+                        table.insert(self.Lines, svalue)
                     end
-                else table.insert(properties.Lines, jvalue) end
+                else table.insert(self.Lines, jvalue) end
             end
         end
-        return properties
+        return self
     end
 
-    Control = Control.LoadLines(Control, attributes)
+    Control:LoadLines(attributes)
 
-    Control.CreateComponentBase = function(properties)
+    Control.CreateComponentBase = function(self)
         local uid = math.random(1, 342)
         local BaseFrame = CreatePanel({
             type = "panel",
             name = uid .. "BaseFrame",
-            parent = properties.Name,
+            parent = self.Name,
             background = "50,50,50,200",
             roundness = "6,6,6,6,6",
         })
@@ -86,27 +86,27 @@ function CreateToolTip(attributes)
             shadow = "0,0,0,0,0"
         })
 
-        properties.CreatedComponentNames.BaseFrame = uid .. "BaseFrame"
-        properties.CreatedComponentNames.InnerFrame = uid .. "InnerFrame"
-        properties.CreatedComponentNames.HelpFrame = uid .. "HelpFrame"
-        properties.CreatedComponentNames.TextLayout = uid .. "TextLayout"
+        self.CreatedComponentNames.BaseFrame = uid .. "BaseFrame"
+        self.CreatedComponentNames.InnerFrame = uid .. "InnerFrame"
+        self.CreatedComponentNames.HelpFrame = uid .. "HelpFrame"
+        self.CreatedComponentNames.TextLayout = uid .. "TextLayout"
 
         
         InnerFrame:AddControl(TextLayout)
         BaseFrame:AddControl(InnerFrame)
         BaseFrame:AddControl(HelpFrame)
-        properties:AddControl(BaseFrame)
-        return properties
+        self:AddControl(BaseFrame)
+        return self
     end
 
-    Control.Initialize = function(properties)
-        if properties.Initialized then return end
-        for jkey, jvalue in ipairs(properties.Lines) do
+    Control.Initialize = function(self)
+        if self.Initialized then return end
+        for jkey, jvalue in ipairs(self.Lines) do
             local Tw, Th = draw.GetTextSize(jvalue)
-            local BaseFrame = findControlByParent(properties, properties.CreatedComponentNames.BaseFrame)
-            local InnerFrame = findControlByParent(properties, properties.CreatedComponentNames.InnerFrame)
-            local HelpFrame = findControlByParent(properties, properties.CreatedComponentNames.HelpFrame)
-            local TextLayout = findControlByParent(properties, properties.CreatedComponentNames.TextLayout)
+            local BaseFrame = findControlByParent(self, self.CreatedComponentNames.BaseFrame)
+            local InnerFrame = findControlByParent(self, self.CreatedComponentNames.InnerFrame)
+            local HelpFrame = findControlByParent(self, self.CreatedComponentNames.HelpFrame)
+            local TextLayout = findControlByParent(self, self.CreatedComponentNames.TextLayout)
 
             if BaseFrame == nil or InnerFrame == nil or HelpFrame == nil or TextLayout == nil then return end
 
@@ -122,7 +122,7 @@ function CreateToolTip(attributes)
             local TextComponent = CreateLabel({
                 type = "panel",
                 name = enc(jvalue),
-                parent = properties.CreatedComponentNames.TextLayout,
+                parent = self.CreatedComponentNames.TextLayout,
                 x = 0,
                 y = 0,
                 width = TextLayout.Width,
@@ -141,42 +141,42 @@ function CreateToolTip(attributes)
             HelpFrame.SetX = BaseFrame.Width - HelpFrame.Width - 5
             HelpFrame.Background = {255,255,255,255}
         end
-        properties.Initialized = true
-        return properties
+        self.Initialized = true
+        return self
     end
 
-    Control = Control.CreateComponentBase(Control)
+    Control:CreateComponentBase()
 
-    Control.RenderDynamicBase = function(properties, parent)
+    Control.RenderDynamicBase = function(self)
         local mouseX, mouseY = input.GetMousePos()
-        for _, control in ipairs(properties.Children) do
-            if properties.Toggled then
-                if control.X ~= 0 and control.Y ~= 0 and properties.Toggled then
+        for _, control in ipairs(self.Children) do
+            if self.Toggled then
+                if control.X ~= 0 and control.Y ~= 0 and self.Toggled then
                     control.X = control.X
                     control.Y = control.Y
                 else
                     control.X = mouseX
                     control.Y = mouseY
                 end
-                findControlByParent(properties, properties.CreatedComponentNames.HelpFrame).Visible = false
+                findControlByParent(self, self.CreatedComponentNames.HelpFrame).Visible = false
             else
-                findControlByParent(properties, properties.CreatedComponentNames.HelpFrame).Visible = true
+                findControlByParent(self, self.CreatedComponentNames.HelpFrame).Visible = true
                 control.X = mouseX
                 control.Y = mouseY
             end
             if input.IsButtonPressed(2) then
-                properties.Toggled = not properties.Toggled
+                self.Toggled = not self.Toggled
             end
             if input.IsButtonDown(1) then
-                properties.Toggled = false
+                self.Toggled = false
             end
-            control.Render(control, properties)
+            control.Render(control, self)
         end
-        return properties
+        return self
     end
 
-    Control.Render = function(properties, parent)
-        if not properties.Visible or not parent.Visible then return properties end
+    Control.Render = function(self, parent)
+        if not self.Visible or not parent.Visible then return self end
 
         local w, h = draw.GetScreenSize()
         Renderer:Scissor({0, 0}, {w, h})
@@ -184,13 +184,13 @@ function CreateToolTip(attributes)
         local grandparent = getParentControl(parent)
         if grandparent == nil then return end
 
-        if isMouseInRect(parent.X + grandparent.X, parent.Y + grandparent.Y, parent.Width, parent.Height) and not getSelected() or properties.Toggled then
-            if properties.Alignment == "dynamic" then
-                properties = properties.RenderDynamicBase(properties, parent)
-                properties = properties.Initialize(properties)
+        if isMouseInRect(parent.X + grandparent.X, parent.Y + grandparent.Y, parent.Width, parent.Height) and not getSelected() or self.Toggled then
+            if self.Alignment == "dynamic" then
+                self:RenderDynamicBase()
+                self:Initialize()
             end
         end
-        return properties
+        return self
     end
     return Control
 end

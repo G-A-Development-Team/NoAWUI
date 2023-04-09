@@ -2,7 +2,7 @@ local ControlName = 'panel'
 local FunctionName = 'CreatePanel'
 
 -- By: CarterPoe
-function CreatePanel(properties)
+function CreatePanel(attributes)
     local Control = CreateControl()
     Control.Shadow = {0,0,0,40,25}
 
@@ -15,49 +15,49 @@ function CreatePanel(properties)
         "image", "background", "shadow", "border", "roundness",
     }
 
-    Control = Control.DefaultCase(Control, properties)
+    Control:DefaultCase(attributes)
 
-    Control.RenderBase = function(properties, parent)
-        Renderer:ShadowRectangle({properties.X + parent.X, properties.Y + parent.Y}, {properties.Width, properties.Height}, {properties.Shadow[1], properties.Shadow[2], properties.Shadow[3], properties.Shadow[4]}, properties.Shadow[5])
+    Control.RenderBase = function(self, parent)
+        Renderer:ShadowRectangle({self.X + parent.X, self.Y + parent.Y}, {self.Width, self.Height}, {self.Shadow[1], self.Shadow[2], self.Shadow[3], self.Shadow[4]}, self.Shadow[5])
 
-        if properties.Rounded then
-            Renderer:FilledRoundedRectangle({properties.X + parent.X, properties.Y + parent.Y}, {properties.Width, properties.Height}, properties.Background, properties.Roundness)
-            Renderer:OutlinedRoundedRectangle({properties.X + parent.X, properties.Y + parent.Y}, {properties.Width, properties.Height}, properties.BorderColor, properties.Roundness)
+        if self.Rounded then
+            Renderer:FilledRoundedRectangle({self.X + parent.X, self.Y + parent.Y}, {self.Width, self.Height}, self.Background, self.Roundness)
+            Renderer:OutlinedRoundedRectangle({self.X + parent.X, self.Y + parent.Y}, {self.Width, self.Height}, self.BorderColor, self.Roundness)
         end
 
-        if not properties.Rounded then
-            if properties.BackgroundImage ~= nil then draw.SetTexture(properties.BackgroundImage) end
+        if not self.Rounded then
+            if self.BackgroundImage ~= nil then draw.SetTexture(self.BackgroundImage) end
 
-            Renderer:FilledRectangle({properties.X + parent.X, properties.Y + parent.Y}, {properties.Width, properties.Height}, properties.Background)
+            Renderer:FilledRectangle({self.X + parent.X, self.Y + parent.Y}, {self.Width, self.Height}, self.Background)
             draw.SetTexture(nil)
 
-            Renderer:OutlinedRectangle({properties.X + parent.X, properties.Y + parent.Y}, {properties.Width, properties.Height}, properties.BorderColor)
+            Renderer:OutlinedRectangle({self.X + parent.X, self.Y + parent.Y}, {self.Width, self.Height}, self.BorderColor)
         end
-        return properties
+        return self
     end
 
-    Control.RenderChildren = function(properties, parent)
-        Renderer:Scissor({properties.X + parent.X, properties.Y + parent.Y}, {properties.Width, properties.Height})
-        for _, control in ipairs(properties.Children) do
+    Control.RenderChildren = function(self, parent)
+        Renderer:Scissor({self.X + parent.X, self.Y + parent.Y}, {self.Width, self.Height})
+        for _, control in ipairs(self.Children) do
             control.X = parent.X + control.SetX
             control.Y = parent.Y + control.SetY
-            control.Render(control, properties)
+            control.Render(control, self)
         end
         local w, h = draw.GetScreenSize()
         Renderer:Scissor({0, 0}, {w, h})
-        return properties
+        return self
     end
 
-    Control.Render = function(properties, parent)
-        if not properties.Visible or not parent.Visible then return properties end
-        properties = properties.RenderBase(properties, parent)
+    Control.Render = function(self, parent)
+        if not self.Visible or not parent.Visible then return self end
+        self:RenderBase(parent)
 
-        properties = properties.RenderChildren(properties, parent)
-        properties = HandleEvent("dragparent", properties, parent)
-        properties = HandleEvent("mousehover", properties, parent)
-        properties = HandleEvent("mouseoutside", properties, parent)
-        properties = HandleEvent("mouseclick", properties, parent)
-        return properties
+        self:RenderChildren(parent)
+        HandleEvent("dragparent", self, parent)
+        HandleEvent("mousehover", self, parent)
+        HandleEvent("mouseoutside", self, parent)
+        HandleEvent("mouseclick", self, parent)
+        return self
     end
     return Control
 end

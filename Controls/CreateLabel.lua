@@ -2,7 +2,7 @@ local ControlName = 'label'
 local FunctionName = 'CreateLabel'
 
 -- By: CarterPoe
-function CreateLabel(properties)
+function CreateLabel(attributes)
     local Control = CreateControl()
     Control.AllowedCases = {
         --Positioning and Dimensions:
@@ -17,65 +17,66 @@ function CreateLabel(properties)
         "showsquare",
     }
 
-    Control = Control.DefaultCase(Control, properties)
+    Control:DefaultCase(attributes)
 
-    Control.RegisterFont = function(properties)
-        local Font = draw.CreateFont(properties.FontFamily, properties.FontHeight, properties.FontWeight)
-        properties.CreatedFont = Font
-        properties.DefaultFont = Font
-        return properties
+    Control.RegisterFont = function(self)
+        local Font = draw.CreateFont(self.FontFamily, self.FontHeight, self.FontWeight)
+        self.CreatedFont = Font
+        self.DefaultFont = Font
+        return self
     end
 
-    Control = Control.RegisterFont(Control)
+    Control:RegisterFont()
 
-    Control.ResetFont = function()
-        if Control.CreatedFont ~= Control.DefaultFont then
-            Control.CreatedFont = Control.DefaultFont
+    Control.ResetFont = function(self)
+        if self.CreatedFont ~= self.DefaultFont then
+            self.CreatedFont = self.DefaultFont
         end
+        return self
     end
 
-    Control.RenderDefaultBase = function(properties, parent)
-        draw.SetFont(properties.CreatedFont)
-        Renderer:Text({properties.X + parent.X, properties.Y + parent.Y}, properties.Color, properties.Text)
-        return properties
+    Control.RenderDefaultBase = function(self, parent)
+        draw.SetFont(self.CreatedFont)
+        Renderer:Text({self.X + parent.X, self.Y + parent.Y}, self.Color, self.Text)
+        return self
     end
 
-    Control.RenderRightAlignment = function (properties, parent)
-        draw.SetFont(properties.CreatedFont)
+    Control.RenderRightAlignment = function (self, parent)
+        draw.SetFont(self.CreatedFont)
 
-        local Tw, Th = draw.GetTextSize(properties.Text)
-        Renderer:Text({properties.X + parent.X - Tw, properties.Y + parent.Y}, properties.Color, properties.Text) 
+        local Tw, Th = draw.GetTextSize(self.Text)
+        Renderer:Text({self.X + parent.X - Tw, self.Y + parent.Y}, self.Color, self.Text) 
 
-        if properties.ShowSquare then Renderer:FilledRectangle({properties.X + parent.X, properties.Y + parent.Y}, {5,5}, {255,0,0,255}) end
-        return properties
+        if self.ShowSquare then Renderer:FilledRectangle({self.X + parent.X, self.Y + parent.Y}, {5,5}, {255,0,0,255}) end
+        return self
     end
 
-    Control.RenderAutoSize = function (properties, parent)
-        draw.SetFont(properties.CreatedFont)
+    Control.RenderAutoSize = function (self, parent)
+        draw.SetFont(self.CreatedFont)
 
-        local Tw, Th = draw.GetTextSize(properties.Text)
+        local Tw, Th = draw.GetTextSize(self.Text)
 
-        if tonumber(Tw) >= tonumber(properties.Width) then
-            Renderer:Text({properties.X + parent.X, properties.Y + parent.Y}, properties.Color, "Loading..")
-            if properties.Multipler == nil then properties.Multipler = .1 else properties.Multipler = properties.Multipler + .1 end
+        if tonumber(Tw) >= tonumber(self.Width) then
+            Renderer:Text({self.X + parent.X, self.Y + parent.Y}, self.Color, "Loading..")
+            if self.Multipler == nil then self.Multipler = .1 else self.Multipler = self.Multipler + .1 end
 
-            local Font = draw.CreateFont(properties.FontFamily, properties.FontHeight - properties.Multipler, properties.FontWeight)
-            properties.CreatedFont = Font
+            local Font = draw.CreateFont(self.FontFamily, self.FontHeight - self.Multipler, self.FontWeight)
+            self.CreatedFont = Font
         else
-            Renderer:Text({properties.X + parent.X, properties.Y + parent.Y}, properties.Color, properties.Text) 
+            Renderer:Text({self.X + parent.X, self.Y + parent.Y}, self.Color, self.Text) 
         end
 
-        if properties.ShowSquare then Renderer:FilledRectangle({properties.X + parent.X, properties.Y + parent.Y}, {properties.Width,properties.Height}, {255,0,0,255}) end
-        return properties
+        if self.ShowSquare then Renderer:FilledRectangle({self.X + parent.X, self.Y + parent.Y}, {self.Width,self.Height}, {255,0,0,255}) end
+        return self
     end
 
-    Control.Render = function(properties, parent)
-        if not properties.Visible or not parent.Visible then return properties end
+    Control.Render = function(self, parent)
+        if not self.Visible or not parent.Visible then return self end
 
-        if properties.Alignment == nil then properties = properties.RenderDefaultBase(properties, parent) end
-        if properties.Alignment == "right" then properties = properties.RenderRightAlignment(properties, parent) end
-        if properties.Alignment == "autosize" then properties = properties.RenderAutoSize(properties, parent) end
-        return properties
+        if self.Alignment == nil then self:RenderDefaultBase(parent) end
+        if self.Alignment == "right" then self:RenderRightAlignment(parent) end
+        if self.Alignment == "autosize" then self:RenderAutoSize(parent) end
+        return self
     end
 
     return Control

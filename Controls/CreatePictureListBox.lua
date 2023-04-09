@@ -291,7 +291,7 @@ function CreatePictureListBox(properties)
         draw.SetFont(properties.CreatedFont);
         if properties.SelectedItem ~= nil then
             if properties.SelectedItem.DidReset == nil then
-                properties.Children[3].ResetFont() 
+                properties.Children[3]:ResetFont() 
                 properties.SelectedItem.DidReset = true
             end
 

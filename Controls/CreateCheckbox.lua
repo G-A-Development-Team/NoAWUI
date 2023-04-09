@@ -2,7 +2,7 @@ local ControlName = 'checkbox'
 local FunctionName = 'CreateCheckbox'
 
 -- By: Agentsix1
-function CreateCheckbox(properties)
+function CreateCheckbox(attributes)
 	-- Creates the control
     local Control = CreateControl()
 	
@@ -43,44 +43,44 @@ function CreateCheckbox(properties)
         "checkstate",
     }
 
-    Control = Control.DefaultCase(Control, properties)
+    Control:DefaultCase(attributes)
 
 	Control.Font = draw.CreateFont("Bahnschrift", 20, 100)
 
-    Control.RenderBase = function(properties, parent)
-		Renderer:RoundedRectangleBorder({properties.X + parent.X, properties.Y + parent.Y}, {properties.Width, properties.Height}, properties.OutlineColor, properties.BackgroundColor, 6, 2)
+    Control.RenderBase = function(self, parent)
+		Renderer:RoundedRectangleBorder({self.X + parent.X, self.Y + parent.Y}, {self.Width, self.Height}, self.OutlineColor, self.BackgroundColor, 6, 2)
     
-        if properties.CheckState then
+        if self.CheckState then
 			local gap = 0.15
-			draw.SetTexture(properties.CheckTexture)
-			Renderer:FilledRectangle({properties.X + parent.X + (properties.Width*gap) , properties.Y + parent.Y + (properties.Width*gap)},
-			                         {properties.Width - (properties.Width*gap*2), properties.Height - (properties.Width*gap*2)}, properties.CheckColor)
+			draw.SetTexture(self.CheckTexture)
+			Renderer:FilledRectangle({self.X + parent.X + (self.Width*gap) , self.Y + parent.Y + (self.Width*gap)},
+			                         {self.Width - (self.Width*gap*2), self.Height - (self.Width*gap*2)}, self.CheckColor)
 			draw.SetTexture(nil)
 		end
-        return properties
+        return self
     end
 
-    Control.RenderText = function(properties, parent)
-		draw.SetFont(properties.Font)
+    Control.RenderText = function(self, parent)
+		draw.SetFont(self.Font)
 
-		Renderer:TextP({properties.X + parent.X+(properties.Width)*1.3, properties.Y + parent.Y+(properties.Height)*0.28}, properties.TextColor, properties.Text)
-        properties.TextWidth, _xx = draw.GetTextSize(properties.Text)
-        return properties
+		Renderer:TextP({self.X + parent.X+(self.Width)*1.3, self.Y + parent.Y+(self.Height)*0.28}, self.TextColor, self.Text)
+        self.TextWidth, _xx = draw.GetTextSize(self.Text)
+        return self
     end
 
-    Control.Render = function(properties, parent)
-        if not properties.Visible or not parent.Visible then return properties end
+    Control.Render = function(self, parent)
+        if not self.Visible or not parent.Visible then return self end
 
-        properties = properties.RenderBase(properties, parent)
-        properties = properties.RenderText(properties, parent)
-        properties = HandleEvent("mouseclick", properties, parent)
+        self:RenderBase(parent)
+        self:RenderText(parent)
+        HandleEvent("mouseclick", self, parent)
 		
-		if isMouseInRect(properties.X + parent.X, properties.Y + parent.Y, properties.Width+properties.TextWidth, properties.Height) and not getSelected() then
-            if input.IsButtonReleased(1) then properties.CheckState = not properties.CheckState end
+		if isMouseInRect(self.X + parent.X, self.Y + parent.Y, self.Width+self.TextWidth, self.Height) and not getSelected() then
+            if input.IsButtonReleased(1) then self.CheckState = not self.CheckState end
             local r,g,b,a = gui.GetValue("theme.nav.active")
-			properties.TextColor = { r, g, b, a }
-        else properties.TextColor = {255,255,255,255} end
-		return properties
+			self.TextColor = { r, g, b, a }
+        else self.TextColor = {255,255,255,255} end
+		return self
     end
 
     return Control

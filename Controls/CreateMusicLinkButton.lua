@@ -2,7 +2,7 @@ local ControlName = 'mlbutton'
 local FunctionName = 'CreateMusicLinkButton'
 
 -- By: Agentsix1
-function CreateMusicLinkButton(properties)
+function CreateMusicLinkButton(attributes)
 	-- Creates the control
     local Control = CreateControl()
 	
@@ -33,42 +33,42 @@ function CreateMusicLinkButton(properties)
         "image", "background", "roundness",
     }
 
-    Control = Control.DefaultCase(Control, properties)
+    Control:DefaultCase(attributes)
 
 	Control.Font = draw.CreateFont("Bahnschrift", 20, 100)
 
-    Control.RenderBase = function(properties, parent)
-        Renderer:RoundedRectangleBorder({properties.X + parent.X, properties.Y + parent.Y}, {properties.Width, properties.Height}, properties.ForeColor, {0,0,0,255}, 6, 2)
-        draw.SetTexture(properties.PlayIconTexture)
-		Renderer:FilledRectangle({properties.X + parent.X+(properties.Width)*0.04, properties.Y + parent.Y+(properties.Height)*0.12}, {properties.Width*0.24, properties.Height*0.75}, {255,255,255,255})
+    Control.RenderBase = function(self, parent)
+        Renderer:RoundedRectangleBorder({self.X + parent.X, self.Y + parent.Y}, {self.Width, self.Height}, self.ForeColor, {0,0,0,255}, 6, 2)
+        draw.SetTexture(self.PlayIconTexture)
+		Renderer:FilledRectangle({self.X + parent.X+(self.Width)*0.04, self.Y + parent.Y+(self.Height)*0.12}, {self.Width*0.24, self.Height*0.75}, {255,255,255,255})
         draw.SetTexture(nil)
-        return properties
+        return self
     end
 
-    Control.RenderText = function(properties, parent)
-        draw.SetFont(properties.Font)
-        Renderer:TextP({properties.X + parent.X+(properties.Width)*0.31, properties.Y + parent.Y+(properties.Height)*0.36}, properties.ForeColor, properties.Text)
-        return properties
+    Control.RenderText = function(self, parent)
+        draw.SetFont(self.Font)
+        Renderer:TextP({self.X + parent.X+(self.Width)*0.31, self.Y + parent.Y+(self.Height)*0.36}, self.ForeColor, self.Text)
+        return self
     end
 
-    Control.Render = function(properties, parent)
-        if not properties.Visible or not parent.Visible then return properties end
+    Control.Render = function(self, parent)
+        if not self.Visible or not parent.Visible then return self end
 		
-        properties = properties.RenderBase(properties, parent)
-        properties = properties.RenderText(properties, parent)
+        self:RenderBase(parent)
+        self:RenderText(parent)
 
-        properties = HandleEvent("mouseclick", properties, parent)
+        HandleEvent("mouseclick", self, parent)
 
-		if isMouseInRect(properties.X + parent.X, properties.Y + parent.Y, properties.Width, properties.Height) and not getSelected() then
+		if isMouseInRect(self.X + parent.X, self.Y + parent.Y, self.Width, self.Height) and not getSelected() then
             if input.IsButtonReleased(1) then
                 panorama.RunScript([[
-                    SteamOverlayAPI.OpenURL("]] .. properties.URL .. [[")
+                    SteamOverlayAPI.OpenURL("]] .. self.URL .. [[")
                 ]])
             end
             local r,g,b,a = gui.GetValue("theme.nav.active")
 			Control.ForeColor = { r, g, b, a }
         else Control.ForeColor = {255,255,255,255} end
-        return properties
+        return self
     end
     return Control
 end
