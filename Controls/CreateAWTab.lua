@@ -11,7 +11,7 @@ function CreateAWTab(attributes)
         "varname",
     }
 
-    Control.DefaultCase(attributes)
+    Control:DefaultCase(attributes)
 
     local gui_ref = gui.Reference(Control.Category)
 
