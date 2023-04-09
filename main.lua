@@ -24,6 +24,7 @@ RunScript("WinForm/Controls.lua")
 
 -- Load in all event files
 loadFiles("WinForm/Events/", "Events")
+loadFiles("WinForm/Animations/", "Animations")
 
 -- Grab an element from the json
 local function LoadJsonElements(jElements)

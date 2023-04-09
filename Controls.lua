@@ -310,4 +310,31 @@ function HandleEvent(event, self, parent)
 	end
 end
 
+-- Grab some info from the Animations
+Animations_Objects = json.decode("{}")
+Animations_Details = json.decode("{}")
+
+-- Process the events
+function HandleAnimation(animation, self, parent)
+	-- Set event name to lowercase
+	animation = animation:lower()
+	-- Loop through the possible objects (array of object names)
+	for _, value in ipairs(Animations_Objects) do
+		-- check if its the right object name
+		if animation == value then
+			-- see if it has 1 parm or 2
+			if Animations_Details[animation]['parms'] == 1 then
+				-- Run the event function asscotiated with the event
+				local temp = assert(loadstring('return ' .. Animations_Details[animation]['function']..'(...)'))(self)
+				return temp
+			-- see if it has 2 parms
+			elseif Animations_Details[animation]['parms'] == 2 then
+				-- Run the event function asscotiated with the event
+				local temp = assert(loadstring('return ' .. Animations_Details[animation]['function']..'(...)'))(self, parent)
+				return temp
+			end
+		end
+	end
+end
+
 loadFiles('WinForm/Controls/', 'Controls')

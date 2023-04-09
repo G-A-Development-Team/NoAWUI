@@ -6,6 +6,7 @@ function CreateForm(attributes)
     local Control = CreateControl()
     Control.DragNow = false
     Control.Focused = false
+    Control.Animation = false
 
     Control.AllowedCases = {
         --Positioning and Dimensions:
@@ -41,9 +42,13 @@ function CreateForm(attributes)
 
     Control.Render = function(self)
         HandleEvent("toggle", self)
+
+        HandleAnimation("FadeIn", self)
+
         if not self.Visible then return self end
 
         self:RenderBase()
+        
         HandleEvent("focus", self)
         HandleEvent("drag", self)
         return self
