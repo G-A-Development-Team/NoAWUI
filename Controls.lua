@@ -8,6 +8,7 @@ function CreateControl()
         Name = "",
         Parent = "",
         Children = {},
+        Animations = {},
         Reference = nil,
 
         --Positioning and Dimensions:
@@ -274,6 +275,8 @@ function CreateControl()
                 LogFatal("ATTRIBUTES", "Missing Required Attributes For Control")
                 return nil
             end
+
+            self.Copy = deepcopy(self)
 
             -- Create a global variable with the same name as the component's name
             _G[self.Name] = self

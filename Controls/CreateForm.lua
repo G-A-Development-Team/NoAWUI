@@ -43,7 +43,11 @@ function CreateForm(attributes)
     Control.Render = function(self)
         HandleEvent("toggle", self)
 
-        HandleAnimation("FadeIn", self)
+        HandleAnimation("FadeIn", self, {
+            MaxOpacity = 255,
+            IncrementOpacity = 17,
+            Reference = self.Background
+        })
 
         if not self.Visible then return self end
 

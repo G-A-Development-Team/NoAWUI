@@ -1,20 +1,28 @@
 local Animation_Name = "fadein"
 local Animation_Function = "Animation_FadeIn"
 
-function Animation_FadeIn(self)
-    if not self.Visible then self.Animation = false return self end
-
-    if self.Animation == false then
-        self.Background[4] = 0
-        self.Animation = true
+function Animation_FadeIn(self, settings)
+    if self.Animations[Animation_Name] == nil then
+        self.Animations[Animation_Name] = {
+            Animate = false,
+            Background = settings.Reference
+        }
     end
-    if self.Animation and self.Background[4] < 255 then
-        if self.Background[4] + 17 <= 255 then
-            self.Background[4] = self.Background[4] + 17
+    
+    if not self.Visible then self.Animations[Animation_Name].Animate = false return self end
+
+    if self.Animations[Animation_Name].Animate == false then
+        self.Animations[Animation_Name].Background[4] = 0
+        self.Animations[Animation_Name].Animate = true
+    end
+    if self.Animations[Animation_Name].Animate and self.Animations[Animation_Name].Background[4] < settings.MaxOpacity then
+        if self.Animations[Animation_Name].Background[4] + settings.IncrementOpacity <= settings.MaxOpacity then
+            self.Animations[Animation_Name].Background[4] = self.Animations[Animation_Name].Background[4] + settings.IncrementOpacity
         else
-            self.Background[4] = 255
+            self.Animations[Animation_Name].Background[4] = settings.MaxOpacity
         end
     end
+    
     return self
 end
 
