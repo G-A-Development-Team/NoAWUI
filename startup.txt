@@ -21,7 +21,4 @@
         "Json": "WinForm/Design/test.design.txt",
         "Lua": "WinForm/Design/test.code.lua",
     },
-    {
-        "Json": "WinForm/Design/aw.design.txt",
-    },
 }
