@@ -8,6 +8,13 @@
 -- Key Selector  
 -- Default Groupbox  
 -- Deafult Textbox -- In process  
+-- Window
+  - Window Settings
+    - Toggle Key
+    - Toggle on aimware close
+    - toggle close button visibility
+    - Multi themes/layouts
+    - Choose colors
 -- Progress bar
   - progress
      - Left to right
