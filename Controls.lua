@@ -90,7 +90,8 @@ function CreateControl()
                         .case("alignment",    function() self.Alignment    = value:lower() end)
                         .case("orientation",  function() self.Orientation  = value:lower() end)
                         .case("scrollheight", function() self.ScrollHeight = value end)
-
+                        .case("textoffsetx",  function() self.TextOffsetX  = value end)
+                        .case("textoffsety",  function() self.TextOffsetY   = value end)
                         --Events:
                         .case("mouseclick",     function() self.MouseClick   = value end)
                         .case("mousescroll",    function() self.MouseScroll  = value end)
@@ -338,6 +339,15 @@ function HandleAnimation(animation, self, parent)
 			end
 		end
 	end
+end
+
+-- Process the events
+function QueueAnimation(animation, self, parent)
+    table.insert(queuedAnimations, {
+        Animation = animation,
+        Control = self,
+        Parent = parent,
+    })
 end
 
 loadFiles('WinForm/Controls/', 'Controls')

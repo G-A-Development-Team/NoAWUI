@@ -70,4 +70,5 @@ function Renderer:Triangle(cord1, cord2, cord3, color)
     draw_Triangle(cord1[1], cord1[2], cord2[1], cord2[2], cord3[1], cord3[2])
 end
 
+
 return Renderer

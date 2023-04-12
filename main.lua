@@ -13,6 +13,7 @@ controls = {}
 tempDraw = {}
 focuslist = {}
 elapsedlist = {}
+queuedAnimations = {}
 
 RunScript("WinForm/libs/api/Logger.lua")
 RunScript("WinForm/libs/api/Misc.lua")
@@ -57,48 +58,63 @@ local function LoadJsonElements(jElements)
     ControlsElapsed.Done()
 end
 
--- Set the json files to an array
-local Jstartup = file.Open("WinForm/startup.txt", "r");
-local JstartupText = Jstartup:Read();
-JstartupText = cleanJsonComments(JstartupText)
-local json_files = json.decode(JstartupText)
-
--- This is used to load all of the control data from json files
-local DesignElapsed = CreateElapsedTime("Design")
-for _, element in ipairs(json_files) do
-    if element.Json ~= nil then
-            -- Open the file
-        local jFile = file.Open(element.Json, "r");
-        
-        -- Read the file and set to var
-        local jText = jFile:Read();
-        
-        -- Close the file
-        jFile:Close();
-        
-        -- Clean the json of comments
-        local jCleanText = cleanJsonComments(jText)
-        
-        -- Create json object from text
-        local jElement = json.decode(jCleanText)
-        
-        -- Load the json data into script
-        LoadJsonElements(jElement)
-        LogInfo("DesignJson", element.Json)
+function LaunchStartup(gfile, jsonc)
+    local json_files = nil
+    if gfile == nil then
+        gfile = "WinForm/startup.txt"
     end
-    if element.Lua ~= nil then
-        RunScript(element.Lua)
-        LogInfo("DesignLua", element.Lua)
-        if element.LuaInit ~= nil then
+
+    if jsonc and gfile ~= nil then
+        json_files = json.decode(cleanJsonComments(gfile))
+    end
+
+    -- Set the json files to an array
+    if jsonc == nil then
+        local Jstartup = file.Open(gfile, "r");
+        local JstartupText = Jstartup:Read();
+        JstartupText = cleanJsonComments(JstartupText)
+        json_files = json.decode(JstartupText) 
+    end
+
+    -- This is used to load all of the control data from json files
+    local DesignElapsed = CreateElapsedTime("Design")
+
+    for _, element in ipairs(json_files) do
+        if element.Json ~= nil then
+                -- Open the file
+            local jFile = file.Open(element.Json, "r");
+            
+            -- Read the file and set to var
+            local jText = jFile:Read();
+            
+            -- Close the file
+            jFile:Close();
+            
+            -- Clean the json of comments
+            local jCleanText = cleanJsonComments(jText)
+            
+            -- Create json object from text
+            local jElement = json.decode(jCleanText)
+            
+            -- Load the json data into script
+            LoadJsonElements(jElement)
+            LogInfo("DesignJson", element.Json)
+        end
+        if element.Lua ~= nil then
+            RunScript(element.Lua)
+            LogInfo("DesignLua", element.Lua)
+            if element.LuaInit ~= nil then
+                gui.Command('lua.run "' .. element.LuaInit .. '" ') 
+                LogInfo("DesignInit", element.LuaInit)
+            end
+        elseif element.LuaInit ~= nil then
             gui.Command('lua.run "' .. element.LuaInit .. '" ') 
             LogInfo("DesignInit", element.LuaInit)
         end
-    elseif element.LuaInit ~= nil then
-		gui.Command('lua.run "' .. element.LuaInit .. '" ') 
-        LogInfo("DesignInit", element.LuaInit)
-	end
+    end
+
+    DesignElapsed.Done()
 end
-DesignElapsed.Done()
 
 callbacks.Register("Draw", "Render", function()
     for _m, main in ipairs(controls) do
@@ -159,6 +175,13 @@ callbacks.Register("Draw", "Render", function()
 
     for _m, main in ipairs(tempDraw) do
         main.Render()
+    end
+
+    for _, animation in ipairs(queuedAnimations) do
+        local status = HandleAnimation(animation.Animation, animation.Control, animation.Parent)
+        if status == true then
+            table.remove(queuedAnimations, _)
+        end
     end
 
 end)

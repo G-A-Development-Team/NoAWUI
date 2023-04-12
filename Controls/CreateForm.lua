@@ -46,7 +46,8 @@ function CreateForm(attributes)
         HandleAnimation("FadeIn", self, {
             MaxOpacity = 255,
             IncrementOpacity = 17,
-            Reference = self.Background
+            Reference = self.Background,
+            Ignore = true,
         })
 
         if not self.Visible then return self end

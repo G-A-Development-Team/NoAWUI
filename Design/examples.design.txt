@@ -1,0 +1,107 @@
+{ 
+	{
+		"details": {
+			"type": "form",
+			"name": "Examples"
+		},
+		"dimensions": {
+			"x": 500,
+			"y": 100,
+			"width": 900,
+			"height": 600,
+		},
+		"optional": {
+			"style": {
+				"background": "255,255,255,255",
+                "visible": true,
+			},
+			"function": {
+                "toggle": 46,
+			},
+			"other": {
+                "image": "png,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/image_2023-04-11_194705452.png"
+			}
+			
+		}
+	},
+    {
+		"details": {
+			"type": "panel",
+			"name": "Navigation",
+			"parent": "Examples"
+		},
+		"dimensions": {
+			"x": 0,
+			"y": 0,
+			"width": 200,
+			"height": 600,
+		},
+		"optional": {
+			"style": {
+				"background": "143,0,0,255",
+			},
+			"function": {
+				"dragparent": true
+			},
+			"other": {
+			}
+			
+		}
+	},
+	{
+		"details": {
+			"type": "label",
+			"name": "logo",
+			"parent": "Navigation",
+		},
+		"dimensions": {
+			"x": 45,
+			"y": 50,
+		},
+		"optional": {
+			"style": {
+				"color": "255,255,255,255",
+                "fontweight": 1500,
+                "fontheight": 55,
+                "fontfamily": "Segoe UI Black",
+			},
+			"function": {
+			},
+			"other": {
+                "text": "NAW"
+			}
+			
+		}
+	},
+    {
+		"details": {
+			"type": "button",
+			"name": "hamburger",
+			"parent": "Navigation",
+		},
+		"dimensions": {
+			"x": 160,
+			"y": 0,
+            "width": 40,
+            "height": 40,
+            "textoffsety": -3,
+		},
+		"optional": {
+			"style": {
+				"color": "255,255,255,255",
+                "background": "0,0,0,0",
+                "active": "222,29,29,255",
+                "fontheight": 35,
+                "fontweight": 1500,
+                "fontfamily": "Segoe UI Black",
+			},
+			"function": {
+                "mouseclick": "CollapseNavigation()" 
+			},
+			"other": {
+                "text": "☰"
+			}
+			
+		}
+	},
+}

@@ -10,7 +10,7 @@ LoadScript("\\Cache/Renderer.lua")
 
 -- Create the visuals for the script
 RunScript("WinForm/main.lua")
-
+LaunchStartup()
 Form:ChangePictureBox("Main", "pbKitPreview","", "png")
 
 

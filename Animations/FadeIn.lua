@@ -2,6 +2,7 @@ local Animation_Name = "fadein"
 local Animation_Function = "Animation_FadeIn"
 
 function Animation_FadeIn(self, settings)
+
     if self.Animations[Animation_Name] == nil then
         self.Animations[Animation_Name] = {
             Animate = false,
@@ -9,6 +10,12 @@ function Animation_FadeIn(self, settings)
         }
     end
     
+    if settings.Ignore == nil then
+        if tonumber(self.Animations[Animation_Name].Background[4]) ==  tonumber(settings.MaxOpacity) or tonumber(self.Animations[Animation_Name].Background[4]) > tonumber(settings.MaxOpacity) then
+            return true
+        end 
+    end
+
     if not self.Visible then self.Animations[Animation_Name].Animate = false return self end
 
     if self.Animations[Animation_Name].Animate == false then
@@ -23,7 +30,7 @@ function Animation_FadeIn(self, settings)
         end
     end
     
-    return self
+    return false
 end
 
 Animations_Details[Animation_Name] = {}

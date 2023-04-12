@@ -12,10 +12,12 @@ function CreateButton(attributes)
     Control.FontWeight = 600
     Control.FontHeight = 14
     Control.FontFamily = "Segoe UI"
+    Control.TextOffsetX = 0
+    Control.TextOffsetY = 0
 
     Control.AllowedCases = {
         --Positioning and Dimensions:
-        "x", "y", "width", "height",
+        "x", "y", "width", "height", "textoffsety", "textoffsetx",
         --Text:
         "fontfamily", "fontheight", "fontweight", "text",
         --Events:
@@ -53,7 +55,7 @@ function CreateButton(attributes)
         draw.SetFont(self.CreatedFont)
 
         local textLocation = centerTextOnRectangle({self.X + parent.X, self.Y + parent.Y}, {self.Width, self.Height}, self.Text)
-        Renderer:Text({textLocation.X, textLocation.Y}, self.Color, self.Text)
+        Renderer:Text({textLocation.X + self.TextOffsetX, textLocation.Y + self.TextOffsetY}, self.Color, self.Text)
         return self
     end
 
