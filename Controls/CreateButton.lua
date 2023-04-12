@@ -14,16 +14,23 @@ function CreateButton(attributes)
     Control.FontFamily = "Segoe UI"
     Control.TextOffsetX = 0
     Control.TextOffsetY = 0
+    Control.ShowShadow = true
+    Control.ImageWidth = 0
+    Control.ImageHeight = 0
+    Control.ImageX = 0
+    Control.ImageY = 0
 
     Control.AllowedCases = {
         --Positioning and Dimensions:
-        "x", "y", "width", "height", "textoffsety", "textoffsetx",
+        "x", "y", "width", "height", "textoffsety", "textoffsetx", "imagewidth", "imageheight", "imagex", "imagey",
         --Text:
         "fontfamily", "fontheight", "fontweight", "text",
         --Events:
         "mouseclick",
         --Visuals:
-        "background", "active", "border", "roundness",
+        "background", "active", "border", "roundness", "image",
+        --State:
+        "showshadow"
     }
 
     Control:DefaultCase(attributes)
@@ -37,7 +44,9 @@ function CreateButton(attributes)
     Control:RegisterFont()
 
     Control.RenderBase = function(self, parent, backgroundColor)
-        Renderer:ShadowRectangle({self.X + parent.X, self.Y + parent.Y}, {self.Width, self.Height}, {0,0,0,25}, 25)
+        if self.ShowShadow then
+            Renderer:ShadowRectangle({self.X + parent.X, self.Y + parent.Y}, {self.Width, self.Height}, {0,0,0,25}, 25) 
+        end
 
         if self.Rounded then
             Renderer:FilledRoundedRectangle({self.X + parent.X, self.Y + parent.Y}, {self.Width, self.Height}, backgroundColor, self.Roundness)
@@ -48,6 +57,13 @@ function CreateButton(attributes)
             Renderer:FilledRectangle({self.X + parent.X, self.Y + parent.Y}, {self.Width, self.Height}, backgroundColor)
             Renderer:OutlinedRectangle({self.X + parent.X, self.Y + parent.Y}, {self.Width, self.Height}, self.BorderColor)
         end
+
+        if self.BackgroundImage ~= nil then 
+            draw.SetTexture(self.BackgroundImage) 
+            Renderer:FilledRectangle({self.X + parent.X + self.ImageX, self.Y + parent.Y + self.ImageY}, {self.ImageWidth, self.ImageHeight}, {255, 255, 255, 255})
+            draw.SetTexture(nil)
+        end
+        
         return self
     end
 

@@ -73,7 +73,7 @@ function CreateFlowLayout(properties)
         end
         Renderer:ShadowRectangle({properties.X + form.X, properties.Y + form.Y}, {properties.Width, properties.Height}, {properties.Shadow[1], properties.Shadow[2], properties.Shadow[3], properties.Shadow[4]}, properties.Shadow[5])
 
-        Renderer:Scissor({properties.X + form.X, properties.Y + form.Y}, {properties.Width, properties.Height});
+        --Renderer:Scissor({properties.X + form.X, properties.Y + form.Y}, {properties.Width, properties.Height});
         
         if properties.Rounded then
             Renderer:FilledRoundedRectangle({properties.X + form.X, properties.Y + form.Y}, {properties.Width, properties.Height}, properties.Background, properties.Roundness)
@@ -210,7 +210,7 @@ function CreateFlowLayout(properties)
             end
         end
         local w, h = draw.GetScreenSize()
-        Renderer:Scissor({0, 0}, {w, h});
+        --Renderer:Scissor({0, 0}, {w, h});
 
         return properties
     end

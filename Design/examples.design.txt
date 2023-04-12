@@ -104,4 +104,65 @@
 			
 		}
 	},
+* Navigation Tabs Container
+	{
+		"details": {
+			"type": "flowlayout",
+			"name": "Navigation_tabscontainer",
+			"parent": "Navigation"
+		},
+		"dimensions": {
+			"x": 0,
+			"y": 150,
+			"width": 200,
+			"height": 400,
+		},
+		"optional": {
+			"style": {
+				"background": "0,0,0,0",
+                "orientation": "vertical",
+                "scroll" : false,
+			},
+			"function": {
+			},
+			"other": {
+			}
+			
+		}
+	},
+    {
+		"details": {
+			"type": "button",
+			"name": "tab1",
+			"parent": "Navigation_tabscontainer"
+		},
+		"dimensions": {
+			"x": 0,
+			"y": 0,
+			"width": 200,
+			"height": 40,
+            "imagex": 7,
+            "imagey": 7,
+            "imagewidth": 25,
+            "imageheight": 25,
+		},
+		"optional": {
+			"style": {
+				"color": "255,255,255,255",
+                "background": "0,0,0,0",
+                "active": "222,29,29,255",
+                "fontheight": 22,
+                "fontfamily": "Ariel",
+                "showshadow": false,
+			},
+			"function": {
+			},
+			"other": {
+                "text": "Home",
+                "image": "png,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/icons8-home-50.png"
+			}
+			
+		}
+	},
+    
 }

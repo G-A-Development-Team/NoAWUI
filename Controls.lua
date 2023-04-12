@@ -87,11 +87,15 @@ function CreateControl()
                         .case("y",            function() self.Y            = value self.SetY = value end)
                         .case("width",        function() self.Width        = value end)
                         .case("height",       function() self.Height       = value end)
+                        .case("imagewidth",   function() self.ImageWidth   = value end)
+                        .case("imageheight",  function() self.ImageHeight  = value end)
+                        .case("imagex",       function() self.ImageX       = value end)
+                        .case("imagey",       function() self.ImageY       = value end)
                         .case("alignment",    function() self.Alignment    = value:lower() end)
                         .case("orientation",  function() self.Orientation  = value:lower() end)
                         .case("scrollheight", function() self.ScrollHeight = value end)
                         .case("textoffsetx",  function() self.TextOffsetX  = value end)
-                        .case("textoffsety",  function() self.TextOffsetY   = value end)
+                        .case("textoffsety",  function() self.TextOffsetY  = value end)
                         --Events:
                         .case("mouseclick",     function() self.MouseClick   = value end)
                         .case("mousescroll",    function() self.MouseScroll  = value end)
@@ -246,6 +250,13 @@ function CreateControl()
                                 self.Visible = false
                             else
                                 self.Visible = true
+                            end
+                        end)
+                        .case("showshadow",    function()
+                            if value == "false" then
+                                self.ShowShadow = false
+                            else
+                                self.ShowShadow = true
                             end
                         end)
 
