@@ -16,11 +16,13 @@ function CollapseNavigation()
         Navigation.Width = 40
         hamburger.X = 0
         hamburger.SetX = 0 
+        Navigation_tabscontainer.Width = 40
         navigation_open = not navigation_open
     else
         Navigation.Width = 200
         hamburger.X = 160
         hamburger.SetX = 160
+        Navigation_tabscontainer.Width = 200
         navigation_open = not navigation_open
     end
     QueueAnimation("FadeIn", Navigation, {

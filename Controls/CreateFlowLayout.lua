@@ -147,8 +147,19 @@ function CreateFlowLayout(properties)
             --local controlPartial = isRectInRectPartial(control.X + properties.X, control.Y + properties.Y, control.Width, control.Height, properties.X + form.X, properties.Y + form.Y, properties.Width, properties.Height)
 
             if controlViewing then
+
                 control.Render(control, properties)
             --elseif controlPartial then
+            else
+                local c = deepcopy(control)
+                c.Width = properties.Width
+                if c.Text ~= nil then
+                    if c.Text ~= "" then
+                        c.Text = ""
+                    end
+                end
+
+                c.Render(c, properties)
             end
         end
         
