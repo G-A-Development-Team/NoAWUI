@@ -14,7 +14,8 @@
     - Toggle on aimware close
     - toggle close button visibility
     - Multi themes/layouts
-    - Choose colors  
+    - Choose colors
+
 -- Progress bar
   - progress
      - Left to right
