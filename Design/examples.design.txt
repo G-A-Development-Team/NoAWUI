@@ -104,6 +104,40 @@
 			
 		}
 	},
+    {
+		"details": {
+			"type": "button",
+			"name": "close",
+			"parent": "Navigation",
+		},
+		"dimensions": {
+			"x": 0,
+			"y": 560,
+            "width": 40,
+            "height": 40,
+            "imagex": 7,
+            "imagey": 7,
+            "imagewidth": 25,
+            "imageheight": 25,
+		},
+		"optional": {
+			"style": {
+				"color": "255,255,255,255",
+                "background": "0,0,0,0",
+                "active": "222,29,29,255",
+                "fontheight": 35,
+                "fontweight": 1500,
+                "fontfamily": "Segoe UI Black",
+			},
+			"function": {
+                "mouseclick": "getFormByName('Examples').Visible=false" 
+			},
+			"other": {
+                "image": "png,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/icons8-logout-rounded-50.png"
+			}
+			
+		}
+	},
 * Navigation Tabs Container
 	{
 		"details": {
@@ -160,6 +194,74 @@
 			"other": {
                 "text": "Home",
                 "image": "png,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/icons8-home-50.png"
+			}
+			
+		}
+	},
+    {
+		"details": {
+			"type": "button",
+			"name": "tab1",
+			"parent": "Navigation_tabscontainer"
+		},
+		"dimensions": {
+			"x": 0,
+			"y": 5,
+			"width": 200,
+			"height": 40,
+            "imagex": 1,
+            "imagey": 0,
+            "imagewidth": 40,
+            "imageheight": 40,
+		},
+		"optional": {
+			"style": {
+				"color": "255,255,255,255",
+                "background": "0,0,0,0",
+                "active": "222,29,29,255",
+                "fontheight": 22,
+                "fontfamily": "Ariel",
+                "showshadow": false,
+			},
+			"function": {
+			},
+			"other": {
+                "text": "Buttons",
+                "image": "png,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/icons8-buttons-50.png"
+			}
+			
+		}
+	},
+    {
+		"details": {
+			"type": "button",
+			"name": "tab1",
+			"parent": "Navigation_tabscontainer"
+		},
+		"dimensions": {
+			"x": 0,
+			"y": 5,
+			"width": 200,
+			"height": 40,
+            "imagex": 2,
+            "imagey": 3,
+            "imagewidth": 35,
+            "imageheight": 35,
+		},
+		"optional": {
+			"style": {
+				"color": "255,255,255,255",
+                "background": "0,0,0,0",
+                "active": "222,29,29,255",
+                "fontheight": 22,
+                "fontfamily": "Ariel",
+                "showshadow": false,
+			},
+			"function": {
+			},
+			"other": {
+                "text": "Lists",
+                "image": "png,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/icons8-list-view-50.png"
 			}
 			
 		}
