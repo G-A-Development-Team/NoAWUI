@@ -11,6 +11,7 @@ function CreateFlowLayout(properties)
     Control.Scroll = true
     Control.Orientation = "vertical"
     Control.Shadow = {0,0,0,40,25}
+    Control.IgnoreOverflow = false
 
     Control.AllowedCases = {
         --Positioning and Dimensions:
@@ -36,6 +37,7 @@ function CreateFlowLayout(properties)
 
         --State
         "scroll",
+        "ignoreoverflow"
     }
 
     Control = Control.DefaultCase(Control, properties)
@@ -151,15 +153,17 @@ function CreateFlowLayout(properties)
                 control.Render(control, properties)
             --elseif controlPartial then
             else
-                local c = deepcopy(control)
-                c.Width = properties.Width
-                if c.Text ~= nil then
-                    if c.Text ~= "" then
-                        c.Text = ""
+                if properties.IgnoreOverflow then
+                    local c = deepcopy(control)
+                    c.Width = properties.Width
+                    if c.Text ~= nil then
+                        if c.Text ~= "" then
+                            c.Text = ""
+                        end
                     end
+    
+                    c.Render(c, properties) 
                 end
-
-                c.Render(c, properties)
             end
         end
         

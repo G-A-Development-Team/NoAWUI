@@ -259,6 +259,14 @@ function CreateControl()
                                 self.ShowShadow = true
                             end
                         end)
+                        .case("ignoreoverflow",    function()
+                            if value == "false" then
+                                self.IgnoreOverflow = false
+                            else
+                                self.IgnoreOverflow = true
+                            end
+                        end)
+                        
 
                         --Values:
                         .case("url",        function() self.URL   = value end)
