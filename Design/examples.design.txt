@@ -12,14 +12,14 @@
 		},
 		"optional": {
 			"style": {
-				"background": "255,255,255,255",
+				"background": "20,20,20,255",
                 "visible": true,
 			},
 			"function": {
                 "toggle": 46,
 			},
 			"other": {
-                "image": "png,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/image_2023-04-11_194705452.png"
+* "image": "png,https://raw.githubusercontent.com/G-A-Development-Team/libs/main/image_2023-04-11_194705452.png"
 			}
 			
 		}
