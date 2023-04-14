@@ -250,7 +250,7 @@ function setManagerData()
 								-- add the id to the name and parent of the object and create the Checkbox
 								chkToggle['name'] = chkToggle['name'] .. chkManager['count']
 								chkToggle['parent'] = chkToggle['parent'] .. chkManager['count']
-								chkToggle['mouseclick'] = str_replace(chkToggle['mouseclick'], "_id_", chkManager['count'])
+								chkToggle['statechange'] = str_replace(chkToggle['statechange'], "_id_", chkManager['count'])
 								panel.Children[#panel.Children+1] = CreateCheckbox(chkToggle)
 								
 								-- add the id to the name and parent of the object and create the Label

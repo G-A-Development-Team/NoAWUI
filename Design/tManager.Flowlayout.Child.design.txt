@@ -45,7 +45,7 @@
 				"background": "0,0,0,200",
 			},
 			"function": {
-                "mouseclick": "Form:chkToggle_Changed(_id_)"
+                "statechange": "Form:chkToggle_Changed(_id_)"
 			},
 			"other": {
                 "checkstate": false,

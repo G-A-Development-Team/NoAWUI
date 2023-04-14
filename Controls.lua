@@ -9,6 +9,7 @@ function CreateControl()
         Parent = "",
         Children = {},
         Animations = {},
+        Events = {},
         Reference = nil,
 
         --Positioning and Dimensions:
@@ -102,6 +103,7 @@ function CreateControl()
                         .case("mousehover",     function() self.MouseHover   = value end)
                         .case("mouseoutside",   function() self.MouseOutside = value end)
                         .case("changeevent",    function() self.ChangeEvent  = value end)
+                        .case("statechange",    function() self.StateChange  = value end)
                         .case("dragparent",     function()
                             if value == "false" then
                                 self.DragParent = false
