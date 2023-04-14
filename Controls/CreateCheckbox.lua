@@ -39,6 +39,7 @@ function CreateCheckbox(attributes)
         "text",
         --Events:
         "mouseclick",
+		"statechange",
         --State:
         "checkstate",
     }
@@ -74,7 +75,7 @@ function CreateCheckbox(attributes)
         self:RenderBase(parent)
         self:RenderText(parent)
         HandleEvent("mouseclick", self, parent)
-		
+		HandleEvent("statechange", self, parent)
 		if isMouseInRect(self.X + parent.X, self.Y + parent.Y, self.Width+self.TextWidth, self.Height) and not getSelected() then
             if input.IsButtonReleased(1) then self.CheckState = not self.CheckState end
             local r,g,b,a = gui.GetValue("theme.nav.active")
