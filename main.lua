@@ -130,7 +130,7 @@ callbacks.Register("Draw", "Render", function()
             elseif string.starts(main.Type, "aw") then
                 for _, control in ipairs(main.Children) do
                     if control.Reference == nil then
-                        local custom = gui.Custom(main.ReferenceTab, "asdasd", control.X, control.Y, control.Width, control.Height, function(x, y, x2, y2, active)
+                        local custom = gui.Custom(main.ReferenceObj, "asdasd", control.X, control.Y, control.Width, control.Height, function(x, y, x2, y2, active)
                             local properties = control
                             properties = properties.AWInit(properties, x, y, x2, y2)
                             main.Children[_] = control.Render(properties, main)

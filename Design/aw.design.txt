@@ -1,66 +1,39 @@
 {
 * Form Inspect
-        {
-            "details": {
-                "type": "awtab",
-                "name": "Inspect",
-                "category": "misc",
-                "varname": "NumberUno"
-            },
-            "dimensions": {
-                "x": 100,
-                "y": 100,
-                "width": 800,
-                "height": 600,
-                "roundness": "10,0,0,10,10"
-            },
-            "optional": {
-                "style": {
-                    "background": "30,30,30,255",
-                    "border": "80,80,80,255",
-                    "visible": false
-                },
-                "function": {
-                    "toggle": 112,
-                    "ontoggle": "Inspect:Load()"
-                },
-                "other": {
-                }
-                
-            }
+    {
+        "details": {
+            "type": "awreference",
+            "name": "ReferenceDesign",
+            "reference": "visuals,other,extra",
         },
-* Inspect -> Flowlayout
-        {
-            "details": {
-                "type": "flowlayout",
-                "name": "Inspect_flowlayout",
-                "parent": "Inspect",
+        "dimensions": {
+            "x": 100,
+            "y": 100,
+            "width": 800,
+            "height": 600,
+            "roundness": "10,0,0,10,10"
+        },
+        "optional": {
+            "style": {
+                "background": "30,30,30,255",
+                "border": "80,80,80,255",
+                "visible": false
             },
-            "dimensions": {
-                "x": 15,
-                "y": 15,
-                "width": 610,
-                "height": 430,
+            "function": {
+                "toggle": 112,
+                "ontoggle": "Inspect:Load()"
             },
-            "optional": {
-                "style": {
-                    "background": "20,20,20,200",
-                    "border": "50,50,50,150"
-                },
-                "function": {
-                },
-                "other": {
-                    "scrollheight": 20,
-                }
-                
+            "other": {
             }
+            
         }
+    },
 * Inspect -> Reload
         {
             "details": {
                 "type": "button",
                 "name": "Reload",
-                "parent": "Inspect"
+                "parent": "ReferenceDesign"
             },
             "dimensions": {
                 "x": 15,
@@ -71,7 +44,7 @@
             },
             "optional": {
                 "style": {
-                    "background": "20,20,20,200",
+                    "background": "255,255,255,200",
                     "active": "80,80,80,255",
                     "fontweight": 1000,
                     "fontheight": 25

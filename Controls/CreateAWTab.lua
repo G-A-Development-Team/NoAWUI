@@ -4,7 +4,7 @@ local FunctionName = 'CreateAWTab'
 -- By: CarterPoe
 function CreateAWTab(attributes)
     local Control = CreateControl()
-    Control.ReferenceTab = nil
+    Control.ReferenceObj = nil
 
     Control.AllowedCases = {
         "category",
@@ -15,7 +15,7 @@ function CreateAWTab(attributes)
 
     local gui_ref = gui.Reference(Control.Category)
 
-    Control.ReferenceTab = gui.Tab(gui_ref, Control.VarName, Control.Name)
+    Control.ReferenceObj = gui.Tab(gui_ref, Control.VarName, Control.Name)
 
     return Control
 end

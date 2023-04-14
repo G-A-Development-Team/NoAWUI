@@ -275,6 +275,7 @@ function CreateControl()
                         --Aimware GUI Compatibility:
                         .case("varname",    function() self.VarName  = value end)
                         .case("category",   function() self.Category = value end)
+                        .case("reference",   function() self.ReferenceText = value end)
 
                         .default(function() LogWarn("ATTRIBUTES", "Attribute not found. key=" .. key) end)
                     .process() 
